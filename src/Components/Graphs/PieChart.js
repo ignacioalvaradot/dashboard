@@ -35,7 +35,7 @@ const Pie = props => {
       .attr("d", createArc)
       .attr("fill", (d, i) => colors(i));
 
-    const text = groupWithUpdate
+/*     const text = groupWithUpdate
       .append("text")
       .merge(groupWithData.select("text"));
 
@@ -45,7 +45,7 @@ const Pie = props => {
       .attr("transform", d => `translate(${createArc.centroid(d)})`)
       .style("fill", "white")
       .style("font-size", 10)
-      .text(d => format(d.valor));
+      .text(d => format(toString(d.valor))); */
   }, [props.data]);
 
   return (
