@@ -117,7 +117,7 @@ const data = {
         const svg = d3.select(areaChart.current)
                     .attr('width', dimensions.width)
                     .attr('height', dimensions.height)
-                    .style('background-color','white')
+                    .style('background-color','white');
                    
 
         const nodo = svg
@@ -127,7 +127,7 @@ const data = {
         .text(d => d.channelId)
         //.enter()
         //.append("circle")
-        .attr("class", "nI")
+        .attr("class", "circle")
         //.attr("r", d => d.numeroInterv )
         .attr("r", function(s){return s.numeroInterv})
         .attr("id",d => d.channelId)

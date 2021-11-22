@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import ForceNetworkGraph from './Components/Graphs/ForceNetworkGraph.js'
 import Boxes from './Components/Boxes.js'
 
 
@@ -47,8 +47,23 @@ function App() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [modalData, setModalData] = useState([]);
-  
+  const [finaldata, setFinaldata] = useState([]);
 
+  const tick = () => {
+    setFinaldata(data)
+
+  }
+
+  useEffect(() => {
+    const interval = setInterval(tick,4000)
+    console.log("data final",finaldata)
+    return() => {
+      clearInterval(interval)
+    }
+
+
+  }, [finaldata])
+  
 
   
    useEffect(() => {
@@ -61,7 +76,7 @@ function App() {
       //updateData(currentData => [...currentData,msg.data.devices[0].channel[0]]);
       //updateData(msg.data.devices[0].channel); Sirve para los nodos
       updateData(msg.data.devices);
-      console.log(msg.data.devices)
+      //console.log(msg.data.devices)
       
   }); 
   
@@ -90,10 +105,11 @@ function App() {
    {/* <NetworkGraph2 data={data} ></NetworkGraph2>  */}
    
    {/* El mapeo crea un componente por dispositivo, donde la funcion flecha apunta al dato que quiero graficar */}
-   <Boxes></Boxes>
+  {/*  <Boxes></Boxes> */}
+   <ForceNetworkGraph data ={data}> </ForceNetworkGraph>
 
 
-   {data.map(canales => (   
+   {/* {finaldata.map(canales => (   
 
     
       
@@ -114,7 +130,8 @@ function App() {
    
    
    
-                                ))}
+                                ))} */}
+                        
     
 
 
