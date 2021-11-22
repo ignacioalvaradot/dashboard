@@ -1,5 +1,57 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+
+
+
+const width = 400
+const height = 200
+
+const json = {
+  "nodes": [
+    {
+      "id": 1,
+      //"name": "A"
+    },
+    {
+      "id": 2,
+      //"name": "B"
+    },
+    {
+      "id": 3,
+      //"name": "C"
+    },
+    {
+      "id": 4,
+      //"name": "D"
+    }
+  ],
+  "links": [
+
+    {
+      "source": 1,
+      "target": 2
+    },
+    {
+      "source": 2,
+      "target": 3
+    },
+    {
+      "source": 3,
+      "target": 4
+    },
+
+    {
+      "source": 4,
+      "target": 1
+    }
+    
+  ]
+}
+
+
+
+
+
 
 const data = {
     "nodes": [
@@ -51,6 +103,7 @@ const data = {
 
   const NetworkGraph = props => {
     const areaChart = useRef()
+    const [id, setId] = useState();
     const dimensions = {width:400, height:200}
     var linkGen = d3.linkVertical();
    
@@ -58,25 +111,35 @@ const data = {
     
       useEffect(() => {
 
+  
+
 
         const svg = d3.select(areaChart.current)
                     .attr('width', dimensions.width)
                     .attr('height', dimensions.height)
                     .style('background-color','white')
+                   
 
         const nodo = svg
         .selectAll("circle")
         .data(props.data)
         .join("circle")
+        .text(d => d.channelId)
         //.enter()
         //.append("circle")
         .attr("class", "nI")
-        .attr("r", d => d.numeroInterv   /* Math.floor((Math.random() * 40) + 1) */ )
+        //.attr("r", d => d.numeroInterv )
+        .attr("r", function(s){return s.numeroInterv})
         .attr("id",d => d.channelId)
         .attr("id2",d => d.traza)
         .style("fill", "#69b3a2")
-        .attr("cx", d => d.x)
-        .attr('cy', d => d.y)
+        .attr("cx", 0)
+        .attr('cy', 0)
+        .attr('transform', function(s) {return "translate(" + dimensions.width / 2 + "," + dimensions.height / 2 + ")rotate("+ (100/((s.channelId) + 1)) + ", "+ 0 +"," + (-(dimensions.width / 2) + 20) + ")"});
+        //.attr("transform", function(s){return 'rotate ('+(s.channelId)+')'});
+
+
+
 
        /*  const lines = svg
         .selectAll("path")
@@ -121,7 +184,13 @@ const data = {
     
       }, [props.data]);
     
-      return <svg ref={areaChart}> </svg>;
+      return (
+      <svg ref={areaChart}> 
+      
+      </svg>
+        
+        
+        );
     };
 
 

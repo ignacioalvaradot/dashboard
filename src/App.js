@@ -6,6 +6,12 @@ import PieChart from './Components/Graphs/PieChart.js'
 import NetworkGraph from './Components/Graphs/NetworkGraph.js'
 import NetworkGraph2 from './Components/Graphs/NetworkGraph2.js'
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+import Boxes from './Components/Boxes.js'
+
 
 import {
   BarChart,
@@ -23,16 +29,30 @@ const socket = socketIOClient(ENDPOINT, {
   transports: ['websocket', 'polling'],
 });
 
-const data1 = [{"date":0,"value":59.48873313559879},{"date":1,"value":59.54980074047684},{"date":2,"value":9.12797559978733},{"date":3,"value":6.502075471853308},{"date":4,"value":65.2458981139046}] 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function App() {
   const [data, updateData] = useState([]);
-  const[onClick,setOnclick] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const [modalData, setModalData] = useState([]);
   
 
 
   
    useEffect(() => {
+     
 
     socket.on('SendMetrics', msg => {
       //el devices es para acceder a cada dispositivo por grupo y el channel define a cada integrante del devices/grupo
@@ -49,7 +69,7 @@ function App() {
   }, []); 
   //console.log(data)
   return (
-    <div className='App'>
+    <div >
       {/* <MultilineChart/>  */}
 
 {/*  <LineChart width={500} height={300} data={data}>
@@ -70,12 +90,27 @@ function App() {
    {/* <NetworkGraph2 data={data} ></NetworkGraph2>  */}
    
    {/* El mapeo crea un componente por dispositivo, donde la funcion flecha apunta al dato que quiero graficar */}
+   <Boxes></Boxes>
+
+
    {data.map(canales => (   
 
     
       
-    
-   <NetworkGraph2 data={canales.channel} ></NetworkGraph2> 
+     <><Button onClick={()=> {
+      setModalData(canales);
+      setOpen(true);
+    }}>Open modal</Button><Modal
+       open={open}
+       onClose={handleClose}
+       aria-labelledby="modal-modal-title"
+       aria-describedby="modal-modal-description"
+     >
+       <Box sx={style} >
+     <NetworkGraph2 data={modalData.channel}></NetworkGraph2>
+       </Box>
+     </Modal><NetworkGraph2 data={canales.channel}></NetworkGraph2></>
+   
    
    
    
