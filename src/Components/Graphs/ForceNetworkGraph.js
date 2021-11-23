@@ -29,7 +29,9 @@ import useResizeObserver from "./useResizeObserver";
       {"source": 1,"target": 2},
       {"source": 2,"target": 3},
       {"source": 3,"target": 4},
-      {"source": 4,"target": 1}
+      {"source": 4,"target": 1},
+      {"source": 2,"target": 4},
+      {"source": 3,"target": 1} 
     ]
   } 
 const dimensions = {width:400, height:400}
@@ -44,7 +46,7 @@ function ForceNetworkGraph() {
     const svg = select(svgRef.current)
                     .attr('width', dimensions.width)
                     .attr('height', dimensions.height)
-                    .attr('transform', 'rotate(45)')
+                    //.attr('transform', 'rotate(45)')
                     .style('background-color','white');
 
     // centering workaround
@@ -62,7 +64,7 @@ function ForceNetworkGraph() {
             .links(data.links)                                    // and this the list of links
       )
         .force("center", forceCenter(dimensions.width/2,dimensions.height/2))
-      .force("charge", forceManyBody().strength(-400))
+      .force("charge", forceManyBody().strength(-1000))
       //.alphaMin(0.5)
       .on("tick", () => {
         console.log("current force", simulation.alpha());
