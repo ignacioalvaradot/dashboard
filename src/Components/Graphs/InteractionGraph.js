@@ -1,4 +1,4 @@
-import { useEffect, useRef} from "react";
+import { useEffect, useRef, useState} from "react";
 import * as d3 from 'd3'
 
 const dimensions = {width:300,height:300}
@@ -18,11 +18,14 @@ const links = [
 
 
 const InteractionGraph = props => {
+
+
     
 const ref = useRef();
 
 useEffect(() =>{
 
+  
 
     const svg = d3.select(ref.current)
                    .attr('width', dimensions.width)
