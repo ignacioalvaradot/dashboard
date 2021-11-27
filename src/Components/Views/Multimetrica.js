@@ -66,7 +66,7 @@ const Multimetrica = () => {
       //updateData(currentData => [...currentData,msg.data.devices[0].channel[0]]);
       //updateData(msg.data.devices[0].channel); Sirve para los nodos
       updateData(msg.data.devices);
-      console.log(msg.data.devices)
+      //console.log(msg.data.devices)
       
   }); 
   
@@ -102,14 +102,14 @@ const Multimetrica = () => {
 
     
 
-     {finaldata.map(canales => (   
+     {data.map(canales => (   
 
     
       
      <><Button onClick={()=> {
       setModalData(canales);
       setOpen(true);
-    }}>Open modal</Button><Modal
+    }}><FinalGraph data = {canales}> </FinalGraph></Button><Modal
        open={open}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
@@ -120,7 +120,7 @@ const Multimetrica = () => {
        </Box>
      </Modal>{/* <NetworkGraph2 data={canales.channel}></NetworkGraph2> 
      <InteractionGraph data={canales.channel} ></InteractionGraph> */}
-     <FinalGraph data = {canales.channel}> </FinalGraph>
+     
      </>
    
    
