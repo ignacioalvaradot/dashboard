@@ -1,138 +1,116 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const data = {
-    "nodes": [
-      {
-        "id": 1,
-        //"name": "A"
-      },
-      {
-        "id": 2,
-        //"name": "B"
-      },
-      {
-        "id": 3,
-        //"name": "C"
-      },
-      {
-        "id": 4,
-        //"name": "D"
-      }
-    ],
-    "links": [
-  
-      {
-        "source": 1,
-        "target": 2
-      },
-      {
-        "source": 2,
-        "target": 3
-      },
-      {
-        "source": 3,
-        "target": 4
-      },
-  
-      {
-        "source": 4,
-        "target": 1
-      }
-      
-    ]
-  } 
 
   const NetworkGraph = props => {
     const areaChart = useRef()
-    const dimensions = {width:400, height:200}
-   
-    
-    
+    const dimensions = {width:300, height:300}
+
       useEffect(() => {
       
 
         const svg = d3.select(areaChart.current)
-                     .attr('width', dimensions.width)
-                    .attr('height', dimensions.height)
-                    .style('background-color','white') 
+        .attr('width', dimensions.width)
+       .attr('height', dimensions.height)
+       .style('background-color','white') 
+//const arrow = svg.append("svg:defs").append("svg:marker").attr("id", "arrow").attr("viewBox", "0 0 10 10").attr("refX", 0).attr("refY", 5).attr("markerUnits", "strokeWidth").attr("markerWidth", 8).attr("markerHeight", 6).attr("orient", "auto").append("svg:path").attr("d", "M 0 0 L 10 5 L 0 10 z");
+
+
+       // var g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    /*     var g = svg.append("g").join(
+          (enter) =>
+          enter
+          .selectAll("circle")
+          .data(props.data.channel)
+          .join("circle")
+          .attr("id", function(d,i){return 'name' + i}  )
+          //.attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")")        
+          .attr('cx', function(d,i) { 
+              return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75)) } )
+          .attr('cy', function(d,i) {     
+                  return (dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) } )
+          .attr("r", d => d.numeroInterv), */
+
+        
+          //testing links
+
+
+      
+
+        /* const my_group = svg.selectAll('.chart_group')
+        .join(function(group){
+           var enter = group.append("g").attr("transform", "translate(" + dimensions.width / 2 + "," + dimensions.height / 2 + ")");
+           return enter;
+        });
+ */
+
+
+  /*      const cara = svg
+        .data(props.data.channel)
+        .join("svg:image")
+        .attr('x', -9)
+        .attr('y', -12)
+        .attr('width', 20)
+        .attr('height', 24) */
+        
+    /*     const arrow = 
+        svg.join( 'line:defs' ).join( 'line:marker' )
+        .attr( 'id', 'triangle' )
+        .attr( 'refX', 6 )
+        .attr( 'refY', 6 )
+        .attr( 'markerWidth', 30 )
+        .attr( 'markerHeight', 30 )
+        .attr( 'markerUnits', 'userSpaceOnUse' )
+        .attr( 'orient', 'auto' )
+        .join( 'path' )
+        .attr( 'd', 'M 0 0 12 6 0 12 3 6' )
+        .style( 'fill', 'black' ); */
 
         const nodo = 
         svg
-                    .selectAll("circle")
-                    .data(props.data)
-                    .join("circle")
-                    //.enter()
-                    //.append("circle")
-                    .attr("class", "nI")
-                    .attr("r", d => d.valor   /* Math.floor((Math.random() * 40) + 1) */ )
-                    .attr("id",d => d.channelId)
-                    .attr("id2",d => d.traza)
-                    .style("fill", "#69b3a2")
-                    .attr("cx", d => d.valor  *14)
-                    .attr('cy', 50)
-        //testing links
-  
-        const link =         
+        .select('.chart')
+        .selectAll("circle")
+        .data(props.data.channel)
+        .join("circle")
+        .attr("id", function(d,i){return 'name' + i}  )
+       // .attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")")
+       .attr("fill", "orange")    
+        .attr('cx', function(d,i) { 
+            return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75)) } )
+        .attr('cy', function(d,i) {     
+                return (dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) } )
+        .attr("r", d => d.numeroInterv);
+
+
         svg
-                    .selectAll("line")
-                    .data(props.data)
-                    .join("line")
-                    //.enter()
-                    //.append("circle")
-                    .style("stroke", "lightgreen")
-                    .style("stroke-width",d => d.numeroInterv )
-                    .attr("id",d => d.channelId)
-                    .attr("id2",d => d.traza)
-                    .style("fill", "#69b3a2")
-                    .attr("x1", 0)
-                    .attr("y1", 50)
-                    .attr("x2", 200)
-                    .attr("y2", 50); 
-                    
-      
- /*      const linkeo=svg
-                    .append('path')
-                    .attr('d', link)
-                    .attr('stroke', 'black')
-                    .attr('fill', 'none');  */
-
-/*         const link = svg
-                      .selectAll("line")
-                      .data(data.links)
-                      .enter()
-                      .append("line")
-                        .style("stroke", "#aaa")
-
-        var simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-      .force("link", d3.forceLink()                               // This force provides links between nodes
-            .id(function(d) { return d.id; })                     // This provide  the id of a node
-            .links(data.links)                                    // and this the list of links
-      )
-      .force("charge", d3.forceManyBody().strength(-500))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-      .force("center", d3.forceCenter(dimensions.width / 2, dimensions.height / 2))     // This force attracts nodes to the center of the svg area
-      .on("end", ticked);
-      //.on("tick", () => this.tick());
-
-      function ticked() {
-        link
-            .attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-    
-        nodo
-             .attr("cx", function (d) { return d.x+6; })
-             .attr("cy", function(d) { return d.y-6; });
-      } 
-       */
-
-      //svg.selectAll("*").exit();
-//console.log(nodo._groups);
+        .select('.chart')
+        .selectAll("line")
+        .data(props.data.trace_delta)
+        .join("line")
+        //.attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")") 
+        .attr("x1", function(d,i) { return d3.select( '#name' + d.source ).attr('cx') })
+        .attr("y1", function(d) { return d3.select( '#name' + d.source ).attr('cy') })
+        .attr("x2", function(d) { return d3.select( '#name' + d.target ).attr('cx') })
+        .attr("y2", function(d) { return d3.select( '#name' + d.target ).attr('cy') }) 
+        .attr("stroke-width", d => d.weigth)
+        .attr("marker-end", "url(#arrow)")
+        .attr("stroke","black");  
+     
+        console.log(props.data.trace_delta)
     
       }, [props.data]);
     
-      return <svg ref={areaChart}> </svg>;
+      return (<svg ref={areaChart}> 
+      <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
+      <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
+        markerWidth="3" markerHeight="3"
+        orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+    </defs>
+  </g> 
+      </svg>);
     };
 
 

@@ -2,23 +2,6 @@ import { useEffect, useRef, useState} from "react";
 import * as d3 from 'd3'
 
 const dimensions = {width:300,height:300}
-/* const nodes = [
-      { x:  (dimensions.width/2) + 60, y: (dimensions.height/2) + 60, id: 0},
-      { x:   (dimensions.width/2) + 60, y: (dimensions.height/2) - 60, id: 1},
-      { x:   (dimensions.width/2) - 60, y: (dimensions.height/2) + 60, id: 2},
-      { x:   (dimensions.width/2) - 60, y: (dimensions.height/2) - 60, id: 3}
-];
-
-const links = [
-      { source: 0, target:1 },
-      { source: 0, target:2 },
-      { source: 0, target:3 },
-      { source: 1, target: 2 },
-      { source: 2, target: 3 },
-]; */
-
-
-
 
 
 const FinalGraph = props => {
@@ -71,7 +54,8 @@ useEffect(() =>{
  .attr("y2", function(d) { return d3.select( '#name' + d.target ).attr('cy') }) 
  .attr("stroke-width", 5/* d => d.weigth */)
  .attr("stroke","black"); 
- 
+
+
 
 //console.log (id)
 

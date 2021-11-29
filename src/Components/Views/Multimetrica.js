@@ -109,7 +109,7 @@ const Multimetrica = () => {
      <><Button onClick={()=> {
       setModalData(canales);
       setOpen(true);
-    }}><FinalGraph data = {canales}> </FinalGraph></Button><Modal
+    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */} <NetworkGraph data = {canales}> </NetworkGraph> </Button><Modal
        open={open}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
