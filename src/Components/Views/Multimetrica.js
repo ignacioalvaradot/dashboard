@@ -109,14 +109,14 @@ const Multimetrica = () => {
      <><Button onClick={()=> {
       setModalData(canales);
       setOpen(true);
-    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */} <NetworkGraph data = {canales}> </NetworkGraph> </Button><Modal
+    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */} <NetworkGraph2 data = {canales}> </NetworkGraph2> </Button><Modal
        open={open}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
-     <NetworkGraph2 data={modalData.channel}></NetworkGraph2>
+     <NetworkGraph2 data={modalData}></NetworkGraph2>
        </Box>
      </Modal>{/* <NetworkGraph2 data={canales.channel}></NetworkGraph2> 
      <InteractionGraph data={canales.channel} ></InteractionGraph> */}
