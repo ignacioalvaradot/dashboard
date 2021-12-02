@@ -13,6 +13,7 @@ import Boxes from './../Boxes.js'
 import InteractionGraph from './../Graphs/InteractionGraph.js'
 import FinalGraph from './../Graphs/FinalGraph.js'
 
+
 import socketIOClient from 'socket.io-client';
 const ENDPOINT = 'http://192.168.1.12:200/tiempohabla';
 const socket = socketIOClient(ENDPOINT, {
@@ -101,12 +102,13 @@ const Multimetrica = () => {
     {/* <InteractionGraph data={data} ></InteractionGraph> */}
 
     
+       
 
-     {data.map(canales => (   
+     {data.map((canales,index) => (   
 
-    
+  
       
-     <><Button onClick={()=> {
+     <><Button key= {index} onClick={()=> {
       setModalData(canales);
       setOpen(true);
     }}> {/* <FinalGraph data = {canales}> </FinalGraph> */} <NetworkGraph2 data = {canales}> </NetworkGraph2> </Button><Modal
@@ -116,20 +118,21 @@ const Multimetrica = () => {
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
-     <NetworkGraph2 data={modalData}></NetworkGraph2>
+     <NetworkGraph2 data={canales}></NetworkGraph2>
        </Box>
      </Modal>{/* <NetworkGraph2 data={canales.channel}></NetworkGraph2> 
      <InteractionGraph data={canales.channel} ></InteractionGraph> */}
+
+
      
      </>
-   
-   
+ 
    
    
                                 ))}  
                         
     
-
+                        
 
     </div>
   );

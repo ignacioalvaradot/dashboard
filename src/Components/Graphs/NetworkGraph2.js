@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import feliz from "../../Utilities/feliz.png";
+import feliz2 from "../../Utilities/cara.png";
 
 
   const NetworkGraph = props => {
@@ -112,6 +114,16 @@ import * as d3 from "d3";
  
     }
 
+    function triangleposition (cx,cy) {
+      var TriangleX = cx + ((30) * Math.sin(0));
+      var TriangleY = cy - ((30) * Math.cos(0));
+
+      return `translate(${TriangleX}, ${TriangleY})`;
+    }
+    var tween = function (cx,cy) {
+      return d3.interpolateString(`rotate(0, ${cx}, ${cy})`, `rotate(45, ${cx}, ${cy})`);
+
+  }
 
       useEffect(() => {
       
@@ -119,7 +131,8 @@ import * as d3 from "d3";
         const svg = d3.select(areaChart.current)
         .attr('width', dimensions.width)
        .attr('height', dimensions.height)
-       .style('background-color','white') 
+       .style('background-color','white')
+       
      
         
         const nodo = 
@@ -130,16 +143,17 @@ import * as d3 from "d3";
         .join("circle")
         .attr("id", function(d,i){return 'name' + i}  )
        // .attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")")
-       .attr("fill", "orange")    
+       //.attr("fill", "orange")
+       .attr("fill", "url(#image)")
+       .raise()   
         .attr('cx', function(d,i) { 
-            return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75)) } )
+            return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75))} )
         .attr('cy', function(d,i) {     
                 return (dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) } )
         .attr("r", d => d.numeroInterv);
 
         //var Str = svg.selectAll("circles")
-
-        svg
+      const linea =  svg
         .select('.chart')
         .selectAll('path.line')
         .data(props.data.trace_delta)
@@ -182,9 +196,21 @@ import * as d3 from "d3";
         //.attr("d", function(d) { return drawBend(d3.select( '#name' + d.source).attr('cx'), d3.select( '#name' + d.source ).attr('cy'), d3.select( '#name' + d.target ).attr('cx') , d3.select( '#name' + d.target).attr('cy') , bend, aLen, aWidth, sArrow, eArrow, startRadius, endRadius)})
         .attr("stroke-width", d => d.weigth)
         .attr("marker-end", "url(#arrow)");
+
+         const triangle = svg
+        .select('.chart')
+        .selectAll('path.triangle')
+        .data(props.data.channel)
+        .join('path')
+        .attr('class', 'triangle')
+        .attr("d", d3.symbol().type(d3.symbolTriangle))
+        .attr("transform", function(d,i) { return  triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy')) })
+        .style("fill", "black"); 
        
+        triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
      
         console.log(props.data.trace_delta)
+        
     
       }, [props.data]);
     
@@ -196,6 +222,10 @@ import * as d3 from "d3";
         orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
+
+    <pattern id='image' width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <image xlinkHref={feliz2} width="100" height="100" preserveAspectRatio="none" ></image>
+    </pattern>
     </defs>
   </g> 
       </svg>);

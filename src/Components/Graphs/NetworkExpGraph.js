@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import feliz from "../../Utilities/feliz.png";
+import feliz2 from "../../Utilities/feliz2.svg";
 
 
   const NetworkExpGraph = props => {
@@ -21,8 +23,10 @@ import * as d3 from "d3";
         .data(props.data.channel)
         .join("circle")
         .attr("id", function(_,i){return 'name' + i}  ) 
+        .attr("fill", "url(#image)")
         
-       .attr("fill", function (d) {
+        
+        .style("fill", function (d) {
 
         switch (d.valor) {
             case "Expresion_angry":
@@ -37,7 +41,7 @@ import * as d3 from "d3";
 
         }
 
-       })   
+       })  
         .attr('cx', function(d,i) { 
             return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75)) } )
         .attr('cy', function(d,i) {     
@@ -79,6 +83,9 @@ import * as d3 from "d3";
         orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
+    <pattern id='image' width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <image xlinkHref={feliz2} width="100" height="100" preserveAspectRatio="none" ></image>
+    </pattern>
     </defs>
   </g> 
       </svg>);
