@@ -1,122 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import feliz from "../../Utilities/feliz.png";
-import feliz2 from "../../Utilities/cara.png";
-import feliz3 from "../../Utilities/feliz2.svg";
-
+import { width } from "@mui/system";
 
   const NetworkGraph = props => {
     const areaChart = useRef()
     const dimensions = {width:300, height:300}
 
 
-    var bend = -0.9;
-    var aLen = 5, aWidth = 5;
-    var sArrow = false, eArrow = false;
-    var startRadius = 15 + 1; // 10 radio maximo de pelota
-    var endRadius = 15 + 5;
-
-
-    function drawBend(x1, y1, x2, y2, bend, aLen, aWidth, sArrow, eArrow, startRadius, endRadius){
-      var mx, my, dist, nx, ny, x3, y3, cx, cy, radius, vx, vy, a1, a2;
-      var arrowAng,aa1,aa2,b1;
-      // find mid point
-      mx = ( x1 + x2) / 2;  // Error cuando x1 + x2 = 0, comprobar con Math.abs()
-      my = (y1 + y2) / 2;   // Lo mismo que arriba
-      
-      // get vector from start to end
-      nx = x2 - x1;
-      ny = y2 - y1;
-      
-      // find dist
-      dist = Math.sqrt(nx * nx + ny * ny);
-      
-      // normalise vector
-      nx /= dist;
-      ny /= dist;
-      
-      // The next section has some optional behaviours
-      // that set the dist from the line mid point to the arc mid point
-      // You should only use one of the following sets
-      
-      //-- Uncomment for behaviour of arcs
-      // This make the lines flatten at distance
-      //b1 =  (bend * 300) / Math.pow(dist,1/4);
-
-      //-- Uncomment for behaviour of arcs
-      // Arc bending amount close to constant
-      // b1 =  bend * dist * 0.5
-
-      b1 = bend * dist
-
-      // Arc amount bend more at dist
-      x3 = mx + ny * b1;
-      y3 = my - nx * b1;
-
-      // get the radius
-      radius = (0.5 * ((x1-x3) * (x1-x3) + (y1-y3) * (y1-y3)) / (b1));
-
-      // use radius to get arc center
-      cx = x3 - ny * radius;
-      cy = y3 + nx * radius;
-
-      // radius needs to be positive for the rest of the code
-      radius = Math.abs(radius);
-
-      
-
-
-      // find angle from center to start and end
-      a1 = Math.atan2(y1 - cy, x1 - cx);
-      a2 = Math.atan2(y2 - cy, x2 - cx);
-      
-      // normalise angles
-      a1 = (a1 + Math.PI * 2) % (Math.PI * 2);
-      a2 = (a2 + Math.PI * 2) % (Math.PI * 2);
-      // ensure angles are in correct directions
-      if (bend < 0) {
-          if (a1 < a2) { a1 += Math.PI * 2 }
-      } else {
-          if (a2 < a1) { a2 += Math.PI * 2 }
-      }
-      
-      // convert arrow length to angular len
-      arrowAng = aLen / radius  * Math.sign(bend);
-      // get angular length of start and end circles and move arc start and ends
-      
-      a1 += startRadius / radius * Math.sign(bend);
-      a2 -= endRadius / radius * Math.sign(bend);
-      aa1 = a1;
-      aa2 = a2;
-
-      // check for too close and no room for arc
-      if ((bend < 0 && a1 < a2) || (bend > 0 && a2 < a1)) {
-          return;
-      }
-      // is there a start arrow
-      if (sArrow) { aa1 += arrowAng } // move arc start to inside arrow
-      // is there an end arrow
-      if (eArrow) { aa2 -= arrowAng } // move arc end to inside arrow
-      
-      // check for too close and remove arrows if so
-      if ((bend < 0 && aa1 < aa2) || (bend > 0 && aa2 < aa1)) {
-          sArrow = false;
-          eArrow = false;
-          aa1 = a1;
-          aa2 = a2;
-      }
-      // draw arc
-      
-      //ctx.beginPath();
-      var path = d3.path();
-      path.arc(cx, cy, radius, aa1, aa2, bend < 0)
-   
-     return path;
- 
-    }
-
     function triangleposition (cx,cy) {
-      var TriangleX = cx + ((30) * Math.sin(0));
+      var TriangleX = cx - ((30) * Math.sin(0));
       var TriangleY = cy - ((30) * Math.cos(0));
 
       return `translate(${TriangleX}, ${TriangleY})`;
@@ -133,8 +25,6 @@ import feliz3 from "../../Utilities/feliz2.svg";
         .attr('width', dimensions.width)
        .attr('height', dimensions.height)
        .style('background-color','white')
-       
-     
         
         const nodo = 
         svg
@@ -145,13 +35,25 @@ import feliz3 from "../../Utilities/feliz2.svg";
         .attr("id", function(d,i){return 'name' + i}  )
        // .attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")")
        //.attr("fill", "orange")
-       .attr("fill", "url(#image)")
+       .style("fill", "orange")
+   //    .attr("stroke", "#008000")
+    //  .attr("stroke-width", "6")
+      .attr("stroke-opacity", 0) 
        .raise()   
         .attr('cx', function(d,i) { 
             return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75))} )
         .attr('cy', function(d,i) {     
                 return (dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) } )
+
+        .each(function(d,i){
+                  if (d.valor == 1){
+                  svg.select( '#name' + i ).transition().duration(1000).attr("stroke", "#008000").attr("stroke-width","14").attr("stroke-opacity", 0.3).attr("paint-order","stroke")
+                  }
+              })
         .attr("r", d => d.numeroInterv);
+
+        
+
 
         //var Str = svg.selectAll("circles")
       const linea =  svg
@@ -208,7 +110,7 @@ import feliz3 from "../../Utilities/feliz2.svg";
         .attr("transform", function(d,i) { return  triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy')) })
         .style("fill", "black"); 
        
-        triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
+        //triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
      
         console.log(props.data.trace_delta)
         
@@ -223,10 +125,6 @@ import feliz3 from "../../Utilities/feliz2.svg";
         orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
-
-    <pattern id='image' width="1" height="1" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <image xlinkHref={feliz2} width="100" height="100" preserveAspectRatio="none" ></image>
-    </pattern>
     </defs>
   </g> 
       </svg>);
