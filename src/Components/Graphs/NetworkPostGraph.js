@@ -5,7 +5,7 @@ const Pie = props => {
   const ref = useRef(null);
   const createPie = d3
     .pie()
-    .value(d => d.numeroInterv)
+    .value(d => d.total)
     .sort(null);
   const createArc = d3
     .arc()
@@ -46,13 +46,14 @@ const Pie = props => {
       .style("fill", "white")
       .style("font-size", 10)
       .text(d => format(toString(d.valor))); */
+      console.log(props.data.channel)
   }, [props.data]);
 
   return (
     <svg width={props.width} height={props.height}>
       <g
         ref={ref}
-        transform={`translate(${props.width/2},${props.height/2})`}
+        transform={`translate(${props.width/2} ${props.height/2})`}
       />
     </svg>
   );

@@ -116,7 +116,7 @@ import feliz3 from "../../Utilities/feliz2.svg";
     }
 
     function triangleposition (cx,cy) {
-      var TriangleX = cx + ((30) * Math.sin(0));
+      var TriangleX = cx - ((30) * Math.sin(0));
       var TriangleY = cy - ((30) * Math.cos(0));
 
       return `translate(${TriangleX}, ${TriangleY})`;
@@ -208,7 +208,7 @@ import feliz3 from "../../Utilities/feliz2.svg";
         .attr("transform", function(d,i) { return  triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy')) })
         .style("fill", "black"); 
        
-        triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
+        //triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
      
         console.log(props.data.trace_delta)
         

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import NetworkGraph2 from './../Graphs/NetworkGraph2'
 import NetworkSpeechGraph from './../Graphs/NetworkSpeechGraph'
+import PieChart from './../Graphs/PieChart'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
 import socketIOClient from 'socket.io-client';
-const ENDPOINT = 'http://192.168.1.12:200/tiempohabla';
+const ENDPOINT = 'http://192.168.1.13:200/tiempohabla';
 const socket = socketIOClient(ENDPOINT, {
   transports: ['websocket', 'polling'],
 });
@@ -23,13 +24,11 @@ const style = {
   p: 4,
 };
 
-const Multimetrica = () => {
+const Habla = () => {
   const [data, updateData] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [modalData, setModalData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
+  const handleClose = () => setSelectedItem(null); 
 
   const tick = () => {
     setFinaldata(data)
@@ -62,27 +61,34 @@ const Multimetrica = () => {
   return (
     <div >
  
-     {data.map(canales => (   
+     {data.map((canales,i) => (   
 
      <><Button onClick={()=> {
-      setModalData(canales);
-      setOpen(true);
-    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */}  <NetworkSpeechGraph data = {canales}> </NetworkSpeechGraph>  </Button><Modal
-       open={open}
+      setSelectedItem(i);
+      
+    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */}  <NetworkSpeechGraph data = {canales}> </NetworkSpeechGraph>  </Button>
+    
+    <Modal
+       open={selectedItem === i}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
-       <NetworkSpeechGraph data = {modalData}> </NetworkSpeechGraph>
+       <PieChart data = {canales} 
+          width={200}
+          height={200}
+          innerRadius={0}
+          outerRadius={100} > </PieChart>
        </Box>
      </Modal>
-     
      </>
+     
+
                                 ))}  
                         
     </div>
   );
 }
 
-export default Multimetrica;
+export default Habla;

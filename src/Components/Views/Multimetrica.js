@@ -15,7 +15,7 @@ import FinalGraph from './../Graphs/FinalGraph.js'
 
 
 import socketIOClient from 'socket.io-client';
-const ENDPOINT = 'http://192.168.1.12:200/tiempohabla';
+const ENDPOINT = 'http://192.168.1.13:200/tiempohabla';
 const socket = socketIOClient(ENDPOINT, {
   transports: ['websocket', 'polling'],
 });
@@ -34,11 +34,9 @@ const style = {
 
 const Multimetrica = () => {
   const [data, updateData] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [modalData, setModalData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
+  const handleClose = () => setSelectedItem(null); 
 
   const tick = () => {
     setFinaldata(data)
@@ -104,15 +102,14 @@ const Multimetrica = () => {
     
        
 
-     {data.map((canales,index) => (   
+     {data.map((canales,i) => (   
 
   
       
-     <><Button key= {index} onClick={()=> {
-      setModalData(canales);
-      setOpen(true);
+     <><Button onClick={()=> {
+      setSelectedItem(i);
     }}> {/* <FinalGraph data = {canales}> </FinalGraph> */} <NetworkGraph2 data = {canales}> </NetworkGraph2> </Button><Modal
-       open={open}
+       open={selectedItem === i}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
        aria-describedby="modal-modal-description"

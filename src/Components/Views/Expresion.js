@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
 import socketIOClient from 'socket.io-client';
-const ENDPOINT = 'http://192.168.1.12:200/expresiones';
+const ENDPOINT = 'http://192.168.1.13:200/expresiones';
 const socket = socketIOClient(ENDPOINT, {
   transports: ['websocket', 'polling'],
 });
@@ -24,13 +24,11 @@ const style = {
   p: 4,
 };
 
-const Multimetrica = () => {
+const Expresion = () => {
   const [data, updateData] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [modalData, setModalData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
+  const handleClose = () => setSelectedItem(null); 
 
   const tick = () => {
     setFinaldata(data)
@@ -63,19 +61,18 @@ const Multimetrica = () => {
   return (
     <div >
  
-     {data.map(canales => (   
+     {data.map((canales,i) => (   
 
      <><Button onClick={()=> {
-      setModalData(canales);
-      setOpen(true);
+      setSelectedItem(i);
     }}> {/* <FinalGraph data = {canales}> </FinalGraph> */}  <NetworkExpGraph data = {canales}> </NetworkExpGraph>  </Button><Modal
-       open={open}
+       open={selectedItem === i}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
-       <NetworkExpGraph data = {modalData}> </NetworkExpGraph>
+       <NetworkExpGraph data = {canales}> </NetworkExpGraph>
        </Box>
      </Modal>
      
@@ -86,4 +83,4 @@ const Multimetrica = () => {
   );
 }
 
-export default Multimetrica;
+export default Expresion;
