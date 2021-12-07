@@ -47,7 +47,7 @@ import { width } from "@mui/system";
 
         .each(function(d,i){
                   if (d.valor == 1){
-                  svg.select( '#name' + i ).transition().duration(1000).attr("stroke", "#008000").attr("stroke-width","14").attr("stroke-opacity", 0.3).attr("paint-order","stroke")
+                  svg.select( '#name' + i ).transition().duration(700).attr("stroke", "#008000").attr("stroke-width","14").attr("stroke-opacity", 0.3).attr("paint-order","stroke")
                   }
               })
         .attr("r", d => d.numeroInterv);
@@ -107,10 +107,14 @@ import { width } from "@mui/system";
         .join('path')
         .attr('class', 'triangle')
         .attr("d", d3.symbol().type(d3.symbolTriangle))
-        .attr("transform", function(d,i) { return  triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy')) })
+        .attr("transform", function(d,i) { 
+          /* return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(0))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(0))}) rotate(90, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` */
+            return triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy'))  
+        
+        })
         .style("fill", "black"); 
        
-        //triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
+       // triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
      
         console.log(props.data.trace_delta)
         
