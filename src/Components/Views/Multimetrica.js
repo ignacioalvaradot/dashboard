@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import areaChart from './../Graphs/AreaChart.js'
-import MultilineChart from './../Graphs/MultilineChart.js'
-import PieChart from './../Graphs/PieChart.js'
-import NetworkGraph from './../Graphs/NetworkGraph.js'
 import NetworkGraph2 from './../Graphs/NetworkGraph2'
+import NetworkMultiGraph from './../Graphs/NetworkMultiGraph'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import ForceNetworkGraph from './../Graphs/ForceNetworkGraph.js'
-import Boxes from './../Boxes.js'
-import InteractionGraph from './../Graphs/InteractionGraph.js'
-import FinalGraph from './../Graphs/FinalGraph.js'
-
-
+import Grid from "@mui/material/Grid";
 import socketIOClient from 'socket.io-client';
-const ENDPOINT = 'http://192.168.1.13:200/tiempohabla';
+
+const ENDPOINT = 'http://192.168.1.13:200/multimetrica';
+
+
 const socket = socketIOClient(ENDPOINT, {
   transports: ['websocket', 'polling'],
 });
+
+
 
 const style = {
   position: 'absolute',
@@ -33,13 +29,13 @@ const style = {
 };
 
 const Multimetrica = () => {
-  const [data, updateData] = useState([]);
+  const [dataHabla, updateDataHabla] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
   const handleClose = () => setSelectedItem(null); 
 
   const tick = () => {
-    setFinaldata(data)
+    setFinaldata(dataHabla)
 
   }
 
@@ -53,62 +49,26 @@ const Multimetrica = () => {
 
   }, [finaldata])
   
-
   
    useEffect(() => {
-     
-
     socket.on('SendMetrics', msg => {
       //el devices es para acceder a cada dispositivo por grupo y el channel define a cada integrante del devices/grupo
-      //updateData(msg.data.devices[0].channel[0].valor);
-      //updateData(msg.data.devices[0].channel[0]);
-      //updateData(currentData => [...currentData,msg.data.devices[0].channel[0]]);
-      //updateData(msg.data.devices[0].channel); Sirve para los nodos
-      updateData(msg.data.devices);
-      //console.log(msg.data.devices)
+      updateDataHabla(msg.data.devices);
+     // console.log(msg.data.devices)
       
   }); 
   
-    
+  
   }, []); 
-  //console.log(data)
+  
   return (
     <div >
-      {/* <MultilineChart/>  */}
-
-{/*  <LineChart width={500} height={300} data={data}>
-        <XAxis />
-        <YAxis />
-        <Line dataKey="numeroInterv" />
-      </LineChart>  */}
-
-{/*  <PieChart
-          data={data}
-          width={200}
-          height={200}
-          innerRadius={0}
-          outerRadius={100}
-        />  */}
-
-   {/* <NetworkGraph data={data}></NetworkGraph>  */}
-   {/* <NetworkGraph2 data={data} ></NetworkGraph2>  */}
-   
-   {/* El mapeo crea un componente por dispositivo, donde la funcion flecha apunta al dato que quiero graficar */}
-  {/*  <Boxes></Boxes> */}
-   {/* <ForceNetworkGraph data ={data}> </ForceNetworkGraph> */}
-    
-    {/* <InteractionGraph data={data} ></InteractionGraph> */}
-
-    
-       
-
-     {data.map((canales,i) => (   
-
-  
-      
+<Grid container justifyContent="center" m={1}>
+     {dataHabla.map((canales,i) => (   
+      <Grid  sx= {{border: "2px solid red"}}item xs={2.3}  mr={6} key={i} >
      <><Button onClick={()=> {
       setSelectedItem(i);
-    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */} <NetworkGraph2 data = {canales}> </NetworkGraph2> </Button><Modal
+    }}>  <NetworkMultiGraph data = {canales} > </NetworkMultiGraph> </Button><Modal
        open={selectedItem === i}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
@@ -117,20 +77,14 @@ const Multimetrica = () => {
        <Box sx={style} >
      <NetworkGraph2 data={canales}></NetworkGraph2>
        </Box>
-     </Modal>{/* <NetworkGraph2 data={canales.channel}></NetworkGraph2> 
-     <InteractionGraph data={canales.channel} ></InteractionGraph> */}
-
-
+     </Modal>
      
      </>
- 
-   
-   
+     </Grid>
+      
                                 ))}  
-                        
-    
-                        
-
+    </Grid>
+                                     
     </div>
   );
 }

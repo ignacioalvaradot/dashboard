@@ -1,59 +1,77 @@
-import React, {useState} from "react";
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import React from "react";
+import Grid from "@mui/material/Grid";
 import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import Button from '@mui/material/Button';
 
-
-const Boxes = () => {
-
-    return (
-<div>
-    <Grid container spacing={5} justifyContent="center" mt = {2} >
-        <Grid item xs={2}  >
-            <Box  border = {2} component={RouterLink} 
-          to="/">
-               Multimetrica
-            </Box>
-        
-            </Grid>
-            <Grid item xs={2} >
-            <Box border = {2} component={RouterLink} 
-          to="/Habla" >
-                Habla
-            </Box>
-        
-            </Grid>
-            <Grid item xs={2}>
-            <Box border = {2} component={RouterLink} 
-          to="/Posturas">
-                Postura
-            </Box>
-        
-            </Grid>
-            <Grid item xs={2} >
-            <Box border = {2}  component={RouterLink} 
-          to="/Expresiones">
-                Expresiones
-            </Box>
-        
-            </Grid>
-
-            <Grid item xs={2} >
-            <Box border = {2}  component={RouterLink} 
-          to="/Gestos">
-                Gestos
-            </Box>
-        
-            </Grid>
-
-        </Grid>
-
-
-</div>
-
-
-    );
-
+const style = {
+  styleBox: {
+    width: "100%",
+    fontSize: "13px",
+    border: "2px solid red",
+    color: "inherit",
+    paddingBlock: "5%",
+    justifyContent: "flex-start",
+    fontFamily: "Roboto",
+  },
+  styleH2: {
+    textAlign: "center",
+    backgroundColor: "#694DFE",
+    color: "black",
+    fontWeight: "100",
+    paddingBlock: "5%",
+    margin: "1px",
+    width: "100%",
+    fontFamily: 'Roboto',
+  },
 };
 
-export default Boxes; 
+const Boxes = () => {
+  return (
+    <div>
+      <Grid container justifyContent="center" m={1}>
+        <Grid item xs={2.3} px={5} py={2}>
+          <h2 style={style.styleH2}>Multimetrica</h2>
+        
+          <Button sx = {style.styleBox} component={RouterLink} to="/">
+          Experimento: <br/>
+          Fase:
+            </Button>
+          
+        </Grid>
+
+        <Grid item xs={2.3} px={5} py={2}>
+          <h2 style={style.styleH2}>Habla</h2>
+          <Button sx = {style.styleBox} component={RouterLink} to="/Habla">
+          Grupo: <br/>
+          Grupo:       </Button>
+        </Grid>
+
+        <Grid item xs={2.3} px={5} py={2}>
+          <h2 style={style.styleH2}>Posturas</h2>
+          <Button sx = {style.styleBox} component={RouterLink} to="/Posturas">
+          Mas abiertas: <br/>
+          Mas cerradas:<br/>
+          </Button>
+        </Grid>
+
+        <Grid item xs={2.3} px={5} py={2}>
+          <h2 style={style.styleH2}>Expresiones</h2>
+          <Button sx = {style.styleBox} component={RouterLink} to="/Expresiones">
+          Mas simetria <br/>
+          Menos simetria<br/>
+          </Button>
+        </Grid>
+
+        <Grid item xs={2.3} px={5} py={2}>
+          <h2 style={style.styleH2}>Gestos</h2>
+          <Button sx = {style.styleBox} component={RouterLink} to="/Gestos">
+          Gesto<br/> predominante
+          
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
+export default Boxes;

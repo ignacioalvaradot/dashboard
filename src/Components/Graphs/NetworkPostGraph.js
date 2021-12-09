@@ -1,62 +1,99 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const Pie = props => {
-  const ref = useRef(null);
-  const createPie = d3
-    .pie()
-    .value(d => d.total)
-    .sort(null);
-  const createArc = d3
-    .arc()
-    .innerRadius(props.innerRadius)
-    .outerRadius(props.outerRadius);
-  const colors = d3.scaleOrdinal(d3.schemeCategory10);
-  const format = d3.format(".2f");
+  const NetworkPostGraph = props => {
+    const areaChart = useRef(null);
+    const dimensions = {width:270, height:270}
+    const colors = d3.scaleOrdinal(d3.schemeCategory10);
+    var mycolors = ["#FFA500","#008000"]
 
-  useEffect(() => {
-    const data = createPie(props.data.channel);
-    const group = d3.select(ref.current);
-    const groupWithData = group.selectAll("g.arc").data(data);
+      useEffect(() => {
+        const pie = (data)=> d3.pie().value(d => d.value)(data);
+        const arc =(radio) => d3.arc()
+         .innerRadius(0)
+         .outerRadius(radio)
 
-    groupWithData.exit().remove();
+    const svg = d3.select(areaChart.current)
+        .attr('width', dimensions.width)
+       .attr('height', dimensions.height)
+       .style('background-color','white')
 
-    const groupWithUpdate = groupWithData
-      .enter()
-      .append("g")
-      .attr("class", "arc");
+       var g = svg .select('.chart')
+       .selectAll("g.arc")
+       .data(props.data.channel)  
+       .join("g")
+       .attr("class", "arc")
+       .raise() 
+       .attr("transform",function(_,i) { 
+       
+      return `translate(${(dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75))}, ${(dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) })`});
+        
+        const nodo = 
+        g.selectAll("path.pie")
+        .data(function(d) {
+          return pie(d.acumulate_posture)
+        }) 
 
-    const path = groupWithUpdate
-      .append("path")
-      .merge(groupWithData.select("path.arc"));
+        .join("path")
+        .attr('class', 'pie')
+        .attr("fill", function (d, i) {
+          return mycolors[i];
+      })
+        .attr("d", arc(25));
 
-    path
-      .attr("class", "arc")
-      .attr("d", createArc)
-      .attr("fill", (d, i) => colors(i));
+      
 
-/*     const text = groupWithUpdate
-      .append("text")
-      .merge(groupWithData.select("text"));
+        const linea =  svg
+        .select('.chart')
+        .selectAll('path.line')
+        .data(props.data.trace_delta)
+        .join('path')
+        .attr('class', 'line')
+        .style("fill-opacity",0)
+        //.attr('stroke','black')
+        .attr("d", function(d) {
+          var dx = (dimensions.width/4)*Math.cos(2 * Math.PI * ((d.target/ props.data.channel.length)+ 0.75)) - (dimensions.width/4)*Math.cos(2 * Math.PI * ((d.source/ props.data.channel.length)+ 0.75)),
+              dy = (dimensions.height/4)*Math.sin(2 * Math.PI * ((d.target/ props.data.channel.length) + 0.75)) - (dimensions.height/4)*Math.sin(2 * Math.PI * ((d.source/ props.data.channel.length) + 0.75)),
+              dr = Math.sqrt(dx * dx + dy * dy);
+          return "M" + (dimensions.width/4)*Math.cos(2 * Math.PI * ((d.source/ props.data.channel.length)+ 0.75)) + "," + (dimensions.height/4)*Math.sin(2 * Math.PI * ((d.source/ props.data.channel.length) + 0.75)) + "A" + dr + "," + dr + " 0 0,1 " + (dimensions.width/4)*Math.cos(2 * Math.PI * ((d.target/ props.data.channel.length)+ 0.75)) + "," + (dimensions.height/4)*Math.sin(2 * Math.PI * ((d.target/ props.data.channel.length) + 0.75))
+          })
+          .attr("d", function(d) {
 
-    text
-      .attr("text-anchor", "middle")
-      .attr("alignment-baseline", "middle")
-      .attr("transform", d => `translate(${createArc.centroid(d)})`)
-      .style("fill", "white")
-      .style("font-size", 10)
-      .text(d => format(toString(d.valor))); */
-      console.log(props.data.channel)
-  }, [props.data]);
+            // length of current path
+            var pl = this.getTotalLength(),
+              // radius of circle plus backoff
+              r = (20),
+              // position close to where path intercepts circle
+              m = this.getPointAtLength(pl - r);
+        
+            var dx = m.x - (dimensions.width/4)*Math.cos(2 * Math.PI * ((d.source/ props.data.channel.length)+ 0.75)),
+              dy = m.y - (dimensions.height/4)*Math.sin(2 * Math.PI * ((d.source/ props.data.channel.length) + 0.75)),
+              dr = Math.sqrt(dx * dx + dy * dy);
+        
+            return "M" + (dimensions.width/4)*Math.cos(2 * Math.PI * ((d.source/ props.data.channel.length)+ 0.75)) + "," + (dimensions.height/4)*Math.sin(2 * Math.PI * ((d.source/ props.data.channel.length) + 0.75)) + "A" + dr + "," + dr + " 0 0,1 " + m.x + "," + m.y;
+          })
+          .attr("stroke", function (d) {
 
-  return (
-    <svg width={props.width} height={props.height}>
-      <g
-        ref={ref}
-        transform={`translate(${props.width/2} ${props.height/2})`}
-      />
-    </svg>
-  );
-};
+            switch (d.type) {
+                case "open":
+                  return ("#FFA500")
+                  break;
+                case "close":
+                  return ("#008000")
+                  break;
+                
+            }
+    
+           }) 
+        .attr("stroke-width", 8);
+            
+          }, [props.data]);
+    
+      return (<svg ref={areaChart}> 
+      <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
+  </g> 
+      </svg>);
+    };
 
-export default Pie;
+
+export default NetworkPostGraph;

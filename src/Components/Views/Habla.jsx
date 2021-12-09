@@ -5,6 +5,7 @@ import PieChart from './../Graphs/PieChart'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import Grid from "@mui/material/Grid";
 
 import socketIOClient from 'socket.io-client';
 const ENDPOINT = 'http://192.168.1.13:200/tiempohabla';
@@ -55,18 +56,22 @@ const Habla = () => {
       //console.log(msg.data.devices)
       
   }); 
-  
+  return () => {
+    updateData({}); // This worked for me
+  };
     
   }, []); 
   return (
     <div >
- 
+ <Grid container justifyContent="center" m={1}>
      {data.map((canales,i) => (   
-
+      <Grid  sx= {{border: "2px solid red"}}item xs={2.3}  mr={6} key={i} >
      <><Button onClick={()=> {
       setSelectedItem(i);
       
-    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */}  <NetworkSpeechGraph data = {canales}> </NetworkSpeechGraph>  </Button>
+    }}>  <NetworkSpeechGraph data = {canales}> </NetworkSpeechGraph>  </Button>
+
+    
     
     <Modal
        open={selectedItem === i}
@@ -83,9 +88,10 @@ const Habla = () => {
        </Box>
      </Modal>
      </>
-     
+     </Grid>
 
                                 ))}  
+          </Grid>
                         
     </div>
   );

@@ -4,7 +4,7 @@ import { width } from "@mui/system";
 
   const NetworkGraph = props => {
     const areaChart = useRef()
-    const dimensions = {width:300, height:300}
+    const dimensions = {width:270, height:270}
 
 
     function triangleposition (cx,cy) {
@@ -100,7 +100,7 @@ import { width } from "@mui/system";
         .attr("stroke-width", d => d.weigth)
         .attr("marker-end", "url(#arrow)");
 
-         const triangle = svg
+         /* const triangle = svg
         .select('.chart')
         .selectAll('path.triangle')
         .data(props.data.channel)
@@ -108,11 +108,11 @@ import { width } from "@mui/system";
         .attr('class', 'triangle')
         .attr("d", d3.symbol().type(d3.symbolTriangle))
         .attr("transform", function(d,i) { 
-          /* return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(0))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(0))}) rotate(90, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` */
+         // return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(0))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(0))}) rotate(90, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` 
             return triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy'))  
         
         })
-        .style("fill", "black"); 
+        .style("fill", "black");  */
        
        // triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
      

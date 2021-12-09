@@ -210,7 +210,7 @@ import feliz3 from "../../Utilities/feliz2.svg";
        
         //triangle.transition().delay(500).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
      
-        console.log(props.data.trace_delta)
+       // console.log(props.data.trace_delta)
         
     
       }, [props.data]);

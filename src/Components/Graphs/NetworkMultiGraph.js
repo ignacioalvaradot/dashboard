@@ -8,72 +8,46 @@ import neutral from "../../Utilities/neutral.png";
 import disgust from "../../Utilities/disgust.png";
 import fear from "../../Utilities/fear.png";
 
-
-  const NetworkExpGraph = props => {
-    const areaChart = useRef()
+  const NetworkGraph = props => {
+    const areaChart = useRef(null);
     const dimensions = {width:270, height:270}
+    const colors = d3.scaleOrdinal(d3.schemeCategory10);
+    var mycolors = ["#FFA500","#008000"]
 
       useEffect(() => {
-      
+        const pie = (data)=> d3.pie().value(d => d.value)(data);
+        const arc =(radio) => d3.arc()
+         .innerRadius(0)
+         .outerRadius(radio)
 
-        const svg = d3.select(areaChart.current)
+    const svg = d3.select(areaChart.current)
         .attr('width', dimensions.width)
        .attr('height', dimensions.height)
-       .style('background-color','white') 
+       .style('background-color','white')
 
-        const nodo = 
+       var g = svg .select('.chart')
+       .selectAll("g.arc")
+       .data(props.data.channel)  
+       .join("g")
+       .attr("class", "arc")
+       .raise()
+       .attr("transform",function(_,i) { 
+       
+      return `translate(${(dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75))}, ${(dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) })`});
+  
+      
+        
+
+        const nodosImagenes = 
         svg
         .select('.chart')
         .selectAll("circle")
         .data(props.data.channel)
         .join("circle")
         .attr("id", function(_,i){return 'name' + i}  ) 
-        //.attr("fill", "url(#image)")
-        //.attr("style", "fill:url(#image)")
-        .style("fill", function (d) {
-
-        switch (d.valor) {
-            case "Expresion_angry":
-              return ("#F30606")
-              break;
-            case "Expresion_disgust":
-              return ("#4ECE2B")
-              break;
-            case "Expresion_fear":
-              return ("#A657A8")
-              break;
-            case "Expresion_surprise":
-              return ("#E68714")
-              break;
-            case "Expresion_sad":
-               return ("#33AAFF")
-              break;
-            case "Expresion_happy":
-                return ("#FFCE36")
-               break;
-            case "Expresion_neutral":
-              return ("#FFFFFF")
-               break;
-
-        }
-
-       })   
-        .attr('cx', function(d,i) { 
-            return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75)) } )
-        .attr('cy', function(d,i) {     
-                return (dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) } )
-        .raise() 
-        .attr("r", 25);
-
-        const nodosImagenes = 
-        svg
-        .select('.chart')
-        .selectAll("circle2")
-        .data(props.data.channel)
-        .join("circle")
-        .attr("id", function(_,i){return 'name2' + i}  ) 
+        .attr("stroke-opacity", 0) 
         .attr("fill", function (d) {
-
+ 
           switch (d.valor) {
               case "Expresion_angry":
                 return ("url(#angry)")
@@ -103,7 +77,12 @@ import fear from "../../Utilities/fear.png";
             return (dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75)) } )
         .attr('cy', function(d,i) {     
                 return (dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) } )
-        .raise() 
+        .raise()
+        .each(function(d,i){
+         if (d.talk == 1){
+         svg.select( '#name' + i ).transition().duration(700).attr("stroke", "#008000").attr("stroke-width","14").attr("stroke-opacity", 0.3).attr("paint-order","stroke")
+         }
+     })
         .attr("r", 25);
 
         const linea =  svg
@@ -113,19 +92,20 @@ import fear from "../../Utilities/fear.png";
         .join('path')
         .attr('class', 'line')
         .style("fill-opacity",0)
-        //.attr('stroke','black')
-        .attr("d", function(d) {
+        .attr('stroke','black')
+         .attr("d", function(d) {
           var dx = d3.select( '#name' + d.target ).attr('cx')  - d3.select( '#name' + d.source ).attr('cx'),
               dy = d3.select( '#name' + d.target ).attr('cy') - d3.select( '#name' + d.source ).attr('cy'),
               dr = Math.sqrt(dx * dx + dy * dy);
+ 
           return "M" + d3.select( '#name' + d.source ).attr('cx') + "," + d3.select( '#name' + d.source ).attr('cy') + "A" + dr + "," + dr + " 0 0,1 " + d3.select( '#name' + d.target ).attr('cx') + "," + d3.select( '#name' + d.target ).attr('cy')
           })
           .attr("d", function(d) {
-
+ 
             // length of current path
             var pl = this.getTotalLength(),
               // radius of circle plus backoff
-              r = (20),
+              r = (12) + 25,
               // position close to where path intercepts circle
               m = this.getPointAtLength(pl - r);
         
@@ -134,39 +114,25 @@ import fear from "../../Utilities/fear.png";
               dr = Math.sqrt(dx * dx + dy * dy);
         
             return "M" + d3.select( '#name' + d.source ).attr('cx') + "," + d3.select( '#name' + d.source ).attr('cy') + "A" + dr + "," + dr + " 0 0,1 " + m.x + "," + m.y;
-          })
-          .attr("stroke", function (d) {
+          }) 
+        //.attr("d", function(d) { return drawBend(d3.select( '#name' + d.source).attr('cx'), d3.select( '#name' + d.source ).attr('cy'), d3.select( '#name' + d.target ).attr('cx') , d3.select( '#name' + d.target).attr('cy') , bend, aLen, aWidth, sArrow, eArrow, startRadius, endRadius)})
+        .attr("stroke-width", d => d.weigth)
+        .attr("marker-end", "url(#arrow)");
 
-            switch (d.expresion) {
-                case "Expresion_angry":
-                  return ("#F30606")
-                  break;
-                case "Expresion_disgust":
-                  return ("#4ECE2B")
-                  break;
-                case "Expresion_fear":
-                  return ("#A657A8")
-                  break;
-                case "Expresion_surprise":
-                  return ("#E68714")
-                  break;
-                case "Expresion_sad":
-                   return ("#33AAFF")
-                  break;
-                case "Expresion_happy":
-                    return ("#FFCE36")
-                   break;
-                case "Expresion_neutral":
-                  return ("#FFFFFF")
-                   break;
-            }
-    
-           }) 
-        .attr("stroke-width", d => d.weigth);
+        const nodo = 
+        g.selectAll("path.pie")
+        .data(function(d) {
+          return pie(d.acumulate_posture)
+        }) 
 
-        //console.log(props.data.channel)
-    
-      }, [props.data]);
+        .join("path")
+        .attr('class', 'pie')
+        .attr("fill", function (d, i) {
+          return mycolors[i];
+      })
+        .attr("d", arc(25));
+            
+          }, [props.data]);
     
       return (<svg ref={areaChart}> 
       <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
@@ -209,4 +175,4 @@ import fear from "../../Utilities/fear.png";
     };
 
 
-export default NetworkExpGraph;
+export default NetworkGraph;

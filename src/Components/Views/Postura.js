@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import NetworkGraph from './../Graphs/NetworkGraph.js'
-import NetworkGraph2 from './../Graphs/NetworkGraph2'
 import NetworkPostGraph from './../Graphs/NetworkPostGraph'
-import PostureGraph from './../Graphs/PostureGraph'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import Grid from "@mui/material/Grid";
 
 import socketIOClient from 'socket.io-client';
 const ENDPOINT = 'http://192.168.1.13:200/postura';
@@ -27,11 +25,9 @@ const style = {
 
 const Postura = () => {
   const [data, updateData] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const [modalData, setModalData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
+  const handleClose = () => setSelectedItem(null); 
 
   const tick = () => {
     setFinaldata(data)
@@ -51,37 +47,39 @@ const Postura = () => {
 
   
    useEffect(() => {
-     
-
     socket.on('SendMetrics', msg => {
       updateData(msg.data.devices);
       //console.log(msg.data.devices)
       
   }); 
   
-    
+  return () => {
+    updateData({}); // This worked for me
+  };
   }, []); 
   return (
     <div >
- 
-     {data.map(canales => (   
-
+ <Grid container justifyContent="center" m={1}>
+     {data.map((canales,i) => (   
+      <Grid  sx= {{border: "2px solid red"}}item xs={2.3}  mr={6} key={i} >
      <><Button onClick={()=> {
-      setModalData(canales);
-      setOpen(true);
-    }}> {/* <FinalGraph data = {canales}> </FinalGraph> */}  <PostureGraph data = {canales}></PostureGraph>    </Button><Modal
-       open={open}
+      setSelectedItem(i);
+    }}> <NetworkPostGraph data = {canales}></NetworkPostGraph> </Button><Modal
+       open={selectedItem === i}
        onClose={handleClose}
        aria-labelledby="modal-modal-title"
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
-       <NetworkPostGraph data = {modalData}> </NetworkPostGraph>
+       <NetworkPostGraph data = {canales}> </NetworkPostGraph>
        </Box>
      </Modal>
      
      </>
+     </Grid>
                                 ))}  
+     </Grid>
+
                         
     </div>
   );
