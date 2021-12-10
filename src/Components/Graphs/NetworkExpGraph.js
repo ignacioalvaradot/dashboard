@@ -7,7 +7,7 @@ import surprise from "../../Utilities/surprise.png";
 import neutral from "../../Utilities/neutral.png";
 import disgust from "../../Utilities/disgust.png";
 import fear from "../../Utilities/fear.png";
-
+import Box from '@mui/material/Box';
 
   const NetworkExpGraph = props => {
     const areaChart = useRef()
@@ -168,7 +168,9 @@ import fear from "../../Utilities/fear.png";
     
       }, [props.data]);
     
-      return (<svg ref={areaChart}> 
+      return (
+        <Box   sx= {{border: "2px solid red", width: dimensions.width, height:dimensions.height }} >
+      <svg ref={areaChart}> 
       <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
       <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
@@ -205,7 +207,9 @@ import fear from "../../Utilities/fear.png";
     </pattern>
     </defs>
   </g> 
-      </svg>);
+      </svg>
+      </Box>
+      );
     };
 
 

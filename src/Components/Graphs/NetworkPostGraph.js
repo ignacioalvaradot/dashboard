@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import Box from '@mui/material/Box';
 
   const NetworkPostGraph = props => {
     const areaChart = useRef(null);
@@ -89,10 +90,14 @@ import * as d3 from "d3";
             
           }, [props.data]);
     
-      return (<svg ref={areaChart}> 
+      return (
+        <Box   sx= {{border: "2px solid red", width: dimensions.width, height:dimensions.height }} >
+      <svg ref={areaChart}> 
       <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
   </g> 
-      </svg>);
+      </svg>
+      </Box>
+      );
     };
 
 

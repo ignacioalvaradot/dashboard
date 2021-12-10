@@ -65,7 +65,7 @@ const Habla = () => {
     <div >
  <Grid container justifyContent="center" m={1}>
      {data.map((canales,i) => (   
-      <Grid  sx= {{border: "2px solid red"}}item xs={2.3}  mr={6} key={i} >
+      <Grid item xs={2.3}  mr={6} my = {3} key={i} >
      <><Button onClick={()=> {
       setSelectedItem(i);
       
@@ -80,12 +80,15 @@ const Habla = () => {
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
+       
        <PieChart data = {canales} 
-          width={200}
-          height={200}
+          width={270}
+          height={270}
           innerRadius={0}
           outerRadius={100} > </PieChart>
+         
        </Box>
+       
      </Modal>
      </>
      </Grid>

@@ -61,7 +61,7 @@ const Postura = () => {
     <div >
  <Grid container justifyContent="center" m={1}>
      {data.map((canales,i) => (   
-      <Grid  sx= {{border: "2px solid red"}}item xs={2.3}  mr={6} key={i} >
+      <Grid item xs={2.3}  mr={6} my = {3} key={i} >
      <><Button onClick={()=> {
       setSelectedItem(i);
     }}> <NetworkPostGraph data = {canales}></NetworkPostGraph> </Button><Modal

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import Box from '@mui/material/Box';
 
 const Pie = props => {
   const ref = useRef(null);
@@ -49,12 +50,14 @@ const Pie = props => {
   }, [props.data]);
 
   return (
+    <Box  sx= {{border: "2px solid red", width: props.width, height:props.height }} >
     <svg width={props.width} height={props.height}>
       <g
         ref={ref}
         transform={`translate(${props.width/2},${props.height/2})`}
       />
     </svg>
+    </Box>
   );
 };
 

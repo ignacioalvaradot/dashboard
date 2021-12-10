@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import { width } from "@mui/system";
+import Box from '@mui/material/Box';
 
   const NetworkGraph = props => {
     const areaChart = useRef()
@@ -121,7 +121,9 @@ import { width } from "@mui/system";
     
       }, [props.data]);
     
-      return (<svg ref={areaChart}> 
+      return (
+        <Box  sx= {{border: "2px solid red", width: dimensions.width, height:dimensions.height }} >
+      <svg ref={areaChart}> 
       <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
       <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
@@ -131,7 +133,9 @@ import { width } from "@mui/system";
     </marker>
     </defs>
   </g> 
-      </svg>);
+      </svg>
+      </Box>
+      );
     };
 
 

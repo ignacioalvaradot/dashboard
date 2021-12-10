@@ -3,10 +3,11 @@ import AppRouter from './Components/Routes/AppRouter';
 
 function App() {
   return (
+    <div style={{backgroundColor:'#F7F8FC'}}>
     <Router>
         <AppRouter />
     </Router>
-
+</div>
   );
 }
 

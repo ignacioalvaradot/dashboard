@@ -65,8 +65,9 @@ const Multimetrica = () => {
     <div >
 <Grid container justifyContent="center" m={1}>
      {dataHabla.map((canales,i) => (   
-      <Grid  sx= {{border: "2px solid red"}}item xs={2.3}  mr={6} key={i} >
-     <><Button onClick={()=> {
+       
+      <Grid item xs={2.3}  mr={6} my = {3} key={i} >
+     <><Button  onClick={()=> {
       setSelectedItem(i);
     }}>  <NetworkMultiGraph data = {canales} > </NetworkMultiGraph> </Button><Modal
        open={selectedItem === i}
@@ -75,7 +76,7 @@ const Multimetrica = () => {
        aria-describedby="modal-modal-description"
      >
        <Box sx={style} >
-     <NetworkGraph2 data={canales}></NetworkGraph2>
+     <NetworkMultiGraph data={canales}></NetworkMultiGraph>
        </Box>
      </Modal>
      

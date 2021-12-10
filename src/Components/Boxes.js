@@ -9,9 +9,10 @@ const style = {
     fontSize: "13px",
     border: "2px solid red",
     color: "inherit",
+    backgroundColor: "white",
     paddingBlock: "5%",
     justifyContent: "flex-start",
-    fontFamily: "Roboto",
+    fontFamily: "Verdana",
   },
   styleH2: {
     textAlign: "center",
@@ -21,7 +22,7 @@ const style = {
     paddingBlock: "5%",
     margin: "1px",
     width: "100%",
-    fontFamily: 'Roboto',
+    fontFamily: 'Verdana',
   },
 };
 
@@ -30,7 +31,7 @@ const Boxes = () => {
     <div>
       <Grid container justifyContent="center" m={1}>
         <Grid item xs={2.3} px={5} py={2}>
-          <h2 style={style.styleH2}>Multimetrica</h2>
+          <h2 style={style.styleH2}>Multimétrica</h2>
         
           <Button sx = {style.styleBox} component={RouterLink} to="/">
           Experimento: <br/>
@@ -57,8 +58,8 @@ const Boxes = () => {
         <Grid item xs={2.3} px={5} py={2}>
           <h2 style={style.styleH2}>Expresiones</h2>
           <Button sx = {style.styleBox} component={RouterLink} to="/Expresiones">
-          Mas simetria <br/>
-          Menos simetria<br/>
+          Mas simetria: <br/>
+          Menos simetria:<br/>
           </Button>
         </Grid>
 
