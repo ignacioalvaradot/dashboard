@@ -169,8 +169,8 @@ import Box from '@mui/material/Box';
       }, [props.data]);
     
       return (
-        <Box   sx= {{border: "2px solid red", width: dimensions.width, height:dimensions.height }} >
-      <svg ref={areaChart}> 
+        <Box   sx= {{border: "2px solid red",borderRadius: "10px",width: dimensions.width, height:dimensions.height }} >
+      <svg style={{borderRadius: "10px"}} ref={areaChart}> 
       <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
       <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
