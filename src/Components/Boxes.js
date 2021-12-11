@@ -7,7 +7,6 @@ import "./fonts.css";
 const style = {
   styleBox: {
     width: "100%",
-    fontSize: "13px",
     border: "2px solid red",
     backgroundColor: "white",
     paddingBlock: "5%",

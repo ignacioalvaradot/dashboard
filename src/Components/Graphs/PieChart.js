@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 
-const Pie = props => {
+const Pie = (props) => {
   const ref = useRef(null);
   const createPie = d3
     .pie()
-    .value(d => d.numeroInterv)
+    .value((d) => d.numeroInterv)
     .sort(null);
   const createArc = d3
     .arc()
@@ -36,7 +36,7 @@ const Pie = props => {
       .attr("d", createArc)
       .attr("fill", (d, i) => colors(i));
 
-/*     const text = groupWithUpdate
+    /*     const text = groupWithUpdate
       .append("text")
       .merge(groupWithData.select("text"));
 
@@ -50,13 +50,24 @@ const Pie = props => {
   }, [props.data]);
 
   return (
-    <Box  sx= {{border: "2px solid red", width: props.width, height:props.height }} >
-    <svg width={props.width} height={props.height}>
-      <g
-        ref={ref}
-        transform={`translate(${props.width/2},${props.height/2})`}
-      />
-    </svg>
+    <Box
+      sx={{
+        border: "2px solid red",
+        borderRadius: "10px",
+        width: props.width,
+        height: props.height,
+      }}
+    >
+      <svg
+        style={{ borderRadius: "10px" }}
+        width={props.width}
+        height={props.height}
+      >
+        <g
+          ref={ref}
+          transform={`translate(${props.width / 2},${props.height / 2})`}
+        />
+      </svg>
     </Box>
   );
 };

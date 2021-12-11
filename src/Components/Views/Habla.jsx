@@ -25,6 +25,22 @@ const style = {
   p: 4,
 };
 
+const style2 = {
+  width: "100%",
+  fontSize: "18px",
+  backgroundColor: "white",
+  paddingBlock: "5%",
+  justifyContent: "flex-start",
+  color: "black",
+  fontWeight: "normal",
+  margin: "0px",
+  fontFamily: "Roboto",
+  fontStyle: "normal",
+  lineHeight: "21px",
+  letterSpacing: "0.2em",
+  textTransform: "uppercase",
+};
+
 const Habla = () => {
   const [data, updateData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
@@ -82,6 +98,7 @@ const Habla = () => {
                 aria-describedby="modal-modal-description"
               >
                 <Box sx={style}>
+                  <div style={style2}> Gráfico detallado habla </div>
                   <PieChart
                     data={canales}
                     width={270}
