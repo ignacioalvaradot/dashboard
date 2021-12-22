@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import NetworkGraph2 from "./../Graphs/NetworkGraph2";
 import NetworkSpeechGraph from "./../Graphs/NetworkSpeechGraph";
 import PieChart from "./../Graphs/PieChart";
+import MultilineGraph from "./../Graphs/MultilineGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
-
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://192.168.1.12:200/tiempohabla";
+
+const ENDPOINT = "http://192.168.1.13:200/tiempohabla";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
@@ -106,8 +107,8 @@ const Habla = () => {
                     innerRadius={0}
                     outerRadius={100}
                   >
-                    {" "}
                   </PieChart>
+                  <MultilineGraph data={canales}></MultilineGraph>
                 </Box>
               </Modal>
             </Grid>

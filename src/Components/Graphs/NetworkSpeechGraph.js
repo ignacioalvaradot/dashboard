@@ -141,8 +141,21 @@ const NetworkGraph = (props) => {
       //.attr("d", function(d) { return drawBend(d3.select( '#name' + d.source).attr('cx'), d3.select( '#name' + d.source ).attr('cy'), d3.select( '#name' + d.target ).attr('cx') , d3.select( '#name' + d.target).attr('cy') , bend, aLen, aWidth, sArrow, eArrow, startRadius, endRadius)})
       .attr("stroke-width", (d) => d.weigth)
       .attr("marker-end", "url(#arrow)");
+    
 
-    /* const triangle = svg
+  /*     var g_arrow = svg
+      .select(".arrow")
+      .selectAll("g.arrow")
+      .data(props.data.channel)
+      .join("g")
+      .attr("class", "arrow")
+      .attr("transform", function(d,i) { 
+        // return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(0))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(0))}) rotate(90, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` 
+           return triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy'))  
+       
+       }); */
+
+    const triangle = svg
         .select('.chart')
         .selectAll('path.triangle')
         .data(props.data.channel)
@@ -150,13 +163,22 @@ const NetworkGraph = (props) => {
         .attr('class', 'triangle')
         .attr("d", d3.symbol().type(d3.symbolTriangle))
         .attr("transform", function(d,i) { 
-         // return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(0))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(0))}) rotate(90, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` 
+        // return `rotate(180, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` 
+        //return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(180))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(190))}) rotate(90)` 
             return triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy'))  
-        
         })
-        .style("fill", "black");  */
+        /*  .transition()
+        .delay(100)
+        .duration(100)
+        .attrTween("transform", function(d,i) { 
+          return d3.interpolateString(`rotate(0, 2.0665914735611585e-14, 67.5)`,`rotate(180, 2.0665914735611585e-14, 67.5)`);
+          })
+          */
+      
+       
+        .style("fill", "black"); 
 
-    // triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
+    triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
 
     console.log(props.data.trace_delta);
   }, [props.data]);
@@ -177,6 +199,11 @@ const NetworkGraph = (props) => {
             dimensions.height / 2
           })`}
         >
+          <g
+          className="arrow"
+        >
+          
+
           <defs>
             <marker
               id="arrow"
@@ -190,6 +217,7 @@ const NetworkGraph = (props) => {
               <path d="M 0 0 L 10 5 L 0 10 z" />
             </marker>
           </defs>
+          </g>
         </g>
       </svg>
     </Box>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import NetworkExpGraph from "./../Graphs/NetworkExpGraph";
+import SpiderGraph from "./../Graphs/SpiderGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://192.168.1.12:200/expresiones";
+const ENDPOINT = "http://192.168.1.13:200/expresiones";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
@@ -95,7 +96,7 @@ const Expresion = () => {
               >
                 <Box sx={style}>
                   <div style={style2}> Gráfico detallado expresión</div>
-                  <NetworkExpGraph data={canales}> </NetworkExpGraph>
+                  <SpiderGraph data={canales}> </SpiderGraph>
                 </Box>
               </Modal>
             </Grid>

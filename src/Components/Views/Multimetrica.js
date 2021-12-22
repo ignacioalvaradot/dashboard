@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://192.168.1.12:200/multimetrica";
+const ENDPOINT = "http://192.168.1.13:200/multimetrica";
 
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],

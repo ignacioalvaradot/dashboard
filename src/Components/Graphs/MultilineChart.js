@@ -14,7 +14,7 @@ const data = [
 
 const MultilineChart = () => {
 const areaChart = useRef()
-const dimensions = {width:800, height:400}
+const dimensions = {width:270, height:270}
 
   useEffect(() => {
     const svg = d3.select(areaChart.current)
