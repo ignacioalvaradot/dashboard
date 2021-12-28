@@ -3,13 +3,14 @@ import NetworkGraph2 from "./../Graphs/NetworkGraph2";
 import NetworkSpeechGraph from "./../Graphs/NetworkSpeechGraph";
 import PieChart from "./../Graphs/PieChart";
 import MultilineGraph from "./../Graphs/MultilineGraph";
+import StackedBarChart from "./../Graphs/StackedBarChart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://192.168.1.13:200/tiempohabla";
+const ENDPOINT = "http://192.168.1.6:200/tiempohabla";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
@@ -19,7 +20,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -100,15 +101,23 @@ const Habla = () => {
               >
                 <Box sx={style}>
                   <div style={style2}> Gráfico detallado habla </div>
+                  <Grid container spacing={7}>
+                  <Grid item xs={5}px={5} py={2}>
                   <PieChart
                     data={canales}
                     width={270}
                     height={270}
                     innerRadius={0}
                     outerRadius={100}
-                  >
+                  > 
                   </PieChart>
-                  <MultilineGraph data={canales}></MultilineGraph>
+                  </Grid> 
+                  {/* <Grid item xs={4}  px={6} py={2}>
+                  <MultilineGraph data={canales}></MultilineGraph></Grid> */}
+                   <Grid item xs={5}  px={5} py={2}>
+                  <StackedBarChart></StackedBarChart></Grid> 
+                  </Grid>
+                  
                 </Box>
               </Modal>
             </Grid>

@@ -180,7 +180,7 @@ const NetworkGraph = (props) => {
 
     triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
 
-    console.log(props.data.trace_delta);
+    
   }, [props.data]);
 
   return (
