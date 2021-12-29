@@ -9,6 +9,7 @@ import * as d3 from "d3";
     const [interv,setInterv] = useState([]);
     const color = d3.scaleOrdinal(d3.schemeCategory10);
     var margin = {top: 10, right: 30, bottom: 30, left: 60}
+    
       useEffect(() => {
         setInterv([])
         props.data.channel.map((canales, i) => (
@@ -34,10 +35,9 @@ import * as d3 from "d3";
        const yScale = d3.scaleLinear()
        //.domain([0,dimensions.height])
        //.range([dimensions.height,0]);
-       
        .domain([minN ,maxX + 1])
-       
        .range([dimensions.height,0])
+       //.range([dimensions.height - margin.bottom, margin.top])
        .nice();
 
 

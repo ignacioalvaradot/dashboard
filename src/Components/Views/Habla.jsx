@@ -112,10 +112,10 @@ const Habla = () => {
                   > 
                   </PieChart>
                   </Grid> 
-                  {/* <Grid item xs={4}  px={6} py={2}>
-                  <MultilineGraph data={canales}></MultilineGraph></Grid> */}
-                   <Grid item xs={5}  px={5} py={2}>
-                  <StackedBarChart></StackedBarChart></Grid> 
+                  {/*  <Grid item xs={4}  px={6} py={2}>
+                  <MultilineGraph data={canales}></MultilineGraph></Grid>  */}
+                    <Grid item xs={5}  px={5} py={2}>
+                  <StackedBarChart data={canales}></StackedBarChart></Grid>  
                   </Grid>
                   
                 </Box>
