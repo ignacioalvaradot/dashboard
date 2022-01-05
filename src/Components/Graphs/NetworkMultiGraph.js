@@ -35,10 +35,7 @@ import Box from '@mui/material/Box';
        .attr("transform",function(_,i) { 
        
       return `translate(${(dimensions.width/4)*Math.cos(2 * Math.PI * ((i/ props.data.channel.length)+ 0.75))}, ${(dimensions.height/4)*Math.sin(2 * Math.PI * ((i/ props.data.channel.length) + 0.75)) })`});
-  
-      
-        
-
+   
         const nodosImagenes = 
         svg
         .select('.chart')
@@ -102,12 +99,8 @@ import Box from '@mui/material/Box';
           return "M" + d3.select( '#name' + d.source ).attr('cx') + "," + d3.select( '#name' + d.source ).attr('cy') + "A" + dr + "," + dr + " 0 0,1 " + d3.select( '#name' + d.target ).attr('cx') + "," + d3.select( '#name' + d.target ).attr('cy')
           })
           .attr("d", function(d) {
- 
-            // length of current path
             var pl = this.getTotalLength(),
-              // radius of circle plus backoff
               r = (12) + 25,
-              // position close to where path intercepts circle
               m = this.getPointAtLength(pl - r);
         
             var dx = m.x - d3.select( '#name' + d.source ).attr('cx'),
@@ -116,7 +109,6 @@ import Box from '@mui/material/Box';
         
             return "M" + d3.select( '#name' + d.source ).attr('cx') + "," + d3.select( '#name' + d.source ).attr('cy') + "A" + dr + "," + dr + " 0 0,1 " + m.x + "," + m.y;
           }) 
-        //.attr("d", function(d) { return drawBend(d3.select( '#name' + d.source).attr('cx'), d3.select( '#name' + d.source ).attr('cy'), d3.select( '#name' + d.target ).attr('cx') , d3.select( '#name' + d.target).attr('cy') , bend, aLen, aWidth, sArrow, eArrow, startRadius, endRadius)})
         .attr("stroke-width", d => d.weigth)
         .attr("marker-end", "url(#arrow)");
 

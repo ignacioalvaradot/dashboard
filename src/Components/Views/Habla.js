@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import NetworkGraph2 from "./../Graphs/NetworkGraph2";
-import NetworkSpeechGraph from "./../Graphs/NetworkSpeechGraph";
-import PieChart from "./../Graphs/PieChart";
-import MultilineGraph from "./../Graphs/MultilineGraph";
-import StackedBarChart from "./../Graphs/StackedBarChart";
+import NetworkSpeechGraph from "../Graphs/NetworkSpeechGraph";
+import PieChart from "../Graphs/PieChart";
+import MultilineGraph from "../Graphs/MultilineGraph";
+import StackedBarChart from "../Graphs/StackedBarChart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://192.168.1.6:200/tiempohabla";
+const ENDPOINT = "http://192.168.1.11:200/tiempohabla";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
@@ -55,7 +54,6 @@ const Habla = () => {
 
   useEffect(() => {
     const interval = setInterval(tick, 4000);
-    //console.log("data final",finaldata)
     return () => {
       clearInterval(interval);
     };
@@ -64,10 +62,9 @@ const Habla = () => {
   useEffect(() => {
     socket.on("SendMetrics", (msg) => {
       updateData(msg.data.devices);
-      //console.log(msg.data.devices)
     });
     return () => {
-      updateData({}); // This worked for me
+      updateData({}); 
     };
   }, []);
   return (
@@ -112,10 +109,10 @@ const Habla = () => {
                   > 
                   </PieChart>
                   </Grid> 
-                  {/*  <Grid item xs={4}  px={6} py={2}>
-                  <MultilineGraph data={canales}></MultilineGraph></Grid>  */}
-                    <Grid item xs={5}  px={5} py={2}>
-                  <StackedBarChart data={canales}></StackedBarChart></Grid>  
+                     <Grid item xs={4}  px={6} py={2}>
+                  <MultilineGraph data={canales}></MultilineGraph></Grid>  
+                     {/* <Grid item xs={5}  px={5} py={2}>
+                  <StackedBarChart data={canales}></StackedBarChart></Grid>    */}
                   </Grid>
                   
                 </Box>

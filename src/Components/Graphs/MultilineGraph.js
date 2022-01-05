@@ -5,19 +5,51 @@ import * as d3 from "d3";
   const MultilineGraph = props => {
     const areaChart = useRef()
     const dimensions = {width:270, height:270}
-    const [data] = useState ([25,26,2,21,10,23])
     const [interv,setInterv] = useState([]);
+    const [interv2,setInterv2] = useState([]);
+    const [interv3,setInterv3] = useState([]);
+    const [interv4,setInterv4] = useState([]);
+    const [interv5,setInterv5] = useState([]);
+    const [interv6,setInterv6] = useState([]);
+    const [tick, setTick] = useState([0]);
     const color = d3.scaleOrdinal(d3.schemeCategory10);
     var margin = {top: 10, right: 30, bottom: 30, left: 60}
+
+    const ticks = () => {
+      setTick(currentData => [...currentData,tick.slice(-1)[0]+ 1]);
+    };
+
+    useEffect(() => {
+      const interval = setInterval(ticks, 1000);
+      //console.log(tick)
+      return () => {
+        clearInterval(interval);
+      };
+      
+    }, [tick]);
     
       useEffect(() => {
         setInterv([])
+        setInterv6([])
         props.data.channel.map((canales, i) => (
+
           canales.acumulateInterv.map((inte) =>
           setInterv(currentData => [...currentData,inte])
           )
           //setInterv(currentData => [...currentData,canales.acumulateInterv])
         ));
+
+        /* props.data.channel.map((canales, i) => (
+        setInterv2(currentData => [...currentData,canales.numeroInterv])
+          //setInterv(currentData => [...currentData,canales.acumulateInterv])
+        )); */
+
+        setInterv2(currentData => [...currentData, props.data.channel[0].numeroInterv])
+        setInterv3(currentData => [...currentData, props.data.channel[1].numeroInterv])
+        setInterv4(currentData => [...currentData, props.data.channel[2].numeroInterv])
+        setInterv5(currentData => [...currentData, props.data.channel[3].numeroInterv])
+
+        setInterv6(currentData => [...currentData, interv2,interv3,interv4,interv5])
       
         var maxX = d3.max(interv, function(d,i) { return d;});
         var minN = d3.min(interv, function(d,i) { return d;});
@@ -28,17 +60,19 @@ import * as d3 from "d3";
        .style('background-color','white') 
 
        const xScale = d3.scaleLinear()
-       .domain([0,data.length - 1])
+       .domain(d3.extent(tick))
        //.nice()
        .range([0,dimensions.width]);
 
        const yScale = d3.scaleLinear()
-       //.domain([0,dimensions.height])
-       //.range([dimensions.height,0]);
-       .domain([minN ,maxX + 1])
        .range([dimensions.height,0])
+       .domain(d3.extent(interv));
+       //.domain([minN ,maxX]);
+       //.nice();
+       //.range([dimensions.height,0]);
+       //.domain([minN ,maxX])
        //.range([dimensions.height - margin.bottom, margin.top])
-       .nice();
+       
 
 
        const generateScaledLine = d3.line()
@@ -47,11 +81,13 @@ import * as d3 from "d3";
        //.curve(d3.curveCardinal);
 
        const xAxis = d3.axisBottom(xScale)
-       .ticks(data.length)
-       .tickFormat(i => i + 1 );
+       .ticks(5);
+      // .tickFormat(i => i + 1 );
 
        const yAxis = d3.axisLeft(yScale)
-       .ticks(5);
+       .tickValues(yScale.domain());
+       //.ticks(5);
+       //.tickFormat(i => i + 1 );
 
        svg.select(".xScale")
        .call(xAxis);
@@ -67,7 +103,8 @@ import * as d3 from "d3";
 
        const group = svg
        .selectAll("g.lines")
-       .data(props.data.channel)  
+      // .data(props.data.channel)  
+       .data(interv6) 
        .join("g")
        .attr("class", "lines")
        .attr("stroke", (d, i) => color(i))
@@ -75,20 +112,30 @@ import * as d3 from "d3";
 
        const Lines = group
        .selectAll("path.line")
-       .data(function(d) {
+       /* .data(function(d) {
         return  [d.acumulateInterv]
-      })
-      //.data([data])
+      }) */
+      .data(function(d) {
+        return  [d]
+      }) 
+      //.data([interv6])
        .join("path")
        .attr('class', 'line')
        .attr('d', d=> generateScaledLine(d))
+      /*  .attr("d", function(d){
+        return d3.line()
+          .x(function(d) { return xScale(d); })
+          .y(function(d) { return yScale(+d); })
+          
+      }) */
        .attr('fill', 'none');
        
        //console.log(props.data.channel[0].acumulateInterv)
-       //console.log(interv)
-       console.log(maxX)
-       console.log(minN)
-       
+      //console.log(interv)
+      // console.log(maxX)
+      // console.log(minN)
+      console.log(interv6)
+      
 
     
       }, [props.data]);

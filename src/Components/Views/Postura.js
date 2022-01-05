@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://192.168.1.13:200/postura";
+const ENDPOINT = "http://192.168.1.11:200/postura";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
@@ -50,7 +50,6 @@ const Postura = () => {
 
   useEffect(() => {
     const interval = setInterval(tick, 4000);
-    //console.log("data final",finaldata)
     return () => {
       clearInterval(interval);
     };
@@ -59,11 +58,10 @@ const Postura = () => {
   useEffect(() => {
     socket.on("SendMetrics", (msg) => {
       updateData(msg.data.devices);
-      //console.log(msg.data.devices)
     });
 
     return () => {
-      updateData({}); // This worked for me
+      updateData({});
     };
   }, []);
   return (

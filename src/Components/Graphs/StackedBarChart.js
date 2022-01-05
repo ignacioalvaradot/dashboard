@@ -9,8 +9,6 @@ import {
   max
 } from "d3";
 
-
-  
   const keys = ["totalTimeEfectv", "totalTimeSilenc"];
   
   const colors = {
@@ -40,7 +38,6 @@ import {
     const yScale = scaleLinear().domain([0,100]).range([height, 0]);
 
     const xScale = scaleBand()
-      //.domain(data.map((d) => d.name))
       .domain(timeInt.map((d,i) => "S"+ i ))
       .range([0, width])
       .padding(0.46);
@@ -66,7 +63,6 @@ import {
       .selectAll("rect")
       .data((layer) => layer)
       .join("rect")
-      //.attr("x", (sequence,i) => xScale(sequence.data.name))
       .attr("x", (sequence,i) => xScale("S"+i))
       .attr("width", xScale.bandwidth())
       .attr("y", (sequence) => yScale(sequence[1]))

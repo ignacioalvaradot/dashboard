@@ -92,17 +92,13 @@ const group = svg .select('.chart')
 
 const area = group
 .selectAll('path.area')
-//.data([getPathCoordinates(props.data.channel[0].acumulate_expresion)])
 .data(function(d) {
   return  [getPathCoordinates(d.acumulate_expresion)]
 }) 
 .join('path')
 .attr('class', 'area')
-//.datum(d => getPathCoordinates(d))
 .attr("d", line)
 .attr("stroke-width", 1)
-/* .attr("stroke", (d, i) => color(i))
-.attr("fill", (d, i) => color(i)) */
 .attr("stroke-opacity", 1)
 .attr("opacity", 0.5); 
 

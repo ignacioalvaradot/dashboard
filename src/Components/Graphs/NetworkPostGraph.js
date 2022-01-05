@@ -52,7 +52,6 @@ const NetworkPostGraph = (props) => {
       .join("path")
       .attr("class", "line")
       .style("fill-opacity", 0)
-      //.attr('stroke','black')
       .attr("d", function (d) {
         var dx =
             (dimensions.width / 4) *
@@ -101,11 +100,8 @@ const NetworkPostGraph = (props) => {
         );
       })
       .attr("d", function (d) {
-        // length of current path
         var pl = this.getTotalLength(),
-          // radius of circle plus backoff
           r = 20,
-          // position close to where path intercepts circle
           m = this.getPointAtLength(pl - r);
 
         var dx =

@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import Box from "@mui/material/Box";
+import resize from "./useResizeObserver";
 
 const NetworkGraph = (props) => {
   const areaChart = useRef();
   const dimensions = { width: 270, height: 270 };
+  //const dimensions= resize(areaChart);
 
   function triangleposition(cx, cy) {
     var TriangleX = cx - 30 * Math.sin(0);
@@ -34,11 +36,7 @@ const NetworkGraph = (props) => {
       .attr("id", function (d, i) {
         return "name" + i;
       })
-      // .attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")")
-      //.attr("fill", "orange")
       .style("fill", "orange")
-      //    .attr("stroke", "#008000")
-      //  .attr("stroke-width", "6")
       .attr("stroke-opacity", 0)
       .raise()
       .attr("cx", function (d, i) {
@@ -68,7 +66,6 @@ const NetworkGraph = (props) => {
       })
       .attr("r", (d) => d.numeroInterv);
 
-    //var Str = svg.selectAll("circles")
     const linea = svg
       .select(".chart")
       .selectAll("path.line")
@@ -77,13 +74,6 @@ const NetworkGraph = (props) => {
       .attr("class", "line")
       .style("fill-opacity", 0)
       .attr("stroke", "black")
-      //.attr("id",function(d,i) { return d3.select( '#name' + i ).attr('id') } )
-      /*  .attr("transform", "translate("+dimensions.width/2 + "," + dimensions.height/2 + ")") 
-        .attr("x1", function(d,i) { return d3.select( '#name' + d.source ).attr('cx') })
-        .attr("y1", function(d) { return d3.select( '#name' + d.source ).attr('cy') })
-        .attr("x2", function(d) { return d3.select( '#name' + d.target ).attr('cx') })
-        .attr("y2", function(d) { return d3.select( '#name' + d.target ).attr('cy') }) */
-
       .attr("d", function (d) {
         var dx =
             d3.select("#name" + d.target).attr("cx") -
@@ -109,14 +99,10 @@ const NetworkGraph = (props) => {
           "," +
           d3.select("#name" + d.target).attr("cy")
         );
-        //return "M" + d3.select( '#name' + d.source ).attr('cx') + "," + d3.select( '#name' + d.source ).attr('cy')+ "L" + (d3.select( '#name' + d.target ).attr('cx') - offsetX) + "," + (d3.select( '#name' + d.target ).attr('cy') - offsetY);
       })
       .attr("d", function (d) {
-        // length of current path
         var pl = this.getTotalLength(),
-          // radius of circle plus backoff
           r = 12 + 20,
-          // position close to where path intercepts circle
           m = this.getPointAtLength(pl - r);
 
         var dx = m.x - d3.select("#name" + d.source).attr("cx"),
@@ -138,24 +124,11 @@ const NetworkGraph = (props) => {
           m.y
         );
       })
-      //.attr("d", function(d) { return drawBend(d3.select( '#name' + d.source).attr('cx'), d3.select( '#name' + d.source ).attr('cy'), d3.select( '#name' + d.target ).attr('cx') , d3.select( '#name' + d.target).attr('cy') , bend, aLen, aWidth, sArrow, eArrow, startRadius, endRadius)})
       .attr("stroke-width", (d) => d.weigth)
       .attr("marker-end", "url(#arrow)");
     
 
-  /*     var g_arrow = svg
-      .select(".arrow")
-      .selectAll("g.arrow")
-      .data(props.data.channel)
-      .join("g")
-      .attr("class", "arrow")
-      .attr("transform", function(d,i) { 
-        // return `translate(${d3.select( '#name' + i ).attr('cx')  - ((30) * Math.sin(0))}, ${d3.select( '#name' + i).attr('cy') - ((30) * Math.cos(0))}) rotate(90, ${d3.select( '#name' + i ).attr('cx')}, ${d3.select( '#name' + i ).attr('cy')})` 
-           return triangleposition(d3.select( '#name' + i ).attr('cx') , d3.select( '#name' + i).attr('cy'))  
-       
-       }); */
-
-    const triangle = svg
+/*     const triangle = svg
         .select('.chart')
         .selectAll('path.triangle')
         .data(props.data.channel)
@@ -173,14 +146,14 @@ const NetworkGraph = (props) => {
         .attrTween("transform", function(d,i) { 
           return d3.interpolateString(`rotate(0, 2.0665914735611585e-14, 67.5)`,`rotate(180, 2.0665914735611585e-14, 67.5)`);
           })
-          */
+          
       
        
         .style("fill", "black"); 
 
-    triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))});
+    triangle.transition().delay(0).duration(500).attrTween("transform", function (d,i) { return tween(d3.select( '#name' + i ).attr('cx'), d3.select( '#name' + i ).attr('cy'))}); */
 
-    
+    //console.log(dimension)
   }, [props.data]);
 
   return (

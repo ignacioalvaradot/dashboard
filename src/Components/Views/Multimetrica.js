@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NetworkGraph2 from "./../Graphs/NetworkGraph2";
 import NetworkMultiGraph from "./../Graphs/NetworkMultiGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://192.168.1.13:200/multimetrica";
+const ENDPOINT = "http://192.168.1.11:200/multimetrica";
 
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
@@ -53,7 +52,6 @@ const Multimetrica = () => {
 
   useEffect(() => {
     const interval = setInterval(tick, 4000);
-    //console.log("data final",finaldata)
     return () => {
       clearInterval(interval);
     };
@@ -61,9 +59,7 @@ const Multimetrica = () => {
 
   useEffect(() => {
     socket.on("SendMetrics", (msg) => {
-      //el devices es para acceder a cada dispositivo por grupo y el channel define a cada integrante del devices/grupo
       updateDataHabla(msg.data.devices);
-      // console.log(msg.data.devices)
     });
   }, []);
 

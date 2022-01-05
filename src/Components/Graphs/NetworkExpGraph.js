@@ -28,8 +28,6 @@ import Box from '@mui/material/Box';
         .data(props.data.channel)
         .join("circle")
         .attr("id", function(_,i){return 'name' + i}  ) 
-        //.attr("fill", "url(#image)")
-        //.attr("style", "fill:url(#image)")
         .style("fill", function (d) {
 
         switch (d.valor) {
@@ -113,7 +111,6 @@ import Box from '@mui/material/Box';
         .join('path')
         .attr('class', 'line')
         .style("fill-opacity",0)
-        //.attr('stroke','black')
         .attr("d", function(d) {
           var dx = d3.select( '#name' + d.target ).attr('cx')  - d3.select( '#name' + d.source ).attr('cx'),
               dy = d3.select( '#name' + d.target ).attr('cy') - d3.select( '#name' + d.source ).attr('cy'),
@@ -121,12 +118,8 @@ import Box from '@mui/material/Box';
           return "M" + d3.select( '#name' + d.source ).attr('cx') + "," + d3.select( '#name' + d.source ).attr('cy') + "A" + dr + "," + dr + " 0 0,1 " + d3.select( '#name' + d.target ).attr('cx') + "," + d3.select( '#name' + d.target ).attr('cy')
           })
           .attr("d", function(d) {
-
-            // length of current path
             var pl = this.getTotalLength(),
-              // radius of circle plus backoff
               r = (20),
-              // position close to where path intercepts circle
               m = this.getPointAtLength(pl - r);
         
             var dx = m.x - d3.select( '#name' + d.source ).attr('cx'),
@@ -162,10 +155,7 @@ import Box from '@mui/material/Box';
             }
     
            }) 
-        .attr("stroke-width", d => d.weigth);
-
-        //console.log(props.data.channel)
-    
+        .attr("stroke-width", d => d.weigth);    
       }, [props.data]);
     
       return (
