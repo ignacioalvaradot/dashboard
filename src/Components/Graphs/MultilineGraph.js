@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-
+var elements = [[],[],[],[]]
   const MultilineGraph = props => {
     const areaChart = useRef()
     const dimensions = {width:270, height:270}
@@ -12,6 +12,7 @@ import * as d3 from "d3";
     const [interv5,setInterv5] = useState([]);
     const [interv6,setInterv6] = useState([]);
     const [tick, setTick] = useState([0]);
+    
     const color = d3.scaleOrdinal(d3.schemeCategory10);
     var margin = {top: 10, right: 30, bottom: 30, left: 60}
 
@@ -31,6 +32,9 @@ import * as d3 from "d3";
       useEffect(() => {
         setInterv([])
         setInterv6([])
+
+        var limits =[]
+       
         props.data.channel.map((canales, i) => (
 
           canales.acumulateInterv.map((inte) =>
@@ -38,6 +42,15 @@ import * as d3 from "d3";
           )
           //setInterv(currentData => [...currentData,canales.acumulateInterv])
         ));
+
+        props.data.channel.map((canales, i) => (
+          //elements[i] = [canales.numeroInterv]
+          elements[i].push(canales.numeroInterv)
+          ));
+
+          props.data.channel.map((canales, i) => (
+            limits[i] = canales.numeroInterv
+            ));
 
         /* props.data.channel.map((canales, i) => (
         setInterv2(currentData => [...currentData,canales.numeroInterv])
@@ -51,8 +64,10 @@ import * as d3 from "d3";
 
         setInterv6(currentData => [...currentData, interv2,interv3,interv4,interv5])
       
-        var maxX = d3.max(interv, function(d,i) { return d;});
-        var minN = d3.min(interv, function(d,i) { return d;});
+       // var maxX = d3.max(interv, function(d,i) { return d;});
+        //var minN = d3.min(interv, function(d,i) { return d;});
+        var maxX = d3.max(limits, function(d,i) { return d;});
+        var minN = d3.min(limits, function(d,i) { return d;});
         const svg = d3.select(areaChart.current)
         .attr('width', dimensions.width )
        .attr('height', dimensions.height)
@@ -66,8 +81,9 @@ import * as d3 from "d3";
 
        const yScale = d3.scaleLinear()
        .range([dimensions.height,0])
-       .domain(d3.extent(interv));
-       //.domain([minN ,maxX]);
+       //.domain(d3.extent(interv));
+       //.domain(d3.extent(limits));
+       .domain([0 ,maxX]);
        //.nice();
        //.range([dimensions.height,0]);
        //.domain([minN ,maxX])
@@ -104,7 +120,8 @@ import * as d3 from "d3";
        const group = svg
        .selectAll("g.lines")
       // .data(props.data.channel)  
-       .data(interv6) 
+       //.data(interv6)
+       .data(elements) 
        .join("g")
        .attr("class", "lines")
        .attr("stroke", (d, i) => color(i))
@@ -134,8 +151,9 @@ import * as d3 from "d3";
       //console.log(interv)
       // console.log(maxX)
       // console.log(minN)
-      console.log(interv6)
-      
+      //console.log(interv6)
+     // console.log(elements)
+      console.log(limits)
 
     
       }, [props.data]);

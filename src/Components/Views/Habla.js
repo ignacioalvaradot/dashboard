@@ -3,6 +3,7 @@ import NetworkSpeechGraph from "../Graphs/NetworkSpeechGraph";
 import PieChart from "../Graphs/PieChart";
 import MultilineGraph from "../Graphs/MultilineGraph";
 import StackedBarChart from "../Graphs/StackedBarChart";
+import NestedpieChart from "../Graphs/NestedpieChart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -53,7 +54,7 @@ const Habla = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(tick, 4000);
+    const interval = setInterval(tick, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -68,13 +69,14 @@ const Habla = () => {
     };
   }, []);
   return (
-    <div>
-      <Grid container justifyContent="center" m={1}>
-        {data.map((canales, i) => (
-          <>
+    <div >
+      <Grid container justifyContent="center" m={1} >
+        {finaldata.map((canales, i) => (
+          <div key={i}>
+          
             <Grid item xs={2.3} mr={6} key={i}>
               <h2
-                style={{ textAlign: "center", width: "100%", margin: "14px" }}
+                style={{ textAlign: "center", width: "100%", marginLeft: "100px"}}
               >
                 {" "}
                 Grupo {i + 1}
@@ -109,16 +111,20 @@ const Habla = () => {
                   > 
                   </PieChart>
                   </Grid> 
-                     <Grid item xs={4}  px={6} py={2}>
-                  <MultilineGraph data={canales}></MultilineGraph></Grid>  
-                     {/* <Grid item xs={5}  px={5} py={2}>
-                  <StackedBarChart data={canales}></StackedBarChart></Grid>    */}
+                    {/*  <Grid item xs={4}  px={6} py={2}>
+                  <MultilineGraph data={canales}></MultilineGraph></Grid>   */}
+                       <Grid item xs={5}  px={5} py={2}>
+                  <StackedBarChart data={canales}></StackedBarChart></Grid>  
+
+                   {/* <Grid item xs={5}  px={5} py={2}>
+                  <NestedpieChart data={canales}></NestedpieChart></Grid>     */} 
                   </Grid>
                   
                 </Box>
               </Modal>
             </Grid>
-          </>
+          
+          </div>
         ))}
       </Grid>
     </div>
