@@ -9,11 +9,31 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
+import Slider from '@mui/material/Slider';
+import CircleIcon from '@mui/icons-material/Circle';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
 
-const ENDPOINT = "http://192.168.1.11:200/tiempohabla";
+const ENDPOINT = "http://192.168.1.14:200/tiempohabla";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
+
+const theme = createTheme({
+  palette: {
+    directo: {
+      // Purple and green play nicely together.
+      main: '#aa2e25',
+    },
+    retrocede: {
+      // This is green.A700 as hex.
+      main: '#757575',
+    },
+  },
+});
+
 
 const style = {
   position: "absolute",
@@ -43,18 +63,42 @@ const style2 = {
   textTransform: "uppercase",
 };
 
+var datas = [];
+
 const Habla = () => {
   const [data, updateData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
+  const [slidedata, setSlidedata] = useState([]);
+  const [value, setValue] = useState(0);
+  const [estado, setEstado] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const [colorButton, setColorButton] = useState("directo");
   const handleClose = () => setSelectedItem(null);
 
+  const slideChange = (event, newValue) => {
+    setValue(newValue);
+    setSlidedata(datas[value])
+    setEstado(true)
+    setColorButton("retrocede")
+    console.log(value)
+    console.log(slidedata)
+
+  };
+
   const tick = () => {
+    datas.push(data)
     setFinaldata(data);
+    if (estado == false){
+    setValue(datas.length);
+    setSlidedata(datas[value])
+    }
+    //console.log(datas)
   };
 
   useEffect(() => {
     const interval = setInterval(tick, 1000);
+    //setValue(value + 1);
+    //setSlidedata(datas[value])
     return () => {
       clearInterval(interval);
     };
@@ -63,6 +107,7 @@ const Habla = () => {
   useEffect(() => {
     socket.on("SendMetrics", (msg) => {
       updateData(msg.data.devices);
+      //datas.push(msg.data.devices)
     });
     return () => {
       updateData({}); 
@@ -70,63 +115,86 @@ const Habla = () => {
   }, []);
   return (
     <div >
-      <Grid container justifyContent="center" m={1} >
-        {finaldata.map((canales, i) => (
-          <div key={i}>
-          
-            <Grid item xs={2.3} mr={6} key={i}>
-              <h2
-                style={{ textAlign: "center", width: "100%", marginLeft: "100px"}}
-              >
-                {" "}
-                Grupo {i + 1}
-              </h2>
-              <div style={{ textAlign: "center" }}>
-                <Button
-                  sx={{ width: "270px", height: "270px" }}
-                  onClick={() => {
-                    setSelectedItem(i);
-                  }}
-                >
-                  {" "}
-                  <NetworkSpeechGraph data={canales}> </NetworkSpeechGraph>{" "}
-                </Button>
-              </div>
-              <Modal
-                open={selectedItem === i}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <div style={style2}> Gráfico detallado habla </div>
-                  <Grid container spacing={7}>
-                  <Grid item xs={5}px={5} py={2}>
-                  <PieChart
-                    data={canales}
-                    width={270}
-                    height={270}
-                    innerRadius={0}
-                    outerRadius={100}
-                  > 
-                  </PieChart>
-                  </Grid> 
-                    {/*  <Grid item xs={4}  px={6} py={2}>
-                  <MultilineGraph data={canales}></MultilineGraph></Grid>   */}
-                       <Grid item xs={5}  px={5} py={2}>
-                  <StackedBarChart data={canales}></StackedBarChart></Grid>  
+    <Grid container justifyContent="center" m={1} >
+     <Grid container justifyContent="center" m={1}>
+        <Box  width={700} >
+      <Slider aria-label="Volume" value={value} onChange={slideChange} max={(datas.length) - 1} /> 
+      
+    </Box>
+    <Box ml = {3}>
+    <ThemeProvider theme={theme}>
+    <Button onClick={() => (setEstado(false), setColorButton("directo"))} variant="outlined" startIcon={<CircleIcon />} color={colorButton}> En directo</Button>
+    </ThemeProvider>
+    </Box>
+    
+    <IconButton color="primary">
+    <PlayArrowIcon />
+</IconButton>
 
-                   {/* <Grid item xs={5}  px={5} py={2}>
-                  <NestedpieChart data={canales}></NestedpieChart></Grid>     */} 
-                  </Grid>
-                  
-                </Box>
-              </Modal>
-            </Grid>
-          
+<IconButton color="primary" onClick={() => (setEstado(true), setSlidedata(datas[value]))}>
+    <PauseIcon />
+</IconButton>
+
+    </Grid>
+    {slidedata &&
+    slidedata.map((canales, i) => (
+      <div key={i}>
+      
+        <Grid item xs={2.3} mr={6} key={i}>
+          <h2
+            style={{ textAlign: "center", width: "100%", marginLeft: "100px"}}
+          >
+            {" "}
+            Grupo {i + 1}
+          </h2>
+          <div style={{ textAlign: "center" }}>
+            <Button
+              sx={{ width: "270px", height: "270px" }}
+              onClick={() => {
+                setSelectedItem(i);
+              }}
+            >
+              {" "}
+              <NetworkSpeechGraph data={canales}> </NetworkSpeechGraph>{" "}
+            </Button>
           </div>
-        ))}
-      </Grid>
+          <Modal
+            open={selectedItem === i}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <div style={style2}> Gráfico detallado habla </div>
+              <Grid container spacing={7}>
+              <Grid item xs={5}px={5} py={2}>
+              <PieChart
+                data={canales}
+                width={270}
+                height={270}
+                innerRadius={0}
+                outerRadius={100}
+              > 
+              </PieChart>
+              </Grid> 
+                {/*  <Grid item xs={4}  px={6} py={2}>
+              <MultilineGraph data={canales}></MultilineGraph></Grid>   */}
+                   <Grid item xs={5}  px={5} py={2}>
+              <StackedBarChart data={canales}></StackedBarChart></Grid>  
+
+               {/* <Grid item xs={5}  px={5} py={2}>
+              <NestedpieChart data={canales}></NestedpieChart></Grid>     */} 
+              </Grid>
+              
+            </Box>
+          </Modal>
+        </Grid>
+      
+      </div>
+    ))}
+    
+  </Grid>
+
     </div>
   );
 };
