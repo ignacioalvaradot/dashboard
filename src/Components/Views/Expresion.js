@@ -7,7 +7,7 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://192.168.1.11:200/expresiones";
+const ENDPOINT = "http://192.168.1.2:200/expresiones";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });

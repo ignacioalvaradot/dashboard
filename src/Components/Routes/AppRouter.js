@@ -9,8 +9,10 @@ import Multimetrica from "./../Views/Multimetrica.js"
 import Expresion from "./../Views/Expresion"
 import Habla from "./../Views/Habla"
 import Posturas from "./../Views/Postura"
+import Socket from "./../Socket"
 
 export default function AppRouter() {
+  Socket()
     return (
 <Layout>
         <Routes>

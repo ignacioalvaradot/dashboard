@@ -15,8 +15,10 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
+import {useDispatch, useSelector} from 'react-redux'
+import {obtenerMetricasAccion} from '../../redux/metricasDucks'
 
-const ENDPOINT = "http://192.168.1.14:200/tiempohabla";
+const ENDPOINT = "http://192.168.1.2:200/tiempohabla";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
@@ -66,6 +68,8 @@ const style2 = {
 var datas = [];
 
 const Habla = () => {
+  const dispatch = useDispatch()
+  const metricasHabla = useSelector(store => store.metricaHabla.array)
   const [data, updateData] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
   const [slidedata, setSlidedata] = useState([]);
@@ -86,7 +90,7 @@ const Habla = () => {
   };
 
   const tick = () => {
-    datas.push(data)
+    //datas.push(data)
     setFinaldata(data);
     if (estado == false){
     setValue(datas.length);
@@ -105,9 +109,11 @@ const Habla = () => {
   }, [finaldata]);
 
   useEffect(() => {
+    
     socket.on("SendMetrics", (msg) => {
       updateData(msg.data.devices);
-      //datas.push(msg.data.devices)
+      //dispatch(obtenerMetricasAccion(msg.data.devices))
+      datas.push(msg.data.devices)
     });
     return () => {
       updateData({}); 

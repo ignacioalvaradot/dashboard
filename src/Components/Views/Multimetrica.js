@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://192.168.1.11:200/multimetrica";
+const ENDPOINT = "http://192.168.1.2:200/multimetrica";
 
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
@@ -44,6 +44,7 @@ const Multimetrica = () => {
   const [dataHabla, updateDataHabla] = useState([]);
   const [finaldata, setFinaldata] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
+  const [dataMmexp, setDataMmexp] = useState("no hay datos");
   const handleClose = () => setSelectedItem(null);
 
   const tick = () => {
@@ -56,6 +57,22 @@ const Multimetrica = () => {
       clearInterval(interval);
     };
   }, [finaldata]);
+
+  useEffect(() => {
+    window.addEventListener('message', function(e) {
+      if (e.origin == 'http://localhost'){
+        setDataMmexp(JSON.stringify(e.data))
+        console.log(dataMmexp)
+    }
+  }, false);
+  }, []);
+
+  useEffect(() => {
+    if (window.opener){
+        window.opener.postMessage('open', 'http://localhost')
+    }
+  }, []);
+
 
   useEffect(() => {
     socket.on("SendMetrics", (msg) => {
