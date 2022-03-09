@@ -1,10 +1,11 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 
-import hablaReducer from './metricasDucks'
+import {hablaReducer, dataExpReducer} from './metricasDucks'
 
 const rootReducer = combineReducers({
-    metricaHabla: hablaReducer
+    metricaHabla: hablaReducer,
+    DatosExp: dataExpReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

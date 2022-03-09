@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
+import {useSelector} from 'react-redux'
 import {
   select,
   scaleBand,
@@ -17,28 +18,43 @@ import {
     totalTimeSilenc: "#25DBFD"
   };
 
- const StackedBarChart = props  => {
+ const StackedBarChart = ({data,grupos})  => {
   const svgRef = useRef();
   const wrapperRef = useRef();
+  const dataExp = useSelector(store => store.DatosExp.array)
 
   useEffect(() => {
     var time =[]
-
-        props.data.channel.map((canales, i) => (
+    var promEfectv = 0
+    var promSilenc = 0
+    var stacks =[]
+        data.channel.map((canales, i) => (
+          //time[i] = {"totalTimeEfectv":canales.totalTimeEfectv, "totalTimeSilenc":canales.totalTimeSilenc}
           time[i] = {"totalTimeEfectv":canales.totalTimeEfectv, "totalTimeSilenc":canales.totalTimeSilenc}
           ));
+    time.map((data) => (
+    promEfectv = promEfectv + data.totalTimeEfectv,
+    promSilenc = promSilenc + data.totalTimeSilenc
+    ));
+
+    data.channel.map((canales, i) => (
+      stacks[i] = {"totalTimeEfectv": ((canales.totalTimeEfectv/promEfectv) * 100), "totalTimeSilenc":((canales.totalTimeSilenc/promSilenc) * 100)}
+      //console.log(stacks[i])
+      ));
+
+    //console.log(promEfectv, promSilenc)
     const svg = select(svgRef.current);
     const { width, height } = wrapperRef.current.getBoundingClientRect();
     const stackGenerator = stack().keys(keys);
-    const layers = stackGenerator(time);
+    const layers = stackGenerator(stacks);
     const extent = [
       0,
       max(layers, (layer) => max(layer, (sequence) => sequence[1]))
     ];
-    const yScale = scaleLinear().domain([0,100]).range([height, 0]);
+    const yScale = scaleLinear().domain([0,200]).range([height, 0]);
 
     const xScale = scaleBand()
-      .domain(time.map((d,i) => "S"+ i ))
+      .domain(time.map((d,i) => dataExp.fase[dataExp.experimento.faseActiva].idGrupos[grupos].participantes[i].descripcion ))
       .range([0, width])
       .padding(0.46);
 
@@ -63,13 +79,15 @@ import {
       .selectAll("rect")
       .data((layer) => layer)
       .join("rect")
-      .attr("x", (sequence,i) => xScale("S"+i))
+      .attr("x", (sequence,i) => xScale(dataExp.fase[dataExp.experimento.faseActiva].idGrupos[grupos].participantes[i].descripcion))
       .attr("width", xScale.bandwidth())
       .attr("y", (sequence) => yScale(sequence[1]))
       .attr("height", (sequence) => yScale(sequence[0]) - yScale(sequence[1]));
 
-      console.log("arreglo: ",time)
-  }, [props.data]);
+      //console.log(dataExp.fase[dataExp.experimento.faseActiva].idGrupos[grupos].participantes)
+
+      //console.log("arreglo: ",time)
+  }, [data]);
 
   return (
     <>

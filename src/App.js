@@ -10,7 +10,7 @@ function App() {
   return (
     <div
       style={{
-        backgroundColor: "#F7F8FC",
+        backgroundColor: "#f5f5f5",
         overflow: "hidden",
         paddingBlockEnd: "45px",
       }}

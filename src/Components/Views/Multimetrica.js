@@ -5,13 +5,15 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import socketIOClient from "socket.io-client";
+import {useDispatch} from 'react-redux';
+import {obtenerDatosExperimentoAccion} from '../../redux/metricasDucks';
 
-const ENDPOINT = "http://192.168.1.2:200/multimetrica";
+/* const ENDPOINT = "http://dnsdiegomiranda.ddns.net/Report";
 
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
 });
-
+ */
 const style = {
   position: "absolute",
   top: "50%",
@@ -46,6 +48,7 @@ const Multimetrica = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [dataMmexp, setDataMmexp] = useState("no hay datos");
   const handleClose = () => setSelectedItem(null);
+  const dispatch = useDispatch()
 
   const tick = () => {
     setFinaldata(dataHabla);
@@ -62,6 +65,7 @@ const Multimetrica = () => {
     window.addEventListener('message', function(e) {
       if (e.origin == 'http://localhost'){
         setDataMmexp(JSON.stringify(e.data))
+        dispatch(obtenerDatosExperimentoAccion(e.data))
         console.log(dataMmexp)
     }
   }, false);
@@ -74,15 +78,16 @@ const Multimetrica = () => {
   }, []);
 
 
-  useEffect(() => {
+  /* useEffect(() => {
     socket.on("SendMetrics", (msg) => {
       updateDataHabla(msg.data.devices);
     });
-  }, []);
+  }, []); */
 
   return (
     <div>
       <Grid container justifyContent="center" m={1}>
+        {/* <h1>{dataMmexp}</h1> */}
         {dataHabla.map((canales, i) => (
           <>
             <Grid item xs={2.3} mr={6} key={i}>

@@ -7,10 +7,10 @@ import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://192.168.1.2:200/expresiones";
+/* const ENDPOINT = "http://dnsdiegomiranda.ddns.net/Report";
 const socket = socketIOClient(ENDPOINT, {
   transports: ["websocket", "polling"],
-});
+}); */
 
 const style = {
   position: "absolute",
@@ -56,14 +56,14 @@ const Expresion = () => {
     };
   }, [finaldata]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     socket.on("SendMetrics", (msg) => {
       updateData(msg.data.devices);
     });
     return () => {
       updateData({});
     };
-  }, []);
+  }, []); */
   return (
     <div>
       <Grid container justifyContent="center" m={1}>
