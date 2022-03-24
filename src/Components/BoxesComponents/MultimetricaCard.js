@@ -128,7 +128,7 @@ export const MultimetricaCard = ({ data }) => (
         }}
       >
         <Button component={RouterLink} to="/" variant="outlined">
-          Ir al detalle de multimetrica
+          ver más
         </Button>
       </Grid>
     </CardContent>

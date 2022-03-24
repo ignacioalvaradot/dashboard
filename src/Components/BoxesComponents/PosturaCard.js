@@ -144,7 +144,7 @@ export const PosturaCard = (props) => (
         }}
       >
         <Button component={RouterLink} to="/posturas" variant="outlined">
-          Ir al detalle de postura
+          Ver más
         </Button>
       </Grid>
     </CardContent>

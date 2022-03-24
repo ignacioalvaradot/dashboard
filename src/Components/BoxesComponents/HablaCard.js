@@ -167,7 +167,7 @@ export const HablaCard = ({ data }) => (
         }}
       >
         <Button component={RouterLink} to="/habla" variant="outlined">
-          Ir al detalle del habla
+          Ver más
         </Button>
       </Grid>
     </CardContent>

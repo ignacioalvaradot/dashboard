@@ -22,20 +22,24 @@ import DoublePieChart from "../Graphs/DoublePieChart";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
+import { red } from "@mui/material/colors";
 import "../fonts.css";
 
 const theme = createTheme({
   palette: {
     directo: {
-      // Purple and green play nicely together.
       main: "#aa2e25",
     },
     retrocede: {
-      // This is green.A700 as hex.
       main: "#757575",
     },
   },
 });
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(red[500]),
+  backgroundColor: red[500],
+}));
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip placement="right" {...props} classes={{ popper: className }} />
@@ -54,8 +58,9 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
-  bgcolor: "background.paper",
+  width: 1000,
+  //bgcolor: "background.paper",
+  backgroundColor: "#f5f5f5",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
@@ -64,7 +69,6 @@ const style = {
 const style2 = {
   width: "100%",
   fontSize: "18px",
-  backgroundColor: "white",
   paddingBlock: "2%",
   justifyContent: "flex-start",
   color: "black",
@@ -147,20 +151,22 @@ const Habla = () => {
                 max={metricasHabla.length}
                 sx={{
                   color: "#ffff",
+                  marginTop: "5px",
                 }}
               />
             </Box>
             <Box ml={3}>
               <ThemeProvider theme={theme}>
-                <Button
+                <ColorButton
                   onClick={() => (setEstado(false), setColorButton("directo"))}
-                  variant="outlined"
+                  variant="contained"
                   startIcon={<CircleIcon />}
                   color={colorButton}
+                  backgroundColor={"#ffff"}
                 >
                   {" "}
                   En directo
-                </Button>
+                </ColorButton>
               </ThemeProvider>
             </Box>
 
@@ -176,13 +182,15 @@ const Habla = () => {
               sx={{
                 color: "#ffff",
               }}
-              onClick={() => (setEstado(true), setSlidedata(datas[value]))}
+              onClick={() => (
+                setEstado(true), setSlidedata(metricasHabla[value - 1])
+              )}
             >
               <PauseIcon />
             </IconButton>
           </Grid>
         </Box>
-        <Grid container justifyContent="flex-start" m={1} mb={9}>
+        <Grid container justifyContent="flex-start" m={1} mt={4} mb={5}>
           <Box sx={style3} mr={2}>
             {" "}
             Gráficos de actividad vocal
@@ -218,7 +226,12 @@ const Habla = () => {
                     }}
                   >
                     <Paper
-                      sx={{ p: 2, display: "flex", flexDirection: "column" }}
+                      sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        borderRadius: "8px",
+                      }}
                     >
                       <Typography
                         component="h2"
@@ -247,28 +260,107 @@ const Habla = () => {
                       </IconButton>
                     </Box>
                     <div style={style2}> Gráfico detallado habla </div>
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{ textAlign: "center", marginBottom: "8px" }}>
                       <ModalLegend data={i}></ModalLegend>
                     </div>
-                    <Grid container spacing={7}>
-                      <Grid item xs={5} px={5} py={2}>
-                        <DoublePieChart
-                          data={canales}
-                          width={270}
-                          height={270}
-                          innerRadius={55}
-                          outerRadius={100}
-                          grupos={i}
-                        ></DoublePieChart>
+                    <Grid container spacing={6}>
+                      <Grid item xs={4} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <DoublePieChart
+                            data={canales}
+                            width={270}
+                            height={270}
+                            innerRadius={55}
+                            outerRadius={100}
+                            grupos={i}
+                          ></DoublePieChart>
+                        </Paper>
                       </Grid>
 
-                      {/* <Grid item xs={4}  px={6} py={2}>
-              <MultilineGraph data={canales}></MultilineGraph></Grid>  */}
-                      <Grid item xs={5} px={5} py={2}>
-                        <StackedBarChart
-                          data={canales}
-                          grupos={i}
-                        ></StackedBarChart>
+                      <Grid item xs={4} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            pl: 4,
+                            pb: 4,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <MultilineGraph data={canales}></MultilineGraph>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={4} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <StackedBarChart
+                            data={canales}
+                            grupos={i}
+                          ></StackedBarChart>
+                        </Paper>
                       </Grid>
                     </Grid>
                   </Box>

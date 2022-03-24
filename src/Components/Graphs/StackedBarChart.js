@@ -10,6 +10,7 @@ import {
   stack,
   max,
 } from "d3";
+import * as d3 from "d3";
 
 const keys = ["totalTimeEfectv", "totalTimeSilenc"];
 
@@ -17,6 +18,14 @@ const colors = {
   totalTimeEfectv: "#008000",
   totalTimeSilenc: "#25DBFD",
 };
+
+/* const colors = {
+  totalTimeEfectv: "#008000",
+  totalTimeSilenc: "#25DBFD",
+}; */
+
+//const color = d3.scaleOrdinal(["#2499EF", "#FF9777", "#FF6B93", "#6BD098"]);
+const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
 
 const StackedBarChart = ({ data, grupos }) => {
   const svgRef = useRef();
@@ -54,7 +63,7 @@ const StackedBarChart = ({ data, grupos }) => {
       //console.log(stacks[i])
     );
 
-    //console.log(promEfectv, promSilenc)
+    //console.log(promEfectv, promSilenc);
     const svg = select(svgRef.current);
     const { width, height } = wrapperRef.current.getBoundingClientRect();
     const stackGenerator = stack().keys(keys);
@@ -77,9 +86,9 @@ const StackedBarChart = ({ data, grupos }) => {
 
     svg
       .select(".x-axis")
-      .attr("transform", `translate(20, ${height}) `)
+      .attr("transform", `translate(25, ${height + 10}) `)
       .call(xAix);
-    svg.select(".y-axis").attr("transform", `translate(${20}, 0 )`).call(yAix);
+    svg.select(".y-axis").attr("transform", `translate(${25}, 10 )`).call(yAix);
 
     svg
       .selectAll(".layer")
@@ -90,36 +99,36 @@ const StackedBarChart = ({ data, grupos }) => {
       .selectAll("rect")
       .data((layer) => layer)
       .join("rect")
-      .attr("x", (sequence, i) => xScale(nombres[order[i]]) + 20)
+      .attr("stroke", (d, i) => color[order[i]])
+      .attr("stroke-width", "2")
+      .attr("x", (sequence, i) => xScale(nombres[order[i]]) + 25)
       .attr("width", xScale.bandwidth())
-      .attr("y", (sequence) => yScale(sequence[1]))
+      .attr("y", (sequence) => yScale(sequence[1]) + 10)
       .attr("height", (sequence) => yScale(sequence[0]) - yScale(sequence[1]));
+    /* .on("mouseover", function (d, i) {
+        d3.select(this).attr("fill", d3.color("blue").brighter(100));
+      })
+      .on("mouseout", function () {
+        d3.select(this).attr("fill", (layer) => colors[layer.key]);
+      }); */
 
     //console.log(dataExp.fase[dataExp.experimento.faseActiva].idGrupos[grupos].participantes)
 
     //console.log("arreglo: ",time)
+    //console.log(stacks[0])
   }, [data]);
 
   return (
     <>
-      <Box
-        sx={{
-          border: "2px solid red",
-          borderRadius: "10px",
-          width: "270px",
-          height: "270px",
-        }}
+      <div
+        ref={wrapperRef}
+        style={{ width: "250px", height: "250px", marginBottom: "2rem" }}
       >
-        <div
-          ref={wrapperRef}
-          style={{ width: "250px", height: "250px", marginBottom: "2rem" }}
-        >
-          <svg ref={svgRef} style={{ width: "100%", height: "110%" }}>
-            <g className="x-axis" />
-            <g className="y-axis" />
-          </svg>
-        </div>
-      </Box>
+        <svg ref={svgRef} style={{ width: "110%", height: "120%" }}>
+          <g className="x-axis" />
+          <g className="y-axis" />
+        </svg>
+      </div>
     </>
   );
 };

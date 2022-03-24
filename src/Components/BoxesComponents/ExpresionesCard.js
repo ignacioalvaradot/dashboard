@@ -144,7 +144,7 @@ export const ExpresionesCard = (props) => (
         }}
       >
         <Button component={RouterLink} to="/expresiones" variant="outlined">
-          Ir al detalle de expresiones
+          Ver más
         </Button>
       </Grid>
     </CardContent>

@@ -13,6 +13,7 @@ const Boxes = () => {
   const metricasHabla = useSelector((store) => store.metricaHabla.array);
   const [value, setValue] = useState(0);
   const [data, setData] = useState([]);
+  const [tickes, setTickes] = useState([0]);
 
   let bubbleSort = (inputArr) => {
     let len = inputArr.length;
@@ -28,9 +29,13 @@ const Boxes = () => {
     return inputArr;
   };
 
+  const ticks = () => {
+    setTickes((currentData) => [...currentData, tickes.slice(-1)[0] + 1]);
+  };
+
   const tick = () => {
     setValue(metricasHabla.length);
-    console.log(value);
+    //console.log(value);
     var promEfectv = 0;
     var stacks = [];
     if (Array.isArray(metricasHabla[value]) && metricasHabla[value].length) {
@@ -49,16 +54,16 @@ const Boxes = () => {
     }
     //console.log(stacks);
     setData(bubbleSort(stacks));
-    console.log(data);
+    //console.log(data);
   };
 
   useEffect(() => {
-    const interval = setInterval(tick, 1000);
+    const interval = setInterval(ticks, 5000);
     tick();
     return () => {
       clearInterval(interval);
     };
-  }, [metricasHabla]);
+  }, [tickes]);
 
   const datosExp = useSelector((store) => store.DatosExp.array);
   return (
