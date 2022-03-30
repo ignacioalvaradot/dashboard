@@ -1,24 +1,71 @@
 import React, { useState, useEffect } from "react";
-import NetworkExpGraph from "./../Graphs/NetworkExpGraph";
-import SpiderGraph from "./../Graphs/SpiderGraph";
+import NetworkExpGraph from "../Graphs/NetworkExpGraph";
+import SpiderGraph from "../Graphs/SpiderGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
+import Slider from "@mui/material/Slider";
+import CircleIcon from "@mui/icons-material/Circle";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import InfoIcon from "@mui/icons-material/Info";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
+import ModalLegend from "../Graphs/ModalLegend";
+import { useSelector } from "react-redux";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import CloseIcon from "@mui/icons-material/Close";
+import { red } from "@mui/material/colors";
+import "../fonts.css";
 
-import socketIOClient from "socket.io-client";
-/* const ENDPOINT = "http://dnsdiegomiranda.ddns.net/Report";
-const socket = socketIOClient(ENDPOINT, {
-  transports: ["websocket", "polling"],
-}); */
+const TinyText = styled(Typography)({
+  fontSize: "0.8rem",
+
+  fontWeight: 500,
+  letterSpacing: 0.2,
+  color: "#ffff",
+});
+
+const theme = createTheme({
+  palette: {
+    directo: {
+      main: "#aa2e25",
+    },
+    retrocede: {
+      main: "#757575",
+    },
+  },
+});
+
+const ColorButton = styled(Button)(({ theme }) => ({
+  color: theme.palette.getContrastText(red[500]),
+  backgroundColor: red[500],
+}));
+
+const HtmlTooltip = styled(({ className, ...props }) => (
+  <Tooltip placement="right" {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: "#f5f5f9",
+    color: "rgba(0, 0, 0, 0.87)",
+    maxWidth: 220,
+    fontSize: theme.typography.pxToRem(12),
+    border: "1px solid #dadde9",
+  },
+}));
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
+  width: 1000,
+  //bgcolor: "background.paper",
+  backgroundColor: "#f5f5f5",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
@@ -27,8 +74,7 @@ const style = {
 const style2 = {
   width: "100%",
   fontSize: "18px",
-  backgroundColor: "white",
-  paddingBlock: "5%",
+  paddingBlock: "2%",
   justifyContent: "flex-start",
   color: "black",
   fontWeight: "normal",
@@ -39,71 +85,250 @@ const style2 = {
   letterSpacing: "0.2em",
   textTransform: "uppercase",
 };
-const Expresion = () => {
-  const [data, updateData] = useState([]);
-  const [finaldata, setFinaldata] = useState([]);
+
+const style3 = {
+  color: "black",
+  fontWeight: "normal",
+  fontFamily: "Roboto",
+  fontStyle: "normal",
+  fontSize: "24px",
+  letterSpacing: "0.1em",
+  textTransform: "none",
+};
+
+var datas = [];
+
+const Habla = () => {
+  const metricasExpresiones = useSelector(
+    (store) => store.metricaHabla.array_expresiones
+  );
+  const [slidedata, setSlidedata] = useState([]);
+  const [value, setValue] = useState(0);
+  const [estado, setEstado] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const [colorButton, setColorButton] = useState("directo");
   const handleClose = () => setSelectedItem(null);
 
+  function formatDuration(value) {
+    const minute = Math.floor(value / 60);
+    const secondLeft = value - minute * 60;
+    return `${minute}:${secondLeft <= 9 ? `0${secondLeft}` : secondLeft}`;
+  }
+
+  const slideChange = (event, newValue) => {
+    setValue(newValue);
+    setSlidedata(metricasExpresiones[value]);
+    setEstado(true);
+    setColorButton("retrocede");
+    console.log(value);
+    console.log(slidedata);
+  };
+
   const tick = () => {
-    setFinaldata(data);
+    //datas.push(data)
+    //setFinaldata(data);
+    if (estado == false) {
+      //setValue(datas.length);
+      setValue(metricasExpresiones.length);
+      setSlidedata(metricasExpresiones[value]);
+    }
+    //console.log(datas)
   };
 
   useEffect(() => {
-    const interval = setInterval(tick, 4000);
+    const interval = setInterval(tick, 1000);
+    //setValue(value + 1);
+    //setSlidedata(datas[value])
+    tick();
+
     return () => {
       clearInterval(interval);
     };
-  }, [finaldata]);
+  }, [metricasExpresiones]);
 
-  /* useEffect(() => {
-    socket.on("SendMetrics", (msg) => {
-      updateData(msg.data.devices);
-    });
-    return () => {
-      updateData({});
-    };
-  }, []); */
   return (
     <div>
       <Grid container justifyContent="center" m={1}>
-        {data.map((canales, i) => (
-          <>
-            <Grid item xs={2.3} mr={6} key={i}>
-              <h2
-                style={{ textAlign: "center", width: "100%", margin: "14px" }}
+        <Box
+          sx={{
+            backgroundColor: "#2499ef",
+            borderRadius: "16px",
+          }}
+        >
+          <Grid container justifyContent="center" m={1} mb={1}>
+            <Box width={700}>
+              <Slider
+                aria-label="Volume"
+                value={value}
+                onChange={slideChange}
+                max={metricasExpresiones.length}
+                sx={{
+                  color: "#ffff",
+                  marginTop: "5px",
+                }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mt: -2,
+                  pt: 1,
+                }}
               >
-                {" "}
-                Grupo {i + 1}
-              </h2>
-              <div style={{ textAlign: "center" }}>
-                <Button
-                  sx={{ width: "270px", height: "270px" }}
-                  onClick={() => {
-                    setSelectedItem(i);
-                  }}
+                <TinyText>{formatDuration(value)}</TinyText>
+                <TinyText>
+                  {formatDuration(metricasExpresiones.length)}
+                </TinyText>
+              </Box>
+            </Box>
+            <Box ml={3}>
+              <ThemeProvider theme={theme}>
+                <ColorButton
+                  onClick={() => (setEstado(false), setColorButton("directo"))}
+                  variant="contained"
+                  startIcon={<CircleIcon />}
+                  color={colorButton}
+                  backgroundColor={"#ffff"}
                 >
                   {" "}
-                  <NetworkExpGraph data={canales}> </NetworkExpGraph>{" "}
-                </Button>{" "}
-              </div>{" "}
-              <Modal
-                open={selectedItem === i}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <div style={style2}> Gráfico detallado expresión</div>
-                  <SpiderGraph data={canales}> </SpiderGraph>
-                </Box>
-              </Modal>
-            </Grid>
-          </>
-        ))}
+                  En directo
+                </ColorButton>
+              </ThemeProvider>
+            </Box>
+
+            <IconButton
+              sx={{
+                color: "#ffff",
+              }}
+            >
+              <PlayArrowIcon />
+            </IconButton>
+
+            <IconButton
+              sx={{
+                color: "#ffff",
+              }}
+              onClick={() => (
+                setEstado(true), setSlidedata(metricasExpresiones[value - 1])
+              )}
+            >
+              <PauseIcon />
+            </IconButton>
+          </Grid>
+        </Box>
+        <Grid container justifyContent="flex-start" m={1} mt={4} mb={5}>
+          <Box sx={style3} mr={2}>
+            {" "}
+            Gráficos de las expresiones
+          </Box>
+          <HtmlTooltip
+            title={
+              <React.Fragment>
+                <Typography color="inherit">
+                  Este es un gráfico de red que busca la relacion entre los
+                  miembros del grupo
+                </Typography>
+              </React.Fragment>
+            }
+          >
+            <IconButton color="primary">
+              <InfoIcon />
+            </IconButton>
+          </HtmlTooltip>
+        </Grid>
+        {slidedata &&
+          slidedata.map((canales, i) => (
+            <div key={i}>
+              <Grid item xs={2.3} mr={6} key={i}>
+                <div style={{ textAlign: "center" }}>
+                  <Button
+                    sx={{
+                      width: "270px",
+                      height: "270px",
+                      textTransform: "none",
+                    }}
+                    onClick={() => {
+                      setSelectedItem(i);
+                    }}
+                  >
+                    <Paper
+                      sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        borderRadius: "8px",
+                      }}
+                    >
+                      <Typography
+                        component="h2"
+                        variant="h6"
+                        color="primary"
+                        gutterBottom
+                      >
+                        Grupo {i + 1}
+                      </Typography>
+                      <NetworkExpGraph
+                        data={canales}
+                        grupos={i}
+                      ></NetworkExpGraph>
+                    </Paper>
+                  </Button>
+                </div>
+                <Modal
+                  open={selectedItem === i}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Box display="flex" justifyContent="flex-end">
+                      <IconButton onClick={handleClose}>
+                        <CloseIcon />
+                      </IconButton>
+                    </Box>
+                    <div style={style2}> Gráfico detallado habla </div>
+                    <div style={{ textAlign: "center", marginBottom: "8px" }}>
+                      <ModalLegend data={i}></ModalLegend>
+                    </div>
+                    <Grid container spacing={6}>
+                      <Grid item xs={4} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <SpiderGraph data={canales}></SpiderGraph>
+                        </Paper>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Modal>
+              </Grid>
+            </div>
+          ))}
       </Grid>
     </div>
   );
 };
 
-export default Expresion;
+export default Habla;

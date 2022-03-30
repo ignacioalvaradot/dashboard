@@ -15,8 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import { useDispatch, useSelector } from "react-redux";
-import { obtenerMetricasAccion } from "../../redux/metricasDucks";
+import { useSelector } from "react-redux";
 import ModalLegend from "../Graphs/ModalLegend";
 import DoublePieChart from "../Graphs/DoublePieChart";
 import Typography from "@mui/material/Typography";
@@ -24,6 +23,14 @@ import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
 import { red } from "@mui/material/colors";
 import "../fonts.css";
+
+const TinyText = styled(Typography)({
+  fontSize: "0.8rem",
+
+  fontWeight: 500,
+  letterSpacing: 0.2,
+  color: "#ffff",
+});
 
 const theme = createTheme({
   palette: {
@@ -102,6 +109,12 @@ const Habla = () => {
   const [colorButton, setColorButton] = useState("directo");
   const handleClose = () => setSelectedItem(null);
 
+  function formatDuration(value) {
+    const minute = Math.floor(value / 60);
+    const secondLeft = value - minute * 60;
+    return `${minute}:${secondLeft <= 9 ? `0${secondLeft}` : secondLeft}`;
+  }
+
   const slideChange = (event, newValue) => {
     setValue(newValue);
     setSlidedata(metricasHabla[value]);
@@ -154,6 +167,18 @@ const Habla = () => {
                   marginTop: "5px",
                 }}
               />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mt: -2,
+                  pt: 1,
+                }}
+              >
+                <TinyText>{formatDuration(value)}</TinyText>
+                <TinyText>{formatDuration(metricasHabla.length)}</TinyText>
+              </Box>
             </Box>
             <Box ml={3}>
               <ThemeProvider theme={theme}>

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import Box from "@mui/material/Box";
+import flecha1 from "../../Utilities/flecha.png";
 
-const NetworkPostGraph = (props) => {
+const NetworkGraph = (props) => {
   const areaChart = useRef(null);
   const dimensions = { width: 270, height: 270 };
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
@@ -31,6 +32,124 @@ const NetworkPostGraph = (props) => {
           Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75))
         }, ${(dimensions.height / 4) * Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))})`;
       });
+    var sym = d3.symbol().type(d3.symbolTriangle).size(200);
+    var angulo = Math.random();
+    const ang = (angulo * 360 * Math.PI) / 180;
+
+    const imagenes = svg
+      .select(".chart")
+      .selectAll("image")
+      .data(props.data.channel)
+      .join("svg:image")
+      .attr("class", "image")
+      .attr("xlink:href", flecha1)
+      .attr("width", "10")
+      .attr("height", "10")
+      .raise()
+      .attr("x", function (d, i) {
+        return (
+          (dimensions.width / 4) *
+            Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75)) +
+          10 * Math.sin(0)
+        );
+      })
+      .attr("y", function (d, i) {
+        return (
+          (dimensions.height / 4) *
+            Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75)) -
+          50 * Math.cos(0)
+        );
+      });
+    var tween = function (angle, i) {
+      return d3.interpolateString(
+        `rotate(0, ${
+          (dimensions.width / 4) *
+          Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        }, ${
+          (dimensions.height / 4) *
+          Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        }`,
+        `rotate(${angle},${
+          (dimensions.width / 4) *
+          Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        }, ${
+          (dimensions.height / 4) *
+          Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        })`
+      );
+    };
+    imagenes
+      .transition()
+      .duration(200)
+      .attrTween("transform", (d, i) => tween(d.faceAngle, i));
+    /* 
+    const flecha = g
+
+      .selectAll("g.image")
+      .data(function (d) {
+        return [d.faceAngle];
+      })
+      .join("g")
+      .attr("class", "image")
+      .attr("transform", function (d, i) {
+        return `translate(${
+          (dimensions.width / 8) * Math.cos(2 * Math.PI * 0.75) +
+          90 * Math.sin(0)
+        }, ${(dimensions.height / 8) * Math.sin(2 * Math.PI * 0.75) - 90 * Math.cos(0)})`;
+      });
+
+    const inside = flecha
+      .selectAll("g.inside")
+      .data(function (d) {
+        return [d.faceAngle];
+      })
+      .join("g")
+      .attr("class", "inside");
+
+    const imagen = flecha
+      .selectAll("image")
+      .data(function (d) {
+        return [d.faceAngle];
+      })
+      .join("svg:image")
+      .attr("xlink:href", "#flecha1"); */
+
+    /* .attr("transform", function (d, i) {
+        return `translate(${
+          (dimensions.width / 8) * Math.cos(2 * Math.PI * 0.75)
+        }, ${(dimensions.height / 8) * Math.sin(2 * Math.PI * 0.75)})`;
+      }) */
+    /* const flechas = inside
+      .selectAll("path.arrow")
+      .data(function (d) {
+        return [d];
+      })
+      .join("path")
+      .attr("class", "arrow")
+      .attr("d", sym);
+    //.attr("marker-end", "url(#arrow)")
+    var tween = function (d, i, a) {
+      return d3.interpolateString(
+        `rotate(0, ${
+          (dimensions.width / 4) *
+          Math.cos(2 * Math.PI * (0 / props.data.channel.length + 0.75))
+        }, ${
+          (dimensions.height / 4) *
+          Math.sin(2 * Math.PI * (0 / props.data.channel.length + 0.75))
+        }`,
+        `rotate(0,${
+          (dimensions.width / 4) *
+          Math.cos(2 * Math.PI * (0 / props.data.channel.length + 0.75))
+        }, ${
+          (dimensions.height / 4) *
+          Math.sin(2 * Math.PI * (0 / props.data.channel.length + 0.75))
+        })`
+      );
+    }; */
+    /* var tween = function (d, i, a) {
+      return d3.interpolateString("rotate(0, 0, 0)", "rotate(100, 0, 0)");
+    }; */
+    //inside.transition().duration(200).attrTween("transform", tween);
 
     const nodo = g
       .selectAll("path.pie")
@@ -150,18 +269,51 @@ const NetworkPostGraph = (props) => {
         }
       })
       .attr("stroke-width", 8);
+    //console.log(angulo);
   }, [props.data]);
 
   return (
     <svg style={{ borderRadius: "10px" }} ref={areaChart}>
+      <pattern
+        id="flecha1"
+        width="1"
+        height="1"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <image
+          xlinkHref={flecha1}
+          width="100"
+          height="100"
+          preserveAspectRatio="none"
+        ></image>
+      </pattern>
+      <g className="flechaGroup"></g>
       <g
         className="chart"
         transform={`translate(${dimensions.width / 2} ${
           dimensions.height / 2
         })`}
-      ></g>
+      >
+        <g className="arrow">
+          <defs>
+            <marker
+              id="arrow"
+              viewBox="0 0 10 10"
+              refX="5"
+              refY="5"
+              markerWidth="3"
+              markerHeight="3"
+              orient="auto-start-reverse"
+              fill="#bcbfc4"
+            >
+              <path d="M 0 0 L 10 5 L 0 10 z" />
+            </marker>
+          </defs>
+        </g>
+      </g>
     </svg>
   );
 };
 
-export default NetworkPostGraph;
+export default NetworkGraph;
