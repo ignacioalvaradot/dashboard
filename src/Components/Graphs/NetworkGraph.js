@@ -81,7 +81,13 @@ const NetworkGraph = (props) => {
     imagenes
       .transition()
       .duration(200)
-      .attrTween("transform", (d, i) => tween(d.faceAngle, i));
+      .attrTween("transform", (d, i) => tween(90 * i + 174 + d.faceAngle, i)); // tiene que ser 180 grados .
+    /* .attrTween("transform", (d, i) => {
+        switch (i) {
+          case 0:
+            return tween(d.faceAngle, i);
+            break;
+      }}); */
     /* 
     const flecha = g
 

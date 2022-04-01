@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import Paper from "@mui/material/Paper";
 
 var elements = [];
 const MultilineGraph = (props) => {
@@ -106,6 +105,7 @@ const MultilineGraph = (props) => {
     const xScale = d3
       .scaleLinear()
       .domain(d3.extent(tick))
+      //.domain([0, props.tiempo])
       //.domain([0, 1000])
       //.nice()
       .range([0, dimensions.width]);
@@ -180,6 +180,7 @@ const MultilineGraph = (props) => {
     //console.log(interv6)
     //console.log(elements);
     //console.log(limits);
+    //console.log(props.tiempo);
   }, [props.data]);
 
   return (

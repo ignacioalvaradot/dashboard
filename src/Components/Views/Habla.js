@@ -352,7 +352,10 @@ const Habla = () => {
                               </IconButton>
                             </HtmlTooltip>
                           </Grid>
-                          <MultilineGraph data={canales}></MultilineGraph>
+                          <MultilineGraph
+                            data={canales}
+                            tiempo={metricasHabla.length}
+                          ></MultilineGraph>
                         </Paper>
                       </Grid>
                       <Grid item xs={4} py={2}>

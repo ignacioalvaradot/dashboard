@@ -13,6 +13,7 @@ import {
 import * as d3 from "d3";
 
 const keys = ["totalTimeEfectv", "totalTimeSilenc"];
+const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
 
 const colors = {
   totalTimeEfectv: "#008000",
@@ -25,7 +26,6 @@ const colors = {
 }; */
 
 //const color = d3.scaleOrdinal(["#2499EF", "#FF9777", "#FF6B93", "#6BD098"]);
-const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
 
 const StackedBarChart = ({ data, grupos }) => {
   const svgRef = useRef();
@@ -94,13 +94,17 @@ const StackedBarChart = ({ data, grupos }) => {
       .selectAll(".layer")
       .data(layers)
       .join("g")
-      .attr("class", "layer")
-      .attr("fill", (layer) => colors[layer.key])
+      //.attr("class", "layer")
+      .attr("class", (_, i) => `layer ${i} `)
+      .attr("fill", (layer, i) => colors[layer.key])
       .selectAll("rect")
       .data((layer) => layer)
       .join("rect")
       .attr("stroke", (d, i) => color[order[i]])
       .attr("stroke-width", "2")
+      /* .attr("fill", function (d, i) {
+        return d3.selectAll(".layer 0").attr("fill", color[i]);
+      }) */
       .attr("x", (sequence, i) => xScale(nombres[order[i]]) + 25)
       .attr("width", xScale.bandwidth())
       .attr("y", (sequence) => yScale(sequence[1]) + 10)
