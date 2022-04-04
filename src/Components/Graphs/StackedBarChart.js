@@ -17,7 +17,8 @@ const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
 
 const colors = {
   totalTimeEfectv: "#008000",
-  totalTimeSilenc: "#25DBFD",
+  totalTimeSilenc: "#ffffff",
+  //totalTimeSilenc: "#25DBFD",
 };
 
 /* const colors = {
@@ -94,21 +95,24 @@ const StackedBarChart = ({ data, grupos }) => {
       .selectAll(".layer")
       .data(layers)
       .join("g")
-      //.attr("class", "layer")
-      .attr("class", (_, i) => `layer ${i} `)
+      .attr("class", "layer")
+      .attr("id", (_, i) => `layer${i}`)
       .attr("fill", (layer, i) => colors[layer.key])
       .selectAll("rect")
       .data((layer) => layer)
       .join("rect")
       .attr("stroke", (d, i) => color[order[i]])
       .attr("stroke-width", "2")
-      /* .attr("fill", function (d, i) {
-        return d3.selectAll(".layer 0").attr("fill", color[i]);
-      }) */
       .attr("x", (sequence, i) => xScale(nombres[order[i]]) + 25)
       .attr("width", xScale.bandwidth())
       .attr("y", (sequence) => yScale(sequence[1]) + 10)
       .attr("height", (sequence) => yScale(sequence[0]) - yScale(sequence[1]));
+
+    var layerdata = d3.select("#layer0");
+    var layerrectdata = layerdata.selectAll("rect");
+
+    layerrectdata.attr("fill", (d, i) => color[order[i]]);
+
     /* .on("mouseover", function (d, i) {
         d3.select(this).attr("fill", d3.color("blue").brighter(100));
       })
@@ -116,7 +120,10 @@ const StackedBarChart = ({ data, grupos }) => {
         d3.select(this).attr("fill", (layer) => colors[layer.key]);
       }); */
 
-    //console.log(dataExp.fase[dataExp.experimento.faseActiva].idGrupos[grupos].participantes)
+    /* console.log(
+      dataExp.fase[dataExp.experimento.faseActiva].idGrupos[grupos]
+        .participantes
+    ); */
 
     //console.log("arreglo: ",time)
     //console.log(stacks[0])

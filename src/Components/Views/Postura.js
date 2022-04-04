@@ -268,12 +268,12 @@ const Postura = () => {
                       >
                         Grupo {i + 1}
                       </Typography>
-                      {/* <NetworkPostGraph data={canales} grupos={i}>
+                      <NetworkPostGraph data={canales} grupos={i}>
                         {" "}
-                      </NetworkPostGraph> */}
-                      <NetworkGraph data={canales} grupos={i}>
+                      </NetworkPostGraph>
+                      {/* <NetworkGraph data={canales} grupos={i}>
                         {" "}
-                      </NetworkGraph>
+                      </NetworkGraph> */}
                     </Paper>
                   </Button>
                 </div>

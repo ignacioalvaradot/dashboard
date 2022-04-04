@@ -108,7 +108,7 @@ const MultilineGraph = (props) => {
       //.domain([0, props.tiempo])
       //.domain([0, 1000])
       //.nice()
-      .range([0, dimensions.width]);
+      .range([0, dimensions.width - margin.right]);
 
     const yScale = d3
       .scaleLinear()

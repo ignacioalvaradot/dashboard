@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import Box from "@mui/material/Box";
+import flecha1 from "../../Utilities/flecha.png";
+import { useSelector } from "react-redux";
 
 const NetworkPostGraph = (props) => {
   const areaChart = useRef(null);
   const dimensions = { width: 270, height: 270 };
-  const colors = d3.scaleOrdinal(d3.schemeCategory10);
+  const dataExp = useSelector((store) => store.DatosExp.array);
   var mycolors = ["#FFA500", "#008000"];
 
   useEffect(() => {
@@ -24,6 +25,10 @@ const NetworkPostGraph = (props) => {
       .data(props.data.channel)
       .join("g")
       .attr("class", "arc")
+      .attr("id", function (d, i) {
+        //return "name" + i;
+        return "name" + (d.channelId - 1);
+      })
       .raise()
       .attr("transform", function (_, i) {
         return `translate(${
@@ -32,6 +37,52 @@ const NetworkPostGraph = (props) => {
         }, ${(dimensions.height / 4) * Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))})`;
       });
 
+    const imagenes = svg
+      .select(".chart")
+      .selectAll("image")
+      .data(props.data.channel)
+      .join("svg:image")
+      .attr("class", "image")
+      .attr("xlink:href", flecha1)
+      .attr("width", "10")
+      .attr("height", "10")
+      .raise()
+      .attr("x", function (d, i) {
+        return (
+          (dimensions.width / 4) *
+            Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75)) +
+          10 * Math.sin(0)
+        );
+      })
+      .attr("y", function (d, i) {
+        return (
+          (dimensions.height / 4) *
+            Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75)) -
+          50 * Math.cos(0)
+        );
+      });
+    var tween = function (angle, i) {
+      return d3.interpolateString(
+        `rotate(0, ${
+          (dimensions.width / 4) *
+          Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        }, ${
+          (dimensions.height / 4) *
+          Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        }`,
+        `rotate(${angle},${
+          (dimensions.width / 4) *
+          Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        }, ${
+          (dimensions.height / 4) *
+          Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))
+        })`
+      );
+    };
+    imagenes
+      .transition()
+      .duration(200)
+      .attrTween("transform", (d, i) => tween(90 * i + 174 + d.faceAngle, i)); // tiene que ser 180 grados .
     const nodo = g
       .selectAll("path.pie")
       .data(function (d) {
@@ -150,10 +201,73 @@ const NetworkPostGraph = (props) => {
         }
       })
       .attr("stroke-width", 8);
+    const texto = svg
+      .select(".chart")
+      .selectAll("text")
+      //.data(props.data.channel)
+      .data(
+        dataExp.fase[dataExp.experimento.faseActiva].idGrupos[props.grupos]
+          .participantes
+      )
+      .join("text")
+      .style("text-anchor", "middle")
+      .raise()
+      /* .style("visibility", "hidden")
+      .style("visibility", function(d,i) { 
+        if(d3.select( '#name' + d.dispositivos[0].canal).empty() === false) { 
+          return ("visible")
+      }}) */
+
+      .attr("transform", function (d, i) {
+        if (d3.select("#name" + d.dispositivos[0].canal).empty() === false) {
+          /*  return `translate(${
+            d3.select("#name" + d.dispositivos[0].canal).attr("transform")
+              .translate[0]
+          }, ${d3.select("#name" + d.dispositivos[0].canal).attr("cy") - 37})`; */
+          return `translate(${
+            (dimensions.width / 4) *
+            Math.cos(
+              2 *
+                Math.PI *
+                (d.dispositivos[0].canal / props.data.channel.length + 0.75)
+            )
+          }, ${
+            (dimensions.height / 4) *
+              Math.sin(
+                2 *
+                  Math.PI *
+                  (d.dispositivos[0].canal / props.data.channel.length + 0.75)
+              ) -
+            37
+          })`;
+        }
+
+        //return `translate(${d3.select( '#name' + d.dispositivos[0].canal).attr('cx')  }, ${d3.select( '#name' + d.dispositivos[0].canal).attr('cy') - (37) })`
+      })
+      .text(function (d, i) {
+        return d.descripcion;
+      });
+    console.log(
+      dataExp.fase[dataExp.experimento.faseActiva].idGrupos[0].participantes[1]
+    );
   }, [props.data]);
 
   return (
     <svg style={{ borderRadius: "10px" }} ref={areaChart}>
+      <pattern
+        id="flecha1"
+        width="1"
+        height="1"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <image
+          xlinkHref={flecha1}
+          width="100"
+          height="100"
+          preserveAspectRatio="none"
+        ></image>
+      </pattern>
       <g
         className="chart"
         transform={`translate(${dimensions.width / 2} ${

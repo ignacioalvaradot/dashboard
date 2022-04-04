@@ -7,13 +7,7 @@ function App() {
   const store = generateStore();
 
   return (
-    <div
-      style={{
-        backgroundColor: "#f5f5f5",
-        overflow: "hidden",
-        paddingBlockEnd: "45px",
-      }}
-    >
+    <div>
       <Provider store={store}>
         <Router>
           <AppRouter />

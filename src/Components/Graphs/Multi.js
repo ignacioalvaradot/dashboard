@@ -19,6 +19,7 @@ const Multi = (props) => {
   const metricasExpresiones = useSelector(
     (store) => store.metricaHabla.array_expresiones
   );
+  const dataExp = useSelector((store) => store.DatosExp.array);
   const areaChart = useRef(null);
   const dimensions = { width: 270, height: 270 };
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
@@ -70,8 +71,8 @@ const Multi = (props) => {
       //.data(props.expresiones[props.sliderExpresiones][props.grupos].channel)
       .data(props.expresiones[props.tiempo][props.grupos].channel)
       .join("circle")
-      .attr("id", function (_, i) {
-        return "name" + i;
+      .attr("id", function (d, i) {
+        return "name" + (d.channelId - 1);
       })
       .attr("stroke-opacity", 0)
       .attr("fill", function (d) {
@@ -269,6 +270,37 @@ const Multi = (props) => {
         return mycolors[i];
       })
       .attr("d", arc(25));
+    const texto = svg
+      .select(".chart")
+      .selectAll("text")
+      //.data(props.data.channel)
+      .data(
+        dataExp.fase[dataExp.experimento.faseActiva].idGrupos[props.grupos]
+          .participantes
+      )
+      .join("text")
+      .style("text-anchor", "middle")
+      .raise()
+      /* .style("visibility", "hidden")
+      .style("visibility", function(d,i) { 
+        if(d3.select( '#name' + d.dispositivos[0].canal).empty() === false) { 
+          return ("visible")
+      }}) */
+
+      .attr("transform", function (d, i) {
+        if (d3.select("#name" + d.dispositivos[0].canal).empty() === false) {
+          return `translate(${d3
+            .select("#name" + d.dispositivos[0].canal)
+            .attr("cx")}, ${
+            d3.select("#name" + d.dispositivos[0].canal).attr("cy") - 37
+          })`;
+        }
+
+        //return `translate(${d3.select( '#name' + d.dispositivos[0].canal).attr('cx')  }, ${d3.select( '#name' + d.dispositivos[0].canal).attr('cy') - (37) })`
+      })
+      .text(function (d, i) {
+        return d.descripcion;
+      });
     //console.log(props.habla[props.sliderPostura - 1][props.grupos]);
     //console.log(metricasHabla[props.sliderPostura - 1][props.grupos]);
   }, [props.sliderPostura, props.tiempo]);

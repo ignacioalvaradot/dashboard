@@ -58,7 +58,7 @@ const Boxes = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(ticks, 5000);
+    const interval = setInterval(ticks, 1000);
     tick();
     return () => {
       clearInterval(interval);

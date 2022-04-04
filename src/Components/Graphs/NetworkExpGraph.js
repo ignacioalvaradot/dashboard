@@ -7,11 +7,12 @@ import surprise from "../../Utilities/surprise.png";
 import neutral from "../../Utilities/neutral.png";
 import disgust from "../../Utilities/disgust.png";
 import fear from "../../Utilities/fear.png";
-import Box from "@mui/material/Box";
+import { useSelector } from "react-redux";
 
 const NetworkExpGraph = (props) => {
   const areaChart = useRef();
   const dimensions = { width: 270, height: 270 };
+  const dataExp = useSelector((store) => store.DatosExp.array);
 
   useEffect(() => {
     const svg = d3
@@ -25,8 +26,8 @@ const NetworkExpGraph = (props) => {
       .selectAll("circle")
       .data(props.data.channel)
       .join("circle")
-      .attr("id", function (_, i) {
-        return "name" + i;
+      .attr("id", function (d, i) {
+        return "name" + (d.channelId - 1);
       })
       .style("fill", function (d) {
         switch (d.valor) {
@@ -49,7 +50,7 @@ const NetworkExpGraph = (props) => {
             return "#FFCE36";
             break;
           case "Expresion_neutral":
-            return "#FFFFFF";
+            return "#737273";
             break;
         }
       })
@@ -191,11 +192,43 @@ const NetworkExpGraph = (props) => {
             return "#FFCE36";
             break;
           case "Expresion_neutral":
-            return "#FFFFFF";
+            return "#737273";
             break;
         }
       })
       .attr("stroke-width", (d) => d.weigth);
+
+    const texto = svg
+      .select(".chart")
+      .selectAll("text")
+      //.data(props.data.channel)
+      .data(
+        dataExp.fase[dataExp.experimento.faseActiva].idGrupos[props.grupos]
+          .participantes
+      )
+      .join("text")
+      .style("text-anchor", "middle")
+      .raise()
+      /* .style("visibility", "hidden")
+      .style("visibility", function(d,i) { 
+        if(d3.select( '#name' + d.dispositivos[0].canal).empty() === false) { 
+          return ("visible")
+      }}) */
+
+      .attr("transform", function (d, i) {
+        if (d3.select("#name" + d.dispositivos[0].canal).empty() === false) {
+          return `translate(${d3
+            .select("#name" + d.dispositivos[0].canal)
+            .attr("cx")}, ${
+            d3.select("#name" + d.dispositivos[0].canal).attr("cy") - 37
+          })`;
+        }
+
+        //return `translate(${d3.select( '#name' + d.dispositivos[0].canal).attr('cx')  }, ${d3.select( '#name' + d.dispositivos[0].canal).attr('cy') - (37) })`
+      })
+      .text(function (d, i) {
+        return d.descripcion;
+      });
   }, [props.data]);
 
   return (
