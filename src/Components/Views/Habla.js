@@ -107,7 +107,9 @@ const Habla = () => {
   const [estado, setEstado] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
   const [colorButton, setColorButton] = useState("directo");
+  const [tick, setTick] = useState([0]);
   const handleClose = () => setSelectedItem(null);
+  const dataUpdate = useSelector((store) => store.DatosUpdate.array);
 
   function formatDuration(value) {
     const minute = Math.floor(value / 60);
@@ -124,7 +126,7 @@ const Habla = () => {
     console.log(slidedata);
   };
 
-  const tick = () => {
+  /*   const tick = () => {
     //datas.push(data)
     //setFinaldata(data);
     if (estado == false) {
@@ -136,7 +138,7 @@ const Habla = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(tick, 1000);
+    const interval = setInterval(tick, 3000);
     //setValue(value + 1);
     //setSlidedata(datas[value])
     tick();
@@ -145,7 +147,23 @@ const Habla = () => {
       clearInterval(interval);
     };
   }, [metricasHabla]);
+ */
+  const ticks = () => {
+    setTick((currentData) => [...currentData, tick.slice(-1)[0] + 1]);
+  };
 
+  useEffect(() => {
+    const interval = setInterval(ticks, dataUpdate);
+    if (estado == false) {
+      //setValue(datas.length);
+      setValue(metricasHabla.length);
+      setSlidedata(metricasHabla[value]);
+    }
+    //console.log(tick)
+    return () => {
+      clearInterval(interval);
+    };
+  }, [tick]);
   return (
     <div>
       <Grid container justifyContent="center" m={1}>

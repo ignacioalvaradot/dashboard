@@ -9,11 +9,16 @@ const DataExp = {
   array: [],
 };
 
+const DataUpdate = {
+  array: [],
+};
+
 //tipos
 const OBTENER_METRICAS = "OBTENER_METRICAS";
 const OBTENER_METRICAS_EXPRESIONES = "OBTENER_METRICAS_EXPRESIONES";
 const OBTENER_METRICAS_POSTURAS = "OBTENER_METRICAS_POSTURAS";
 const OBTENER_DATOS_EXPERIMENTO = "OBTENER_DATOS_EXPERIMENTO";
+const OBTENER_DATOS_UPDATE = "OBTENER_DATOS_UPDATE";
 
 //reduces
 
@@ -34,6 +39,7 @@ export function hablaReducer(state = Data, action) {
         ...state,
         array_posturas: [...state.array_posturas, action.payload],
       };
+
     default:
       return state;
   }
@@ -42,6 +48,16 @@ export function hablaReducer(state = Data, action) {
 export function dataExpReducer(state = DataExp, action) {
   switch (action.type) {
     case OBTENER_DATOS_EXPERIMENTO:
+      return { ...state, array: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+export function dataUpdateReducer(state = DataUpdate, action) {
+  switch (action.type) {
+    case OBTENER_DATOS_UPDATE:
       return { ...state, array: action.payload };
     default:
       return state;
@@ -77,6 +93,14 @@ export const obtenerDatosExperimentoAccion = (data) => (dispatch, getState) => {
   const rest = data;
   dispatch({
     type: OBTENER_DATOS_EXPERIMENTO,
+    payload: rest,
+  });
+};
+
+export const obtenerDatosUpdateAccion = (data) => (dispatch, getState) => {
+  const rest = data;
+  dispatch({
+    type: OBTENER_DATOS_UPDATE,
     payload: rest,
   });
 };

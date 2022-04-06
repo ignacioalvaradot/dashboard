@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import NetworkSpeechGraph from "../Graphs/NetworkSpeechGraph";
 import NetworkGraph from "../Graphs/NetworkGraph";
 import NetworkExpGraph from "../Graphs/NetworkExpGraph";
-import MultilineGraph from "../Graphs/MultilineGraph";
-import StackedBarChart from "../Graphs/StackedBarChart";
+import NetworkPostGraph from "../Graphs/NetworkPostGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -409,14 +408,14 @@ const Multimetrica = () => {
                               </IconButton>
                             </HtmlTooltip>
                           </Grid>
-                          <NetworkGraph
+                          <NetworkPostGraph
                             data={
                               metricasPostura[metricasPostura.length - 1][i]
                             }
                             grupos={i}
                           >
                             {" "}
-                          </NetworkGraph>
+                          </NetworkPostGraph>
                         </Paper>
                       </Grid>
                       <Grid item xs={4} py={2}>

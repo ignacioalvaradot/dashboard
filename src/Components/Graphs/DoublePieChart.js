@@ -8,6 +8,13 @@ const Pie = (props) => {
   const ref = useRef(null);
   const ref2 = useRef(null);
   const dataExp = useSelector((store) => store.DatosExp.array);
+  const nombres = [];
+
+  dataExp.fase[dataExp.experimento.faseActiva].idGrupos[
+    props.grupos
+  ].participantes.map(
+    (data, i) => (nombres[data.dispositivos[0].canal] = data.descripcion)
+  );
 
   const createPie = d3
     .pie()
@@ -65,21 +72,18 @@ const Pie = (props) => {
     const path2 = groupWithUpdate2
       .append("path")
       .merge(groupWithData2.select("path.arc"));
-
+    //FIXME ARREGLA ORDEN
     path
       .attr("class", "arc")
       .attr("d", createArc)
       .attr("fill", (d, i) => colors[order[i]])
       .on("mouseover", (e, d) => {
-        console.log(e);
-        console.log(d);
         tooldiv
           .style("visibility", "visible")
           //.text(`El número de intervenciones <br> es de: ${d.data.numeroInterv}`)
           //.text("El número de intervenciones <br> es de" +  d.data.numeroInterv)
           .html(
-            dataExp.fase[dataExp.experimento.faseActiva].idGrupos[props.grupos]
-              .participantes[d.index].descripcion +
+            nombres[order[d.index]] +
               " tiene: " +
               d.data.numeroInterv +
               " <br>intervenciones<br> y " +
@@ -109,8 +113,7 @@ const Pie = (props) => {
           //.text(`El número de intervenciones <br> es de: ${d.data.numeroInterv}`)
           //.text("El número de intervenciones <br> es de" +  d.data.numeroInterv)
           .html(
-            dataExp.fase[dataExp.experimento.faseActiva].idGrupos[props.grupos]
-              .participantes[d.index].descripcion +
+            nombres[order[d.index]] +
               " tiene: " +
               d.data.numeroInterv +
               " <br>intervenciones<br> y " +
@@ -128,17 +131,38 @@ const Pie = (props) => {
         tooldiv.style("visibility", "hidden");
       });
 
-    /*     const text = groupWithUpdate
+    const text = groupWithUpdate
       .append("text")
       .merge(groupWithData.select("text"));
 
     text
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "middle")
-      .attr("transform", d => `translate(${createArc.centroid(d)})`)
+      .attr("transform", (d) => `translate(${createArc.centroid(d)})`)
       .style("fill", "white")
       .style("font-size", 10)
-      .text(d => format(toString(d.valor))); */
+      .text(
+        (d) =>
+          Math.round(((d.endAngle - d.startAngle) / (2 * Math.PI)) * 100) + "%"
+      );
+    //.text((d) => d.data.numeroInterv);
+    //.text((d) => console.log(toString(d.data.numeroInterv)));
+
+    const text2 = groupWithUpdate2
+      .append("text")
+      .merge(groupWithData2.select("text"));
+
+    text2
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .attr("transform", (d) => `translate(${createArc2.centroid(d)})`)
+      .style("fill", "white")
+      .style("font-size", 10)
+      //.text((d) => d.data.totalTimeInterv)
+      .text(
+        (d) =>
+          Math.round(((d.endAngle - d.startAngle) / (2 * Math.PI)) * 100) + "%"
+      );
   }, [props.data]);
 
   return (

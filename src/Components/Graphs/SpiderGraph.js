@@ -1,117 +1,363 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import happy from "../../Utilities/feliz.png";
+import sad from "../../Utilities/sad.png";
+import angry from "../../Utilities/angry.png";
+import surprise from "../../Utilities/surprise.png";
+import neutral from "../../Utilities/neutral.png";
+import disgust from "../../Utilities/disgust.png";
+import fear from "../../Utilities/fear.png";
 
-const expresions = ["Expresion_angry", "Expresion_disgust","Expresion_fear","Expresion_happy","Expresion_neutral","Expresion_sad","Expresion_surprise"];
+const expresions = [
+  "Expresion_angry",
+  "Expresion_disgust",
+  "Expresion_fear",
+  "Expresion_happy",
+  "Expresion_neutral",
+  "Expresion_sad",
+  "Expresion_surprise",
+];
 
-  const SpiderGraph = props => {
-    const areaChart = useRef()
-    const dimensions = {width:270, height:270}
+const SpiderGraph = (props) => {
+  const areaChart = useRef();
+  const dimensions = { width: 285, height: 295 };
 
-    function angleToCoordinate(angle, value){
-      let radialScales = d3.scaleLinear()
-      .domain([0,10])
-      .range([0,130]);
-      let x = Math.cos(angle) * radialScales(value);
-      let y = Math.sin(angle) * radialScales(value);
-      return {"x":  x, "y": - y};
-  } 
+  function angleToCoordinate(angle, value) {
+    let radialScales = d3.scaleLinear().domain([0, 10]).range([0, 130]);
+    let x = Math.cos(angle) * radialScales(value);
+    let y = Math.sin(angle) * radialScales(value);
+    return { x: x, y: -y };
+  }
 
-  function getPathCoordinates(data_point){
+  function getPathCoordinates(data_point) {
     let coordinates = [];
-    for (var i = 0; i < expresions.length; i++){
-        let ft_name = expresions[i];
-        let angle = (Math.PI / 2) + (2 * Math.PI * i / expresions.length);
-        coordinates.push(angleToCoordinate(angle, data_point[ft_name]));
+    for (var i = 0; i < expresions.length; i++) {
+      let ft_name = expresions[i];
+      let angle = Math.PI / 2 + (2 * Math.PI * i) / expresions.length;
+      coordinates.push(angleToCoordinate(angle, data_point[ft_name]));
     }
     return coordinates;
-}
-const color = d3.scaleOrdinal(d3.schemeCategory10);
-      useEffect(() => {
-      
+  }
+  const color = d3.scaleOrdinal(d3.schemeCategory10);
+  useEffect(() => {
+    const svg = d3
+      .select(areaChart.current)
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height)
+      .style("background-color", "white");
 
-        const svg = d3.select(areaChart.current)
-        .attr('width', dimensions.width)
-       .attr('height', dimensions.height)
-       .style('background-color','white') 
+    let radialScale = d3.scaleLinear().domain([0, 10]).range([0, 250]);
+    let ticks = [2, 4, 6, 8, 10];
 
-       let radialScale = d3.scaleLinear()
-       .domain([0,10])
-       .range([0,250]);
-   let ticks = [2,4,6,8,10];
+    const circles = svg
+      .select(".chart")
+      .selectAll("circle")
+      .data(ticks)
+      .join("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("r", function (d, i) {
+        return radialScale(i + 1);
+      });
 
-const circles = svg.select(".chart")
-.selectAll("circle")
-.data(ticks)
-.join("circle")
-.attr("cx", 0)
-.attr("cy", 0)
-.attr("fill", "none")
-.attr("stroke", "gray")
-.attr("r",function (d,i){ return radialScale(i + 1)});
+    const text = svg
+      .select(".chart")
+      .selectAll("text")
+      .data(ticks)
+      .join("text")
+      .attr("id", function (_, i) {
+        return "scalesid" + i;
+      })
+      .attr("x", 10)
+      .attr("y", function (d, i) {
+        return -radialScale(i + 1);
+      })
+      .text((d) => d.toString());
 
-const text = svg.select(".chart")
-.selectAll("text")
-.data(ticks)
-.join("text")
-.attr("id", function(_,i){return 'scalesid' + i}  ) 
-.attr("x", 0)
-.attr("y", function (d,i) {return  - radialScale(i + 1)})
-.text(d => d.toString());
+    const lines = svg
+      .select(".chart")
+      .selectAll("line")
+      .data(expresions)
+      .join("line")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", function (_, i) {
+        return +(
+          Math.cos(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5)
+        );
+      })
+      .attr("y2", function (_, i) {
+        return -(
+          Math.sin(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5)
+        );
+      })
+      .attr("stroke", "black");
 
-const lines = svg.select(".chart")
-.selectAll("line")
-.data(expresions)
-.join("line")
-.attr("x1", 0)
-.attr("y1", 0)
-.attr("x2", function (_,i){ return (  + (Math.cos((Math.PI / 2) + (2 * Math.PI * i / expresions.length)) * radialScale(5)))})
-.attr("y2",  function (_,i){ return (  - (Math.sin((Math.PI / 2) + (2 * Math.PI * i / expresions.length)) * radialScale(5)))})
-.attr("stroke","black");
+    /*  const line_label = svg
+      .select(".chart")
+      .selectAll("text2")
+      .data(expresions)
+      .join("text")
+      .attr("id", function (_, i) {
+        return "labelid" + i;
+      })
+      .attr("x", function (_, i) {
+        return +(
+          Math.cos(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5.5)
+        );
+      })
+      .attr("y", function (_, i) {
+        return -(
+          Math.sin(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5.5)
+        );
+      })
+      .text((d) => d); */
+    const nodo = svg
+      .select(".chart")
+      .selectAll("circle3")
+      .data(expresions)
+      .join("circle")
+      .attr("id", function (d, i) {
+        return "name" + i;
+      })
+      .style("fill", function (d) {
+        switch (d) {
+          case "Expresion_angry":
+            return "#F30606";
+            break;
+          case "Expresion_disgust":
+            return "#4ECE2B";
+            break;
+          case "Expresion_fear":
+            return "#A657A8";
+            break;
+          case "Expresion_surprise":
+            return "#E68714";
+            break;
+          case "Expresion_sad":
+            return "#33AAFF";
+            break;
+          case "Expresion_happy":
+            return "#FFCE36";
+            break;
+          case "Expresion_neutral":
+            return "#737273";
+            break;
+        }
+      })
+      .attr("cx", function (_, i) {
+        return +(
+          Math.cos(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5.5)
+        );
+      })
+      .attr("cy", function (_, i) {
+        return -(
+          Math.sin(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5.5)
+        );
+      })
 
-const line_label = svg.select(".chart")
-.selectAll("text2")
-.data(expresions)
-.join("text")
-.attr("id", function(_,i){return 'labelid' + i}  ) 
-.attr("x", function (_,i){ return (  + (Math.cos((Math.PI / 2) + (2 * Math.PI * i / expresions.length)) * radialScale(5.5)))})
-.attr("y", function (_,i){ return (  - (Math.sin((Math.PI / 2) + (2 * Math.PI * i / expresions.length)) * radialScale(5.5)))})
-.text(d => d);
+      .attr("r", 10);
+    const nodosImagenes = svg
+      .select(".chart")
+      .selectAll("circle2")
+      .data(expresions)
+      .join("circle")
+      .attr("id", function (_, i) {
+        return "name2" + i;
+      })
+      .attr("fill", function (d) {
+        switch (d) {
+          case "Expresion_angry":
+            return "url(#angry)";
+            break;
+          case "Expresion_disgust":
+            return "url(#disgust)";
+            break;
+          case "Expresion_fear":
+            return "url(#fear)";
+            break;
+          case "Expresion_surprise":
+            return "url(#surprise)";
+            break;
+          case "Expresion_sad":
+            return "url(#sad)";
+            break;
+          case "Expresion_happy":
+            return "url(#happy)";
+            break;
+          case "Expresion_neutral":
+            return "url(#neutral)";
+            break;
+        }
+      })
+      .attr("cx", function (_, i) {
+        return +(
+          Math.cos(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5.5)
+        );
+      })
+      .attr("cy", function (_, i) {
+        return -(
+          Math.sin(Math.PI / 2 + (2 * Math.PI * i) / expresions.length) *
+          radialScale(5.5)
+        );
+      })
+      .raise()
+      .attr("r", 10);
 
-let line = d3.line()
-    .x(d => d.x)
-    .y(d => d.y);
+    let line = d3
+      .line()
+      .x((d) => d.x)
+      .y((d) => d.y);
 
-const group = svg .select('.chart')
-    .selectAll("g.area")
-    .data(props.data.channel)  
-    .join("g")
-    .attr("class", "area")
-    .attr("stroke", (d, i) => color(i))
-    .attr("fill", (d, i) => color(i))
+    const group = svg
+      .select(".chart")
+      .selectAll("g.area")
+      .data(props.data.channel)
+      .join("g")
+      .attr("class", "area")
+      .attr("stroke", (d, i) => color(i))
+      .attr("fill", (d, i) => color(i));
 
+    const area = group
+      .selectAll("path.area")
+      .data(function (d) {
+        return [getPathCoordinates(d.acumulate_expresion)];
+      })
+      .join("path")
+      .attr("class", "area")
+      .attr("d", line)
+      .attr("stroke-width", 1)
+      .attr("stroke-opacity", 1)
+      .attr("opacity", 0.5);
 
-const area = group
-.selectAll('path.area')
-.data(function(d) {
-  return  [getPathCoordinates(d.acumulate_expresion)]
-}) 
-.join('path')
-.attr('class', 'area')
-.attr("d", line)
-.attr("stroke-width", 1)
-.attr("stroke-opacity", 1)
-.attr("opacity", 0.5); 
+    console.log(props.data.channel[0].acumulate_expresion);
+  }, [props.data]);
 
-console.log(props.data.channel[0].acumulate_expresion)
+  return (
+    <svg ref={areaChart}>
+      <defs>
+        <pattern
+          id="happy"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={happy}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
 
+        <pattern
+          id="sad"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={sad}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
 
-      }, [props.data]);
-    
-      return (<svg ref={areaChart}> 
-      <g className="chart" transform={`translate(${dimensions.width/2} ${dimensions.height/2})`}>
-  </g> 
-      </svg>);
-    };
+        <pattern
+          id="angry"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={angry}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
 
+        <pattern
+          id="surprise"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={surprise}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
+
+        <pattern
+          id="neutral"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={neutral}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
+
+        <pattern
+          id="disgust"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={disgust}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
+
+        <pattern
+          id="fear"
+          width="1"
+          height="1"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <image
+            xlinkHref={fear}
+            width="100"
+            height="100"
+            preserveAspectRatio="none"
+          ></image>
+        </pattern>
+      </defs>
+      <g
+        className="chart"
+        transform={`translate(${dimensions.width / 2} ${
+          dimensions.height / 2
+        })`}
+      ></g>
+    </svg>
+  );
+};
 
 export default SpiderGraph;
