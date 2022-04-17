@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NetworkExpGraph from "../Graphs/NetworkExpGraph";
 import SpiderGraph from "../Graphs/SpiderGraph";
+import ExpresionLineGraph from "../Graphs/ExpresionLineGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -287,12 +288,15 @@ const Habla = () => {
                         <CloseIcon />
                       </IconButton>
                     </Box>
-                    <div style={style2}> Gráfico detallado habla </div>
+                    <div style={style2}>
+                      {" "}
+                      Gráfico detallado de las expresiones{" "}
+                    </div>
                     <div style={{ textAlign: "center", marginBottom: "8px" }}>
                       <ModalLegend data={i}></ModalLegend>
                     </div>
                     <Grid container spacing={6}>
-                      <Grid item xs={4} py={2}>
+                      <Grid item xs={4.1} py={2}>
                         <Paper
                           sx={{
                             p: 2,
@@ -318,6 +322,38 @@ const Habla = () => {
                             </HtmlTooltip>
                           </Grid>
                           <SpiderGraph data={canales}></SpiderGraph>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={4.2} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            pl: 4,
+                            pb: 4,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <ExpresionLineGraph
+                            data={canales}
+                          ></ExpresionLineGraph>
                         </Paper>
                       </Grid>
                     </Grid>

@@ -34,7 +34,7 @@ const Socket = () => {
   const dispatch = useDispatch();
   const dataUpdate = useSelector((store) => store.DatosUpdate.array);
   useEffect(() => {
-    /*  socketHabla.on("report_metric", (msg) => {
+    /* socketHabla.on("report_metric", (msg) => {
       temporal = msg.data.devices;
     }); */
 

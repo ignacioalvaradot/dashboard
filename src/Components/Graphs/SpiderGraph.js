@@ -20,7 +20,7 @@ const expresions = [
 
 const SpiderGraph = (props) => {
   const areaChart = useRef();
-  const dimensions = { width: 285, height: 295 };
+  const dimensions = { width: 290, height: 295 };
 
   function angleToCoordinate(angle, value) {
     let radialScales = d3.scaleLinear().domain([0, 10]).range([0, 130]);
@@ -239,7 +239,7 @@ const SpiderGraph = (props) => {
       .attr("stroke-opacity", 1)
       .attr("opacity", 0.5);
 
-    console.log(props.data.channel[0].acumulate_expresion);
+    //console.log(props.data.channel[0].acumulate_expresion);
   }, [props.data]);
 
   return (

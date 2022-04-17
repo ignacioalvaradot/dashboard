@@ -259,7 +259,7 @@ const Multi = (props) => {
       .data(function (d, i) {
         //return pie(d.acumulate_posture);
         return pie(
-          props.postura[props.sliderPostura][props.grupos].channel[i]
+          props.postura[props.tiempoPostura][props.grupos].channel[i]
             .acumulate_posture
         );
       })

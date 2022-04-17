@@ -21,8 +21,11 @@ import DoublePieChart from "../Graphs/DoublePieChart";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { red } from "@mui/material/colors";
 import "../fonts.css";
+import NetworkIntervGraph from "../Graphs/NetworkInterv";
+import NetworkSpeechExample from "../Graphs/NetworkSpeechExample";
 
 const TinyText = styled(Typography)({
   fontSize: "0.8rem",
@@ -99,6 +102,71 @@ const style3 = {
 };
 
 var datas = [];
+const datosEjemplo = {
+  name: "Mic02",
+  direction: 0,
+
+  trace_delta: [
+    {
+      source: 3,
+      target: 3,
+      weigth: 4,
+    },
+    {
+      source: 1,
+      target: 4,
+      weigth: 8,
+    },
+  ],
+  group: {
+    totalTimeInterv: 628,
+    totalTimeEfectv: 196,
+    totalTimeSilenc: 226,
+    total_time_act: 233,
+  },
+  channel: [
+    {
+      channelId: 1,
+      valor: 1,
+      numeroInterv: 3,
+      acumulateInterv: [26, 15, 14, 5, 10, 15],
+      totalTimeInterv: 195,
+      totalTimeEfectv: 0,
+      totalTimeSilenc: 67,
+      totalPart: 4,
+    },
+    {
+      channelId: 2,
+      valor: 0,
+      numeroInterv: 19,
+      acumulateInterv: [14, 6, 13, 13, 17, 22],
+      totalTimeInterv: 154,
+      totalTimeEfectv: 5,
+      totalTimeSilenc: 91,
+      totalPart: 75,
+    },
+    {
+      channelId: 3,
+      valor: 0,
+      numeroInterv: 10,
+      acumulateInterv: [10, 2, 14, 19, 15, 9],
+      totalTimeInterv: 187,
+      totalTimeEfectv: 96,
+      totalTimeSilenc: 90,
+      totalPart: 8,
+    },
+    {
+      channelId: 4,
+      valor: 1,
+      numeroInterv: 18,
+      acumulateInterv: [28, 13, 6, 19, 2, 12],
+      totalTimeInterv: 154,
+      totalTimeEfectv: 77,
+      totalTimeSilenc: 7,
+      totalPart: 62,
+    },
+  ],
+};
 
 const Habla = () => {
   const metricasHabla = useSelector((store) => store.metricaHabla.array);
@@ -108,6 +176,7 @@ const Habla = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [colorButton, setColorButton] = useState("directo");
   const [tick, setTick] = useState([0]);
+  const [open, setOpen] = useState(false);
   const handleClose = () => setSelectedItem(null);
   const dataUpdate = useSelector((store) => store.DatosUpdate.array);
 
@@ -252,6 +321,10 @@ const Habla = () => {
               <InfoIcon />
             </IconButton>
           </HtmlTooltip>
+
+          <IconButton onClick={() => setOpen(!open)} color="primary">
+            <SwapHorizIcon />
+          </IconButton>
         </Grid>
         {slidedata &&
           slidedata.map((canales, i) => (
@@ -284,9 +357,19 @@ const Habla = () => {
                       >
                         Grupo {i + 1}
                       </Typography>
-                      <NetworkSpeechGraph data={canales} grupos={i}>
+
+                      {/*  <NetworkSpeechGraph data={canales} grupos={i}>
                         {" "}
-                      </NetworkSpeechGraph>
+                      </NetworkSpeechGraph> */}
+                      {!open ? (
+                        <NetworkSpeechGraph data={canales} grupos={i}>
+                          {" "}
+                        </NetworkSpeechGraph>
+                      ) : (
+                        <NetworkIntervGraph data={canales} grupos={i}>
+                          {" "}
+                        </NetworkIntervGraph>
+                      )}
                     </Paper>
                   </Button>
                 </div>
@@ -316,7 +399,14 @@ const Habla = () => {
                             borderRadius: "8px",
                           }}
                         >
-                          <Grid sx={{ textAlign: "end" }}>
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico de torta anidado
+                              </Typography>
+                            </Grid>
+
                             <HtmlTooltip
                               title={
                                 <React.Fragment>
@@ -336,7 +426,7 @@ const Habla = () => {
                             data={canales}
                             width={270}
                             height={270}
-                            innerRadius={55}
+                            innerRadius={60}
                             outerRadius={100}
                             grupos={i}
                           ></DoublePieChart>
@@ -354,7 +444,13 @@ const Habla = () => {
                             borderRadius: "8px",
                           }}
                         >
-                          <Grid sx={{ textAlign: "end" }}>
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico intervenciones
+                              </Typography>
+                            </Grid>
                             <HtmlTooltip
                               title={
                                 <React.Fragment>
@@ -386,7 +482,13 @@ const Habla = () => {
                             borderRadius: "8px",
                           }}
                         >
-                          <Grid sx={{ textAlign: "end" }}>
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico de tiempo del habla
+                              </Typography>
+                            </Grid>
                             <HtmlTooltip
                               title={
                                 <React.Fragment>
@@ -408,6 +510,68 @@ const Habla = () => {
                           ></StackedBarChart>
                         </Paper>
                       </Grid>
+                      {/* <Grid item xs={4}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <NetworkIntervGraph
+                            data={canales}
+                            grupos={i}
+                          ></NetworkIntervGraph>
+                        </Paper>
+                      </Grid> */}
+                      {/*  <Grid item xs={4}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de red que busca la
+                                    relacion entre los miembros del grupo
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <NetworkSpeechExample
+                            data={datosEjemplo}
+                            grupos={i}
+                          ></NetworkSpeechExample>
+                        </Paper>
+                      </Grid> */}
                     </Grid>
                   </Box>
                 </Modal>

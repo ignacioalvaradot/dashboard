@@ -286,6 +286,8 @@ const Multimetrica = () => {
           metricasHabla[metricasHabla.length - 1] != null &&
           metricasPostura[metricasPostura.length - 1] != null &&
           metricasExpresiones[metricasExpresiones.length - 1] != null &&
+          value - 1 > 0 &&
+          valuePostura > 0 &&
           grupos.map((canales, i) => (
             <div key={i}>
               <Grid item xs={2.3} mr={6} key={i}>
@@ -316,18 +318,20 @@ const Multimetrica = () => {
                       >
                         Grupo {i + 1}
                       </Typography>
-                      <Multi
-                        cantidad={canales.participantes}
-                        sliderHabla={metricasHabla.length - 1}
-                        sliderPostura={metricasPostura.length - 1}
-                        sliderExpresiones={metricasExpresiones.length - 1}
-                        habla={metricasHabla}
-                        postura={metricasPostura}
-                        expresiones={metricasExpresiones}
-                        tiempo={value - 1}
-                        tiempoPostura={valuePostura}
-                        grupos={i}
-                      ></Multi>
+                      {value - 1 > 0 && valuePostura > 0 && (
+                        <Multi
+                          cantidad={canales.participantes}
+                          sliderHabla={metricasHabla.length - 1}
+                          sliderPostura={metricasPostura.length - 1}
+                          sliderExpresiones={metricasExpresiones.length - 1}
+                          habla={metricasHabla}
+                          postura={metricasPostura}
+                          expresiones={metricasExpresiones}
+                          tiempo={value - 1}
+                          tiempoPostura={valuePostura - 1}
+                          grupos={i}
+                        ></Multi>
+                      )}
                     </Paper>
                   </Button>
                 </div>
@@ -374,7 +378,8 @@ const Multimetrica = () => {
                             </HtmlTooltip>
                           </Grid>
                           <NetworkSpeechGraph
-                            data={metricasHabla[value - 1][i]}
+                            /* data={metricasHabla[value - 1][i]} */
+                            data={metricasHabla[metricasHabla.length - 1][i]}
                             grupos={i}
                           >
                             {" "}
@@ -445,7 +450,12 @@ const Multimetrica = () => {
                             </HtmlTooltip>
                           </Grid>
                           <NetworkExpGraph
-                            data={metricasExpresiones[value - 1][i]}
+                            /* data={metricasExpresiones[value - 1][i]} */
+                            data={
+                              metricasExpresiones[
+                                metricasExpresiones.length - 1
+                              ][i]
+                            }
                             grupos={i}
                           ></NetworkExpGraph>
                         </Paper>

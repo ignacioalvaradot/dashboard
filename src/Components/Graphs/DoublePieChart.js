@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Paper from "@mui/material/Paper";
 
 const Pie = (props) => {
+  const svgref = useRef(null);
   const ref = useRef(null);
   const ref2 = useRef(null);
   const dataExp = useSelector((store) => store.DatosExp.array);
@@ -30,13 +31,14 @@ const Pie = (props) => {
     .innerRadius(props.innerRadius)
     .outerRadius(props.outerRadius);
 
-  const createArc2 = d3.arc().innerRadius(0).outerRadius(50);
+  const createArc2 = d3.arc().innerRadius(0).outerRadius(45);
   //const colors = d3.scaleOrdinal(d3.schemeCategory10);
   //const colors = d3.scaleOrdinal(["#2499EF", "#FF9777", "#FF6B93", "#6BD098"]);
   const colors = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
   const format = d3.format(".2f");
 
   useEffect(() => {
+    const svg = d3.select(svgref.current);
     const order = [];
     props.data.channel.map((data, i) => (order[i] = data.channelId - 1));
     const data = createPie(props.data.channel);
@@ -163,6 +165,12 @@ const Pie = (props) => {
         (d) =>
           Math.round(((d.endAngle - d.startAngle) / (2 * Math.PI)) * 100) + "%"
       );
+
+    /* const textpath = group
+      .append("text")
+      .append("textPath")
+      .attr("xlink:href", "#myPath")
+      .text("Foo Bar Baz"); */
   }, [props.data]);
 
   return (
@@ -180,18 +188,54 @@ const Pie = (props) => {
         }}
       ></div>
       <svg
+        ref={svgref}
         style={{ borderRadius: "10px" }}
         width={props.width}
         height={props.height}
       >
+        {/* */}
         <g
           ref={ref}
           transform={`translate(${props.width / 2},${props.height / 2})`}
-        />
+        >
+          {" "}
+          <path
+            d="
+             M -110, 0
+             a 110,110 0 1,0 220,0
+             a 110,110 0 1,0 -220,0
+           "
+            id="myPath"
+            fill="none"
+            stroke="none"
+          ></path>{" "}
+          <text font-size="11px" x="170" y="10">
+            <textPath href="#myPath" startOffset="0%" text-anchor="middle">
+              NÚMERO TOTAL DE INTERVENCIONES
+            </textPath>
+          </text>
+        </g>
         <g
           ref={ref2}
           transform={`translate(${props.width / 2},${props.height / 2})`}
-        />
+        >
+          {" "}
+          <path
+            d="
+         M -55, 0
+         a 55,55 0 1,0 110,0
+         a 55,55 0 1,0 -110,0
+       "
+            id="myPath2"
+            fill="none"
+            stroke="none"
+          ></path>
+          <text font-size="11px" x="90" y="10">
+            <textPath href="#myPath2" startOffset="0%" text-anchor="middle">
+              TIEMPO TOTAL DE INTERVENCIONES
+            </textPath>
+          </text>
+        </g>
       </svg>
     </>
   );

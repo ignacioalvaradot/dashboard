@@ -289,7 +289,7 @@ const Postura = () => {
                         <CloseIcon />
                       </IconButton>
                     </Box>
-                    <div style={style2}> Gráfico detallado habla </div>
+                    <div style={style2}> Gráfico detallado de la postura </div>
                     <div style={{ textAlign: "center", marginBottom: "8px" }}>
                       <ModalLegend data={i}></ModalLegend>
                     </div>
