@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import Box from "@mui/material/Box";
 import flecha1 from "../../Utilities/flecha.png";
-
+var elements = [];
 const NetworkGraph = (props) => {
   const areaChart = useRef(null);
   const dimensions = { width: 270, height: 270 };
@@ -10,6 +10,7 @@ const NetworkGraph = (props) => {
   var mycolors = ["#FFA500", "#008000"];
 
   useEffect(() => {
+    props.data.channel.map((data, i) => (elements[i] = data.faceAngle));
     const pie = (data) => d3.pie().value((d) => d.value)(data);
     const arc = (radio) => d3.arc().innerRadius(0).outerRadius(radio);
 
@@ -276,6 +277,7 @@ const NetworkGraph = (props) => {
       })
       .attr("stroke-width", 8);
     //console.log(angulo);
+    console.log(elements);
   }, [props.data]);
 
   return (

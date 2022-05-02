@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import NetworkPostGraph from "../Graphs/NetworkPostGraph";
-import MultilineGraph from "../Graphs/MultilineGraph";
-import StackedBarChart from "../Graphs/StackedBarChart";
-import NetworkGraph from "../Graphs/NetworkGraph";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -17,9 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { obtenerMetricasAccion } from "../../redux/metricasDucks";
+import PosturePieChart from "../Graphs/PosturePieChart";
 import ModalLegend from "../Graphs/ModalLegend";
-import DoublePieChart from "../Graphs/DoublePieChart";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
@@ -293,6 +289,43 @@ const Postura = () => {
                     <div style={{ textAlign: "center", marginBottom: "8px" }}>
                       <ModalLegend data={i}></ModalLegend>
                     </div>
+                    <Grid container spacing={6}>
+                      <Grid item xs={4.1} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid sx={{ textAlign: "end" }}>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un grafico de radar que expresa la
+                                    relacion de los sujetos (con su respectivo
+                                    color) con cada una de las expresiones
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <PosturePieChart
+                            data={canales}
+                            width={270}
+                            height={270}
+                            innerRadius={0}
+                            outerRadius={100}
+                          ></PosturePieChart>
+                        </Paper>
+                      </Grid>
+                    </Grid>
                   </Box>
                 </Modal>
               </Grid>

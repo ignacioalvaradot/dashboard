@@ -310,8 +310,9 @@ const Habla = () => {
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    Este es un grafico de radar que expresa la
+                                    relacion de los sujetos (con su respectivo
+                                    color) con cada una de las expresiones
                                   </Typography>
                                 </React.Fragment>
                               }
@@ -340,8 +341,9 @@ const Habla = () => {
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    Este es un gráfico de puntos que expresa las
+                                    expresiones de cada sujeto a traves de el
+                                    tiempo
                                   </Typography>
                                 </React.Fragment>
                               }

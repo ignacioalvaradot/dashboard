@@ -191,8 +191,8 @@ const Habla = () => {
     setSlidedata(metricasHabla[value]);
     setEstado(true);
     setColorButton("retrocede");
-    console.log(value);
-    console.log(slidedata);
+    /*   console.log(value);
+    console.log(slidedata); */
   };
 
   /*   const tick = () => {
@@ -411,8 +411,11 @@ const Habla = () => {
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    Este es un gráfico de torta anidado que
+                                    expresa el porcentaje de cada sujeto (con su
+                                    respectivo color) del numero total de
+                                    intervenciones y el tiempo de estas
+                                    intervenciones
                                   </Typography>
                                 </React.Fragment>
                               }
@@ -455,8 +458,9 @@ const Habla = () => {
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    Este es un gráfico de lineas que expresa las
+                                    intervenciones de cada sujeto (con su
+                                    respectivo color) a traves de el tiempo
                                   </Typography>
                                 </React.Fragment>
                               }
@@ -493,8 +497,11 @@ const Habla = () => {
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    Este es un gráfico de barra donde se expresa
+                                    el porcentaje de tiempo total de habla
+                                    (color de cada sujeto) y el tiempo en
+                                    silencio (barra sin relleno) en relación al
+                                    100%
                                   </Typography>
                                 </React.Fragment>
                               }

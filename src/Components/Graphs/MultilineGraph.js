@@ -11,6 +11,7 @@ const MultilineGraph = (props) => {
   const [interv4, setInterv4] = useState([]);
   const [interv5, setInterv5] = useState([]);
   const [interv6, setInterv6] = useState([]); */
+  //const [tick, setTick] = useState([0]);
   const [tick, setTick] = useState([0]);
 
   //const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -105,7 +106,7 @@ const MultilineGraph = (props) => {
     const xScale = d3
       .scaleLinear()
       .domain(d3.extent(tick))
-      //.domain([0, props.tiempo])
+      //.domain([0, tick[tick.length]])
       //.domain([0, 1000])
       //.nice()
       .range([0, dimensions.width - margin.right]);

@@ -79,9 +79,10 @@ const NetworkPostGraph = (props) => {
         })`
       );
     };
+
     imagenes
       .transition()
-      .duration(200)
+      .duration(1)
       .attrTween("transform", (d, i) => tween(90 * i + 174 + d.faceAngle, i)); // tiene que ser 180 grados .
     const nodo = g
       .selectAll("path.pie")
@@ -247,9 +248,9 @@ const NetworkPostGraph = (props) => {
       .text(function (d, i) {
         return d.descripcion;
       });
-    console.log(
+    /* console.log(
       dataExp.fase[dataExp.experimento.faseActiva].idGrupos[0].participantes[1]
-    );
+    ); */
   }, [props.data]);
 
   return (

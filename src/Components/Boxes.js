@@ -50,6 +50,7 @@ const Boxes = () => {
               100 / metricasHabla[value].length,
             i,
           ])
+        //(stacks[i] = [(100 / promEfectv) * data.group.total_time_act, i])
       );
     }
     //console.log(stacks);

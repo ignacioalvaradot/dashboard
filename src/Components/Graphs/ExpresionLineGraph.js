@@ -33,7 +33,8 @@ const ExpresionLineGraph = (props) => {
     "Expresion_sad",
     "Expresion_surprise",
   ];
-  const [tick, setTick] = useState([0]);
+  const [tick, setTick] = useState([1]);
+  //const [tick, setTick] = useState([0]);
 
   const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
   var margin = { top: 10, right: 30, bottom: 30, left: 60 };
@@ -45,6 +46,7 @@ const ExpresionLineGraph = (props) => {
   useEffect(() => {
     const interval = setInterval(ticks, 1000);
     //console.log(tick)
+
     return () => {
       clearInterval(interval);
     };
@@ -305,6 +307,7 @@ const ExpresionLineGraph = (props) => {
     // console.log(minN)
     //console.log(interv6)
     console.log(elements2);
+    console.log(tick);
     //console.log(limits);
     //console.log(props.tiempo);
   }, [props.data]);
