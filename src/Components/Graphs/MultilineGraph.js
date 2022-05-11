@@ -105,8 +105,8 @@ const MultilineGraph = (props) => {
 
     const xScale = d3
       .scaleLinear()
-      .domain(d3.extent(tick))
-      //.domain([0, tick[tick.length]])
+      //.domain(d3.extent(tick))
+      .domain([0, tick.length])
       //.domain([0, 1000])
       //.nice()
       .range([0, dimensions.width - margin.right]);

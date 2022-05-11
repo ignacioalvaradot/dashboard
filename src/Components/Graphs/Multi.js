@@ -129,7 +129,9 @@ const Multi = (props) => {
     const imagenes = svg
       .select(".chart")
       .selectAll("image.flecha1")
-      .data(props.postura[props.sliderPostura][props.grupos].channel)
+      //.data(props.postura[props.sliderPostura][props.grupos].channel)
+      //.data(props.postura[props.tiempo][props.grupos].channel)
+      .data(metricasPostura[props.tiempoPostura][props.grupos].channel)
       .join("svg:image")
       .attr("class", "flecha1")
       .attr("xlink:href", flecha1)
@@ -258,8 +260,12 @@ const Multi = (props) => {
 
       .data(function (d, i) {
         //return pie(d.acumulate_posture);
-        return pie(
+        /*  return pie(
           props.postura[props.tiempoPostura][props.grupos].channel[i]
+            .acumulate_posture
+        ); */
+        return pie(
+          metricasPostura[props.tiempoPostura][props.grupos].channel[i]
             .acumulate_posture
         );
       })
@@ -303,7 +309,7 @@ const Multi = (props) => {
       });
     //console.log(props.habla[props.sliderPostura - 1][props.grupos]);
     //console.log(metricasHabla[props.sliderPostura - 1][props.grupos]);
-  }, [props.sliderPostura, props.tiempo]);
+  }, [props.tiempoPostura, props.tiempo]);
 
   return (
     <svg ref={areaChart} style={{ borderRadius: "10px" }}>

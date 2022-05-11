@@ -283,11 +283,15 @@ const Multimetrica = () => {
           /* metricasHabla.length != 0 &&
           metricasPostura.length != 0 &&
           metricasExpresiones.length != 0 && */
-          metricasHabla[metricasHabla.length - 1] != null &&
+          /* metricasHabla[metricasHabla.length - 1] != null &&
           metricasPostura[metricasPostura.length - 1] != null &&
-          metricasExpresiones[metricasExpresiones.length - 1] != null &&
+          metricasExpresiones[metricasExpresiones.length - 1] != null && */
+
+          metricasHabla[value - 1] != null &&
+          metricasPostura[valuePostura - 1] != null &&
+          metricasExpresiones[value - 1] != null &&
           value - 1 > 0 &&
-          valuePostura > 0 &&
+          valuePostura - 1 > 0 &&
           grupos.map((canales, i) => (
             <div key={i}>
               <Grid item xs={2.3} mr={6} key={i}>
@@ -321,9 +325,6 @@ const Multimetrica = () => {
                       {value - 1 > 0 && valuePostura > 0 && (
                         <Multi
                           cantidad={canales.participantes}
-                          sliderHabla={metricasHabla.length - 1}
-                          sliderPostura={metricasPostura.length - 1}
-                          sliderExpresiones={metricasExpresiones.length - 1}
                           habla={metricasHabla}
                           postura={metricasPostura}
                           expresiones={metricasExpresiones}

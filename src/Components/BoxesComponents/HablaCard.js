@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -29,51 +29,66 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const HablaCard = ({ data }) => (
-  <Card sx={{ height: "100%", borderRadius: "8px" }}>
-    <CardContent>
-      <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-        <Grid item>
-          <Avatar
-            src={hablaicono}
+export const HablaCard = ({ data }) => {
+  const [grupoMenor, setGrupoMenor] = useState(0);
+  const [grupoMayor, setGrupoMayor] = useState(0);
+  const [PorcMenor, setPorcMenor] = useState(0);
+  const [PorcMayor, setPorcMayor] = useState(0);
+
+  useEffect(() => {
+    if (data.length) {
+      setGrupoMayor(data[data.length - 1][1] + 1);
+      setGrupoMenor(data[0][1] + 1);
+      setPorcMayor(data[data.length - 1][0]);
+      setPorcMenor(data[0][0]);
+    }
+  }, [data]);
+
+  return (
+    <Card sx={{ height: "100%", borderRadius: "8px" }}>
+      <CardContent>
+        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+          <Grid item>
+            <Avatar
+              src={hablaicono}
+              sx={{
+                backgroundColor: "#dba5fa",
+                height: 30,
+                width: 30,
+                borderRadius: "8px",
+              }}
+            ></Avatar>
+          </Grid>
+          <Grid
+            item
             sx={{
-              backgroundColor: "#dba5fa",
-              height: 30,
-              width: 30,
-              borderRadius: "8px",
+              display: "flex",
+              alignItems: "start",
+              justifyContent: "start",
             }}
-          ></Avatar>
-        </Grid>
-        <Grid
-          item
-          sx={{
-            display: "flex",
-            alignItems: "start",
-            justifyContent: "start",
-          }}
-        >
-          <Typography color="textSecondary" gutterBottom variant="overline">
-            Habla
-          </Typography>
-        </Grid>
-        <Grid item>
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">
-                  Esta tarjeta muestra los grupos con mas y menos habla del
-                  promedio correspondientemente
-                </Typography>
-              </React.Fragment>
-            }
           >
-            <IconButton color="primary">
-              <InfoIcon />
-            </IconButton>
-          </HtmlTooltip>
+            <Typography color="textSecondary" gutterBottom variant="overline">
+              Habla
+            </Typography>
+          </Grid>
+          <Grid item>
+            <HtmlTooltip
+              title={
+                <React.Fragment>
+                  <Typography color="inherit">
+                    Esta tarjeta muestra los grupos con mas y menos habla del
+                    promedio correspondientemente
+                  </Typography>
+                </React.Fragment>
+              }
+            >
+              <IconButton color="primary">
+                <InfoIcon />
+              </IconButton>
+            </HtmlTooltip>
+          </Grid>
         </Grid>
-      </Grid>
-      {/*  <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+        {/*  <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
         <Grid item>
           <Grid item>
             <Avatar
@@ -93,7 +108,7 @@ export const HablaCard = ({ data }) => (
         </Grid>
       </Grid> */}
 
-      {data.length && (
+        {/* {data.length && ( */}
         <Box
           sx={{
             pt: 2,
@@ -108,7 +123,8 @@ export const HablaCard = ({ data }) => (
             }}
             variant="body2"
           >
-            {"Grupo " + (data[data.length - 1][1] + 1)}
+            {/* {"Grupo " + (data[data.length - 1][1] + 1)} */}
+            {"Grupo " + grupoMayor}
           </Typography>
           <ArrowUpwardIcon color="success" />
           <Typography
@@ -118,14 +134,15 @@ export const HablaCard = ({ data }) => (
             }}
             variant="body2"
           >
-            {Math.round(data[data.length - 1][0]) + "%"}
+            {/* {Math.round(data[data.length - 1][0]) + "%"} */}
+            {Math.round(PorcMayor) + "%"}
           </Typography>
           <Typography color="textSecondary" variant="caption">
             Mas que el promedio
           </Typography>
         </Box>
-      )}
-      {data.length && (
+        {/* )} */}
+        {/* {data.length && ( */}
         <Box
           sx={{
             pt: 2,
@@ -140,7 +157,8 @@ export const HablaCard = ({ data }) => (
             }}
             variant="body2"
           >
-            {"Grupo " + (data[0][1] + 1)}
+            {/* {"Grupo " + (data[0][1] + 1)} */}
+            {"Grupo " + grupoMenor}
           </Typography>
           <ArrowDownwardIcon color="error" />
           <Typography
@@ -150,26 +168,28 @@ export const HablaCard = ({ data }) => (
             }}
             variant="body2"
           >
-            {Math.abs(Math.round(data[0][0])) + "%"}
+            {/* {Math.abs(Math.round(data[0][0])) + "%"} */}
+            {Math.abs(Math.round(PorcMenor)) + "%"}
           </Typography>
           <Typography color="textSecondary" variant="caption">
             Menos que el promedio
           </Typography>
         </Box>
-      )}
-      <Grid
-        item
-        sx={{
-          pt: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button component={RouterLink} to="/habla" variant="outlined">
-          Ver más
-        </Button>
-      </Grid>
-    </CardContent>
-  </Card>
-);
+        {/* )} */}
+        <Grid
+          item
+          sx={{
+            pt: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Button component={RouterLink} to="/habla" variant="outlined">
+            Ver más
+          </Button>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};

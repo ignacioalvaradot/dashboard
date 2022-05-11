@@ -33,8 +33,8 @@ const ExpresionLineGraph = (props) => {
     "Expresion_sad",
     "Expresion_surprise",
   ];
-  const [tick, setTick] = useState([1]);
-  //const [tick, setTick] = useState([0]);
+  //const [tick, setTick] = useState([1]);
+  const [tick, setTick] = useState([0]);
 
   const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
   var margin = { top: 10, right: 30, bottom: 30, left: 60 };
@@ -86,8 +86,8 @@ const ExpresionLineGraph = (props) => {
     const xScale = d3
       //.scaleTime()
       .scaleLinear()
-      .domain(d3.extent(tick))
-
+      //.domain(d3.extent(tick))
+      .domain([0, tick.length])
       .range([0, dimensions.width]);
 
     var yScale = d3
