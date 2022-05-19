@@ -228,7 +228,10 @@ const Habla = () => {
               <React.Fragment>
                 <Typography color="inherit">
                   Este es un gráfico de red que busca la relacion entre los
-                  miembros del grupo
+                  miembros del grupo, las expresiones y sus respectivos colores
+                  estan representadas en los nodos de cada sujeto y los arcos
+                  entre nodos representa la simetria entre los sujetos,
+                  siguiendo los mismos colores de cada expresión.
                 </Typography>
               </React.Fragment>
             }
@@ -305,7 +308,13 @@ const Habla = () => {
                             borderRadius: "8px",
                           }}
                         >
-                          <Grid sx={{ textAlign: "end" }}>
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico de radar de expresión
+                              </Typography>
+                            </Grid>
                             <HtmlTooltip
                               title={
                                 <React.Fragment>
@@ -336,14 +345,19 @@ const Habla = () => {
                             borderRadius: "8px",
                           }}
                         >
-                          <Grid sx={{ textAlign: "end" }}>
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico de puntos en el tiempo
+                              </Typography>
+                            </Grid>
                             <HtmlTooltip
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un gráfico de puntos que expresa las
-                                    expresiones de cada sujeto a traves de el
-                                    tiempo
+                                    Este es un gráfico de puntos que muestra las
+                                    expresiones del grupo a traves del tiempo
                                   </Typography>
                                 </React.Fragment>
                               }

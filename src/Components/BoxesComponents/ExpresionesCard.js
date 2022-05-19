@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -29,124 +29,130 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-export const ExpresionesCard = (props) => (
-  <Card sx={{ height: "100%", borderRadius: "8px" }} {...props}>
-    <CardContent>
-      <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-        <Grid item>
-          <Avatar
-            src={expresionicono}
+export const ExpresionesCard = ({ data }) => {
+  const [grupoMenor, setGrupoMenor] = useState(0);
+  const [grupoMayor, setGrupoMayor] = useState(0);
+
+  useEffect(() => {
+    if (data.length) {
+      setGrupoMayor(data[data.length - 1][1] + 1);
+      setGrupoMenor(data[0][1] + 1);
+    }
+  }, [data]);
+
+  return (
+    <Card sx={{ height: "100%", borderRadius: "8px" }}>
+      <CardContent>
+        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+          <Grid item>
+            <Avatar
+              src={expresionicono}
+              sx={{
+                backgroundColor: "#db840b",
+                height: 30,
+                width: 30,
+                borderRadius: "8px",
+              }}
+            ></Avatar>
+          </Grid>
+          <Grid item>
+            <Typography color="textSecondary" gutterBottom variant="overline">
+              Expresiones
+            </Typography>
+          </Grid>
+          <Grid
+            item
             sx={{
-              backgroundColor: "#db840b",
-              height: 30,
-              width: 30,
-              borderRadius: "8px",
+              display: "flex",
+              alignItems: "end",
+              justifyContent: "end",
             }}
-          ></Avatar>
+          >
+            <HtmlTooltip
+              title={
+                <React.Fragment>
+                  <Typography color="inherit">
+                    Esta tarjeta muestra los grupos con mas y menos simetria en
+                    las expresiones correspondientemente
+                  </Typography>
+                </React.Fragment>
+              }
+            >
+              <IconButton color="primary">
+                <InfoIcon />
+              </IconButton>
+            </HtmlTooltip>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Typography color="textSecondary" gutterBottom variant="overline">
-            Expresiones
+
+        <Box
+          sx={{
+            pt: 2,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            color="success"
+            sx={{
+              mr: 8,
+            }}
+            variant="body2"
+          >
+            Más simetria
           </Typography>
-        </Grid>
+
+          <Typography
+            color="success"
+            sx={{
+              mr: 1,
+            }}
+            variant="body2"
+          >
+            {"Grupo " + grupoMayor}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            pt: 2,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            color="error"
+            sx={{
+              mr: 8,
+            }}
+            variant="body2"
+          >
+            Menos simetria
+          </Typography>
+
+          <Typography
+            color="error"
+            sx={{
+              mr: 1,
+            }}
+            variant="body2"
+          >
+            {"Grupo " + grupoMenor}
+          </Typography>
+        </Box>
         <Grid
           item
           sx={{
+            pt: 2,
             display: "flex",
-            alignItems: "end",
-            justifyContent: "end",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <HtmlTooltip
-            title={
-              <React.Fragment>
-                <Typography color="inherit">
-                  Este es un gráfico de red que busca la relacion entre los
-                  miembros del grupo
-                </Typography>
-              </React.Fragment>
-            }
-          >
-            <IconButton color="primary">
-              <InfoIcon />
-            </IconButton>
-          </HtmlTooltip>
+          <Button component={RouterLink} to="/expresiones" variant="outlined">
+            Ver más
+          </Button>
         </Grid>
-      </Grid>
-
-      <Box
-        sx={{
-          pt: 2,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Typography
-          color="success"
-          sx={{
-            mr: 8,
-          }}
-          variant="body2"
-        >
-          Grupo 1
-        </Typography>
-        <ArrowUpwardIcon color="success" />
-        <Typography
-          color="success"
-          sx={{
-            mr: 1,
-          }}
-          variant="body2"
-        >
-          12%
-        </Typography>
-        <Typography color="textSecondary" variant="caption">
-          Mas que el promedio
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          pt: 2,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Typography
-          color="error"
-          sx={{
-            mr: 8,
-          }}
-          variant="body2"
-        >
-          Grupo 3
-        </Typography>
-        <ArrowDownwardIcon color="error" />
-        <Typography
-          color="error"
-          sx={{
-            mr: 1,
-          }}
-          variant="body2"
-        >
-          12%
-        </Typography>
-        <Typography color="textSecondary" variant="caption">
-          Menos que el promedio
-        </Typography>
-      </Box>
-      <Grid
-        item
-        sx={{
-          pt: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button component={RouterLink} to="/expresiones" variant="outlined">
-          Ver más
-        </Button>
-      </Grid>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+};

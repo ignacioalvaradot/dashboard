@@ -312,7 +312,11 @@ const Habla = () => {
               <React.Fragment>
                 <Typography color="inherit">
                   Este es un gráfico de red que busca la relacion entre los
-                  miembros del grupo
+                  miembros del grupo, el tamaño de los nodos representan el
+                  número de intervenciones del sujeto correspondiente , el
+                  tamaño de las aristas representan la simetria entre sujetos y
+                  la dirección representa desde y hacia quién existe la
+                  simetria.
                 </Typography>
               </React.Fragment>
             }
@@ -321,10 +325,11 @@ const Habla = () => {
               <InfoIcon />
             </IconButton>
           </HtmlTooltip>
-
+          {/* 
+          Este boton intercambia los graficos de red del habla
           <IconButton onClick={() => setOpen(!open)} color="primary">
             <SwapHorizIcon />
-          </IconButton>
+          </IconButton> */}
         </Grid>
         {slidedata &&
           slidedata.map((canales, i) => (

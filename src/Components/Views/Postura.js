@@ -221,9 +221,13 @@ const Postura = () => {
             title={
               <React.Fragment>
                 <Typography color="inherit">
-                  Este es un gráfico de red que grafica las posturas abiertas
-                  ("color verde") y las posturas cerradas ("color naranjo") de
-                  cada uno de los participantes.
+                  Este es un gráfico de red que busca la relación entre los
+                  miembros del grupo, la torta en los nodos representa el
+                  porcentaje de postura abierta (amarillo) y postura cerrada
+                  (verde) en el sujeto correspondiente, el arco entre nodos
+                  representa la simetria entre los sujetos, siguiendo los mismos
+                  colores y la flecha de cada sujeto indica la dirección de su
+                  mirada.
                 </Typography>
               </React.Fragment>
             }
@@ -299,14 +303,21 @@ const Postura = () => {
                             borderRadius: "8px",
                           }}
                         >
-                          <Grid sx={{ textAlign: "end" }}>
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico de posturas en el grupo
+                              </Typography>
+                            </Grid>
                             <HtmlTooltip
                               title={
                                 <React.Fragment>
                                   <Typography color="inherit">
-                                    Este es un grafico de radar que expresa la
-                                    relacion de los sujetos (con su respectivo
-                                    color) con cada una de las expresiones
+                                    Este es un grafico de torta que representa
+                                    la cantidad de posturas abiertas (amarillo)
+                                    y posturas cerradas (verde) dentro de todo
+                                    el grupo.
                                   </Typography>
                                 </React.Fragment>
                               }

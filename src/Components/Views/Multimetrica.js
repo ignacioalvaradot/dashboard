@@ -268,8 +268,8 @@ const Multimetrica = () => {
             title={
               <React.Fragment>
                 <Typography color="inherit">
-                  Este es un gráfico de red que busca la relacion entre los
-                  miembros del grupo
+                  Este es un gráfico de red que combina las métricas de habla,
+                  postura y expresiones en una sola.
                 </Typography>
               </React.Fragment>
             }
@@ -368,7 +368,13 @@ const Multimetrica = () => {
                                 <React.Fragment>
                                   <Typography color="inherit">
                                     Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    relacion entre los miembros del grupo, los
+                                    nodos representan el número de
+                                    intervenciones del sujeto correspondiente ,
+                                    el tamaño de las aristas representan la
+                                    simetria entre sujetos y la dirección
+                                    representa desde y hacia quién existe la
+                                    simetria.
                                   </Typography>
                                 </React.Fragment>
                               }
@@ -404,7 +410,15 @@ const Multimetrica = () => {
                                 <React.Fragment>
                                   <Typography color="inherit">
                                     Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    relación entre los miembros del grupo, la
+                                    torta en los nodos representa el porcentaje
+                                    de postura abierta (amarillo) y postura
+                                    cerrada (verde) en el sujeto
+                                    correspondiente, el arco entre nodos
+                                    representa la simetria entre los sujetos,
+                                    siguiendo los mismos colores y la flecha de
+                                    cada sujeto indica la dirección de su
+                                    mirada.
                                   </Typography>
                                 </React.Fragment>
                               }
@@ -440,7 +454,12 @@ const Multimetrica = () => {
                                 <React.Fragment>
                                   <Typography color="inherit">
                                     Este es un gráfico de red que busca la
-                                    relacion entre los miembros del grupo
+                                    relacion entre los miembros del grupo, las
+                                    expresiones y sus respectivos colores estan
+                                    representadas en los nodos de cada sujeto y
+                                    los arcos entre nodos representa la simetria
+                                    entre los sujetos, siguiendo los mismos
+                                    colores de cada expresión.
                                   </Typography>
                                 </React.Fragment>
                               }

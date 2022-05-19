@@ -172,7 +172,7 @@ const Multi = (props) => {
     };
     imagenes
       .transition()
-      .duration(200)
+      .duration(1)
       .attrTween("transform", (d, i) => tween(90 * i + 174 + d.faceAngle, i)); // tiene que ser 180 grados .
 
     const linea = svg
