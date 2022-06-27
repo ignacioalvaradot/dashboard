@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import Box from "@mui/material/Box";
-import resize from "./useResizeObserver";
+
 import { useSelector } from "react-redux";
 
 const NetworkGraph = ({ data, grupos }) => {
@@ -28,7 +27,7 @@ const NetworkGraph = ({ data, grupos }) => {
     props.data.channel.map((canales, i) => (
         setRadiusScale(currentData => [...currentData,canales.numeroInterv])
         )); */
-    const tooldiv = d3.select("#chartArea" + grupos);
+
     /* .append('div')
         .style('visibility','hidden')
         .style('position','absolute')
@@ -65,7 +64,7 @@ const NetworkGraph = ({ data, grupos }) => {
       .domain([0, maxRadius])
       //.range([0.50,0.90]);
       .range([0, 0.5]);
-
+    // eslint-disable-next-line
     const nodo = svg
       .select(".chart")
       .selectAll("circle")
@@ -119,7 +118,7 @@ const NetworkGraph = ({ data, grupos }) => {
       })
 
       .each(function (d, i) {
-        if (d.valor == 1) {
+        if (d.valor === 1) {
           svg
             .select("#name" + (d.channelId - 1))
             .attr("stroke", "#008000")
@@ -133,7 +132,7 @@ const NetworkGraph = ({ data, grupos }) => {
         return nodoScale(d.numeroInterv);
       });
     //.attr("r", (d) => d.numeroInterv);
-
+    // eslint-disable-next-line
     const linea = svg
       .select(".chart")
       .selectAll("path.line")
@@ -154,8 +153,6 @@ const NetworkGraph = ({ data, grupos }) => {
             d3.select("#name" + (d.source - 1)).attr("cy"),
           dr = Math.sqrt(dx * dx + dy * dy);
 
-        var offsetX = (dx * d3.select("#name" + (d.target - 1)).attr("r")) / dr;
-        var offsetY = (dy * d3.select("#name" + (d.target - 1)).attr("r")) / dr;
         return (
           "M" +
           d3.select("#name" + (d.source - 1)).attr("cx") +
@@ -200,7 +197,7 @@ const NetworkGraph = ({ data, grupos }) => {
         return lineaScale(d.weigth);
       })
       .attr("marker-end", "url(#arrow)");
-
+    // eslint-disable-next-line
     const texto = svg
       .select(".chart")
       .selectAll("text")
@@ -246,6 +243,7 @@ const NetworkGraph = ({ data, grupos }) => {
     //console.log(props.data.channel[0].numeroInterv)
     //console.log(nodoScale(props.data.channel[0].numeroInterv))
     //console.log(lineaScale(props.data.trace_delta[0].weigth))
+    // eslint-disable-next-line
   }, [data]);
 
   return (

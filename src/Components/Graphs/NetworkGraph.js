@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import Box from "@mui/material/Box";
+
 import flecha1 from "../../Utilities/flecha.png";
 var elements = [];
 const NetworkGraph = (props) => {
   const areaChart = useRef(null);
   const dimensions = { width: 270, height: 270 };
-  const colors = d3.scaleOrdinal(d3.schemeCategory10);
+
   var mycolors = ["#FFA500", "#008000"];
 
   useEffect(() => {
@@ -33,9 +33,8 @@ const NetworkGraph = (props) => {
           Math.cos(2 * Math.PI * (i / props.data.channel.length + 0.75))
         }, ${(dimensions.height / 4) * Math.sin(2 * Math.PI * (i / props.data.channel.length + 0.75))})`;
       });
-    var sym = d3.symbol().type(d3.symbolTriangle).size(200);
+
     var angulo = Math.random();
-    const ang = (angulo * 360 * Math.PI) / 180;
 
     const imagenes = svg
       .select(".chart")
@@ -157,7 +156,7 @@ const NetworkGraph = (props) => {
       return d3.interpolateString("rotate(0, 0, 0)", "rotate(100, 0, 0)");
     }; */
     //inside.transition().duration(200).attrTween("transform", tween);
-
+    // eslint-disable-next-line
     const nodo = g
       .selectAll("path.pie")
       .data(function (d) {
@@ -170,7 +169,7 @@ const NetworkGraph = (props) => {
         return mycolors[i];
       })
       .attr("d", arc(25));
-
+    // eslint-disable-next-line
     const linea = svg
       .select(".chart")
       .selectAll("path.line")
@@ -266,18 +265,19 @@ const NetworkGraph = (props) => {
         );
       })
       .attr("stroke", function (d) {
+        // eslint-disable-next-line
         switch (d.type) {
           case "open":
             return "#FFA500";
-            break;
+
           case "close":
             return "#008000";
-            break;
         }
       })
       .attr("stroke-width", 8);
     //console.log(angulo);
     console.log(elements);
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (

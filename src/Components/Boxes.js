@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Box, Container, Grid } from "@mui/material";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-import Button from "@mui/material/Button";
 import { HablaCard } from "./BoxesComponents/HablaCard";
 import { MultimetricaCard } from "./BoxesComponents/MultimetricaCard";
 import { PosturaCard } from "./BoxesComponents/PosturaCard";
 import { ExpresionesCard } from "./BoxesComponents/ExpresionesCard";
 import "./fonts.css";
-import { stackOffsetExpand } from "d3";
 
 const Boxes = () => {
   const metricasHabla = useSelector((store) => store.metricaHabla.array);
@@ -145,7 +142,7 @@ const Boxes = () => {
     setDataPosturaOpen(bubbleSort(stacksOpen));
     setDataPosturaClosed(bubbleSort(stacksClosed));
     setDataExpresiones(bubbleSort(stacksExp));
-    console.log(dataExpresiones);
+    //console.log(dataExpresiones);
     //console.log(dataPosturaOpen);
     //console.log(dataPosturaClosed);
     //console.log(data);
@@ -157,6 +154,7 @@ const Boxes = () => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [tickes]);
 
   const datosExp = useSelector((store) => store.DatosExp.array);
@@ -180,8 +178,8 @@ const Boxes = () => {
               </Grid>
               <Grid item lg={3} sm={6} xl={3} xs={12}>
                 <PosturaCard
-                  dataOpen={dataPosturaOpen}
-                  dataClosed={dataPosturaClosed}
+                  dataopen={dataPosturaOpen}
+                  dataclosed={dataPosturaClosed}
                 />
               </Grid>
               <Grid item lg={3} sm={6} xl={3} xs={12}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import happy from "../../Utilities/feliz.png";
 import sad from "../../Utilities/sad.png";
@@ -20,7 +20,7 @@ const NetworkExpGraph = (props) => {
       .attr("width", dimensions.width)
       .attr("height", dimensions.height)
       .style("background-color", "white");
-
+    // eslint-disable-next-line
     const nodo = svg
       .select(".chart")
       .selectAll("circle")
@@ -30,28 +30,28 @@ const NetworkExpGraph = (props) => {
         return "name" + (d.channelId - 1);
       })
       .style("fill", function (d) {
+        // eslint-disable-next-line
         switch (d.valor) {
           case "Expresion_angry":
             return "#F30606";
-            break;
+
           case "Expresion_disgust":
             return "#4ECE2B";
-            break;
+
           case "Expresion_fear":
             return "#A657A8";
-            break;
+
           case "Expresion_surprise":
             return "#E68714";
-            break;
+
           case "Expresion_sad":
             return "#33AAFF";
-            break;
+
           case "Expresion_happy":
             return "#FFCE36";
-            break;
+
           case "Expresion_neutral":
             return "#737273";
-            break;
         }
       })
       .attr("cx", function (d, i) {
@@ -68,7 +68,7 @@ const NetworkExpGraph = (props) => {
       })
       .raise()
       .attr("r", 25);
-
+    // eslint-disable-next-line
     const nodosImagenes = svg
       .select(".chart")
       .selectAll("circle2")
@@ -78,28 +78,28 @@ const NetworkExpGraph = (props) => {
         return "name2" + i;
       })
       .attr("fill", function (d) {
+        // eslint-disable-next-line
         switch (d.valor) {
           case "Expresion_angry":
             return "url(#angry)";
-            break;
+
           case "Expresion_disgust":
             return "url(#disgust)";
-            break;
+
           case "Expresion_fear":
             return "url(#fear)";
-            break;
+
           case "Expresion_surprise":
             return "url(#surprise)";
-            break;
+
           case "Expresion_sad":
             return "url(#sad)";
-            break;
+
           case "Expresion_happy":
             return "url(#happy)";
-            break;
+
           case "Expresion_neutral":
             return "url(#neutral)";
-            break;
         }
       })
       .attr("cx", function (d, i) {
@@ -116,7 +116,7 @@ const NetworkExpGraph = (props) => {
       })
       .raise()
       .attr("r", 25);
-
+    // eslint-disable-next-line
     const linea = svg
       .select(".chart")
       .selectAll("path.line")
@@ -172,32 +172,32 @@ const NetworkExpGraph = (props) => {
         );
       })
       .attr("stroke", function (d) {
+        // eslint-disable-next-line
         switch (d.expresion) {
           case "Expresion_angry":
             return "#F30606";
-            break;
+
           case "Expresion_disgust":
             return "#4ECE2B";
-            break;
+
           case "Expresion_fear":
             return "#A657A8";
-            break;
+
           case "Expresion_surprise":
             return "#E68714";
-            break;
+
           case "Expresion_sad":
             return "#33AAFF";
-            break;
+
           case "Expresion_happy":
             return "#FFCE36";
-            break;
+
           case "Expresion_neutral":
             return "#737273";
-            break;
         }
       })
       .attr("stroke-width", (d) => d.weigth);
-
+    // eslint-disable-next-line
     const texto = svg
       .select(".chart")
       .selectAll("text")
@@ -229,6 +229,7 @@ const NetworkExpGraph = (props) => {
       .text(function (d, i) {
         return d.descripcion;
       });
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (

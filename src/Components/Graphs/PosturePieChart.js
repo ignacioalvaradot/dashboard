@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import Box from "@mui/material/Box";
 
 const Pie = (props) => {
   const ref = useRef(null);
@@ -13,7 +12,6 @@ const Pie = (props) => {
     .innerRadius(props.innerRadius)
     .outerRadius(props.outerRadius);
   const mycolors = ["#FFA500", "#008000"];
-  const format = d3.format(".2f");
 
   useEffect(() => {
     const data = createPie(props.data.group.acumulate_posture);
@@ -61,6 +59,7 @@ const Pie = (props) => {
       .style("fill", "white")
       .style("font-size", 10)
       .text(d => format(toString(d.valor))); */
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (

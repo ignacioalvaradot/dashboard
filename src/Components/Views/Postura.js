@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import PosturePieChart from "../Graphs/PosturePieChart";
 import ModalLegend from "../Graphs/ModalLegend";
 import Typography from "@mui/material/Typography";
@@ -118,14 +118,12 @@ const Postura = () => {
     setSlidedata(metricasPostura[value]);
     setEstado(true);
     setColorButton("retrocede");
-    console.log(value);
-    console.log(slidedata);
   };
 
   const tick = () => {
     //datas.push(data)
     //setFinaldata(data);
-    if (estado == false) {
+    if (estado === false) {
       //setValue(datas.length);
       setValue(metricasPostura.length);
       setSlidedata(metricasPostura[value]);
@@ -141,6 +139,7 @@ const Postura = () => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [metricasPostura]);
 
   return (
@@ -180,11 +179,12 @@ const Postura = () => {
             <Box ml={3}>
               <ThemeProvider theme={theme}>
                 <ColorButton
+                  // eslint-disable-next-line
                   onClick={() => (setEstado(false), setColorButton("directo"))}
                   variant="contained"
                   startIcon={<CircleIcon />}
                   color={colorButton}
-                  backgroundColor={"#ffff"}
+                  backgroundcolor={"#ffff"}
                 >
                   {" "}
                   En directo
@@ -205,6 +205,7 @@ const Postura = () => {
                 color: "#ffff",
               }}
               onClick={() => (
+                // eslint-disable-next-line
                 setEstado(true), setSlidedata(metricasPostura[value - 1])
               )}
             >

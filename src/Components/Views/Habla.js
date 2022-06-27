@@ -21,11 +21,10 @@ import DoublePieChart from "../Graphs/DoublePieChart";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+
 import { red } from "@mui/material/colors";
 import "../fonts.css";
 import NetworkIntervGraph from "../Graphs/NetworkInterv";
-import NetworkSpeechExample from "../Graphs/NetworkSpeechExample";
 
 const TinyText = styled(Typography)({
   fontSize: "0.8rem",
@@ -101,73 +100,6 @@ const style3 = {
   textTransform: "none",
 };
 
-var datas = [];
-const datosEjemplo = {
-  name: "Mic02",
-  direction: 0,
-
-  trace_delta: [
-    {
-      source: 3,
-      target: 3,
-      weigth: 4,
-    },
-    {
-      source: 1,
-      target: 4,
-      weigth: 8,
-    },
-  ],
-  group: {
-    totalTimeInterv: 628,
-    totalTimeEfectv: 196,
-    totalTimeSilenc: 226,
-    total_time_act: 233,
-  },
-  channel: [
-    {
-      channelId: 1,
-      valor: 1,
-      numeroInterv: 3,
-      acumulateInterv: [26, 15, 14, 5, 10, 15],
-      totalTimeInterv: 195,
-      totalTimeEfectv: 0,
-      totalTimeSilenc: 67,
-      totalPart: 4,
-    },
-    {
-      channelId: 2,
-      valor: 0,
-      numeroInterv: 19,
-      acumulateInterv: [14, 6, 13, 13, 17, 22],
-      totalTimeInterv: 154,
-      totalTimeEfectv: 5,
-      totalTimeSilenc: 91,
-      totalPart: 75,
-    },
-    {
-      channelId: 3,
-      valor: 0,
-      numeroInterv: 10,
-      acumulateInterv: [10, 2, 14, 19, 15, 9],
-      totalTimeInterv: 187,
-      totalTimeEfectv: 96,
-      totalTimeSilenc: 90,
-      totalPart: 8,
-    },
-    {
-      channelId: 4,
-      valor: 1,
-      numeroInterv: 18,
-      acumulateInterv: [28, 13, 6, 19, 2, 12],
-      totalTimeInterv: 154,
-      totalTimeEfectv: 77,
-      totalTimeSilenc: 7,
-      totalPart: 62,
-    },
-  ],
-};
-
 const Habla = () => {
   const metricasHabla = useSelector((store) => store.metricaHabla.array);
   const [slidedata, setSlidedata] = useState([]);
@@ -175,10 +107,10 @@ const Habla = () => {
   const [estado, setEstado] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
   const [colorButton, setColorButton] = useState("directo");
-  const [tick, setTick] = useState([0]);
-  const [open, setOpen] = useState(false);
+  //const [tick, setTick] = useState([0]);
+  const [open] = useState(false);
   const handleClose = () => setSelectedItem(null);
-  const dataUpdate = useSelector((store) => store.DatosUpdate.array);
+  //const dataUpdate = useSelector((store) => store.DatosUpdate.array);
 
   function formatDuration(value) {
     const minute = Math.floor(value / 60);
@@ -195,10 +127,10 @@ const Habla = () => {
     console.log(slidedata); */
   };
 
-  /*   const tick = () => {
+  const tick = () => {
     //datas.push(data)
     //setFinaldata(data);
-    if (estado == false) {
+    if (estado === false) {
       //setValue(datas.length);
       setValue(metricasHabla.length);
       setSlidedata(metricasHabla[value]);
@@ -207,23 +139,21 @@ const Habla = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(tick, 3000);
-    //setValue(value + 1);
-    //setSlidedata(datas[value])
+    const interval = setInterval(tick, 1000);
     tick();
-
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [metricasHabla]);
- */
-  const ticks = () => {
+
+  /* const ticks = () => {
     setTick((currentData) => [...currentData, tick.slice(-1)[0] + 1]);
   };
 
   useEffect(() => {
     const interval = setInterval(ticks, dataUpdate);
-    if (estado == false) {
+    if (estado === false) {
       //setValue(datas.length);
       setValue(metricasHabla.length);
       setSlidedata(metricasHabla[value]);
@@ -232,7 +162,8 @@ const Habla = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [tick]);
+    // eslint-disable-next-line
+  }, [tick]); */
   return (
     <div>
       <Grid container justifyContent="center" m={1}>
@@ -270,11 +201,12 @@ const Habla = () => {
             <Box ml={3}>
               <ThemeProvider theme={theme}>
                 <ColorButton
+                  // eslint-disable-next-line
                   onClick={() => (setEstado(false), setColorButton("directo"))}
                   variant="contained"
                   startIcon={<CircleIcon />}
                   color={colorButton}
-                  backgroundColor={"#ffff"}
+                  backgroundcolor={"#ffff"}
                 >
                   {" "}
                   En directo
@@ -295,6 +227,7 @@ const Habla = () => {
                 color: "#ffff",
               }}
               onClick={() => (
+                // eslint-disable-next-line
                 setEstado(true), setSlidedata(metricasHabla[value - 1])
               )}
             >

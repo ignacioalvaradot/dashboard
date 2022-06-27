@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NetworkSpeechGraph from "../Graphs/NetworkSpeechGraph";
-import NetworkGraph from "../Graphs/NetworkGraph";
+
 import NetworkExpGraph from "../Graphs/NetworkExpGraph";
 import NetworkPostGraph from "../Graphs/NetworkPostGraph";
 import Box from "@mui/material/Box";
@@ -18,7 +18,7 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import ModalLegend from "../Graphs/ModalLegend";
-import DoublePieChart from "../Graphs/DoublePieChart";
+
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
@@ -101,8 +101,6 @@ const style3 = {
   textTransform: "none",
 };
 
-var datas = [];
-
 const Multimetrica = () => {
   const dispatch = useDispatch();
   const [dataMmexp, setDataMmexp] = useState("no hay datos");
@@ -142,7 +140,7 @@ const Multimetrica = () => {
   const tick = () => {
     //datas.push(data)
     //setFinaldata(data);
-    if (estado == false) {
+    if (estado === false) {
       //setValue(datas.length);
       setValue(metricasHabla.length);
       setValuePostura(metricasPostura.length);
@@ -152,17 +150,17 @@ const Multimetrica = () => {
   };
 
   useEffect(() => {
-    if (dataExp.length != 0) {
+    if (dataExp.length !== 0) {
       setGrupos(dataExp.fase[dataExp.experimento.faseActiva].idGrupos);
-      console.log(grupos);
     }
+    // eslint-disable-next-line
   }, [dataExp]);
 
   useEffect(() => {
     window.addEventListener(
       "message",
       function (e) {
-        if (e.origin == "http://localhost") {
+        if (e.origin === "http://localhost") {
           setDataMmexp(JSON.stringify(e.data));
           dispatch(obtenerDatosExperimentoAccion(e.data));
           console.log(dataMmexp);
@@ -170,6 +168,7 @@ const Multimetrica = () => {
       },
       false
     );
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -188,6 +187,7 @@ const Multimetrica = () => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [metricasHabla]);
 
   return (
@@ -227,11 +227,12 @@ const Multimetrica = () => {
             <Box ml={3}>
               <ThemeProvider theme={theme}>
                 <ColorButton
+                  // eslint-disable-next-line
                   onClick={() => (setEstado(false), setColorButton("directo"))}
                   variant="contained"
                   startIcon={<CircleIcon />}
                   color={colorButton}
-                  backgroundColor={"#ffff"}
+                  backgroundcolor={"#ffff"}
                 >
                   {" "}
                   En directo
@@ -252,6 +253,7 @@ const Multimetrica = () => {
                 color: "#ffff",
               }}
               onClick={() => (
+                // eslint-disable-next-line
                 setEstado(true), setSlidedata(metricasHabla[value - 1])
               )}
             >

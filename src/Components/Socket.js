@@ -1,5 +1,5 @@
 import socketIOClient from "socket.io-client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   obtenerMetricasAccion,
   obtenerMetricasExpresionesAccion,
@@ -9,10 +9,10 @@ import { useEffect } from "react";
 
 //ENDPOINTS
 //const ENDPOINT_HABLA = "http://dnsdiegomiranda2.ddns.net/Report";
-const ENDPOINT_HABLA = "http://192.168.1.5:200/tiempohabla";
+const ENDPOINT_HABLA = "http://192.168.1.2:200/tiempohabla";
 //const ENDPOINT_HABLA = "http://192.168.1.5:82/Report";
-const ENDPOINT_EXPRESIONES = "http://192.168.1.5:200/expresiones";
-const ENDPOINT_POSTURA = "http://192.168.1.5:200/postura";
+const ENDPOINT_EXPRESIONES = "http://192.168.1.2:200/expresiones";
+const ENDPOINT_POSTURA = "http://192.168.1.2:200/postura";
 
 const socketHabla = socketIOClient(ENDPOINT_HABLA, {
   transports: ["websocket", "polling"],
@@ -29,22 +29,24 @@ const Socket = () => {
   var temporal;
   var temporal2;
   var temporal3;
-  var temporal4;
 
   const dispatch = useDispatch();
-  const dataUpdate = useSelector((store) => store.DatosUpdate.array);
+
   useEffect(() => {
     /* socketHabla.on("report_metric", (msg) => {
       temporal = msg.data.devices;
     }); */
 
     socketHabla.on("SendMetrics", (msg) => {
+      // eslint-disable-next-line
       temporal = msg.data.devices;
     });
     socketExpresiones.on("SendMetrics", (msg) => {
+      // eslint-disable-next-line
       temporal2 = msg.data.devices;
     });
     socketPostura.on("SendMetrics", (msg) => {
+      // eslint-disable-next-line
       temporal3 = msg.data.devices;
     });
   }, []);
@@ -65,6 +67,7 @@ const Socket = () => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, []);
 };
 

@@ -36,11 +36,12 @@ const ExpresionLineGraph = (props) => {
   //const [tick, setTick] = useState([1]);
   const [tick, setTick] = useState([0]);
 
-  const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
-  var margin = { top: 10, right: 30, bottom: 30, left: 60 };
-
   const ticks = () => {
     setTick((currentData) => [...currentData, tick.slice(-1)[0] + 1]);
+    if (tick.length >= 30) {
+      elements2 = [];
+      setTick([0]);
+    }
   };
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const ExpresionLineGraph = (props) => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [tick]);
 
   useEffect(() => {
@@ -61,7 +63,6 @@ const ExpresionLineGraph = (props) => {
   }, []);
  */
   useEffect(() => {
-    const order = [];
     var limits = [];
 
     props.data.channel.map(
@@ -111,7 +112,7 @@ const ExpresionLineGraph = (props) => {
     //.range([dimensions.height,0]);
     //.domain([minN ,maxX])
     //.range([dimensions.height - margin.bottom, margin.top])
-
+    // eslint-disable-next-line
     const generateScaledLine = d3
       .line()
       .x((_, i) => xScale(i))
@@ -148,7 +149,7 @@ const ExpresionLineGraph = (props) => {
       .join("g")
       .attr("class", "lines")
       .attr("stroke", (d, i) => color[order[i]]); */
-
+    // eslint-disable-next-line
     const circles = svg
       .selectAll("g.yScale")
       //.select("circle")
@@ -161,32 +162,32 @@ const ExpresionLineGraph = (props) => {
       .attr("r", 10)
       //.attr("fill", "rgba(100, 0, 0, 0.2)")
       .style("fill", function (d) {
+        // eslint-disable-next-line
         switch (d) {
           case "Expresion_angry":
             return "#F30606";
-            break;
+
           case "Expresion_disgust":
             return "#4ECE2B";
-            break;
+
           case "Expresion_fear":
             return "#A657A8";
-            break;
+
           case "Expresion_surprise":
             return "#E68714";
-            break;
+
           case "Expresion_sad":
             return "#33AAFF";
-            break;
+
           case "Expresion_happy":
             return "#FFCE36";
-            break;
+
           case "Expresion_neutral":
             return "#737273";
-            break;
         }
       })
       .attr("transform", (d) => `translate(${-20},${scale(d)} )`);
-
+    // eslint-disable-next-line
     const circles2 = svg
       .selectAll("g.yScale")
       //.select("circle")
@@ -199,28 +200,28 @@ const ExpresionLineGraph = (props) => {
       .attr("r", 10)
       //.attr("fill", "rgba(100, 0, 0, 0.2)")
       .attr("fill", function (d) {
+        // eslint-disable-next-line
         switch (d) {
           case "Expresion_angry":
             return "url(#angry)";
-            break;
+
           case "Expresion_disgust":
             return "url(#disgust)";
-            break;
+
           case "Expresion_fear":
             return "url(#fear)";
-            break;
+
           case "Expresion_surprise":
             return "url(#surprise)";
-            break;
+
           case "Expresion_sad":
             return "url(#sad)";
-            break;
+
           case "Expresion_happy":
             return "url(#happy)";
-            break;
+
           case "Expresion_neutral":
             return "url(#neutral)";
-            break;
         }
       })
       .attr("transform", (d) => `translate(${-20},${scale(d)} )`);
@@ -264,7 +265,7 @@ const ExpresionLineGraph = (props) => {
       .join("g")
       .attr("class", "circles")
       .attr("stroke", (d, i) => color[order[i]]); */
-
+    // eslint-disable-next-line
     const circulo = svg
       .select(".dot")
       .selectAll("circle")
@@ -301,15 +302,10 @@ const ExpresionLineGraph = (props) => {
       .attr("r", "3")
       .style("fill", "#69b3a2");
 
-    //console.log(props.data.channel[0].acumulateInterv)
-    //console.log(interv)
-    // console.log(maxX)
-    // console.log(minN)
-    //console.log(interv6)
-    console.log(elements2);
-    console.log(tick);
-    //console.log(limits);
-    //console.log(props.tiempo);
+    /*  console.log(elements2);
+    console.log(tick); */
+
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (

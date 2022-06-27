@@ -4,12 +4,19 @@ import { useSelector } from "react-redux";
 
 const ModalLegend = (props) => {
   const areaChart = useRef();
-  const dimensions = { width: 400, height: 40 };
+  const dimensions = { width: 500, height: 40 };
   const dataExp = useSelector((store) => store.DatosExp.array);
 
   //const color = d3.scaleOrdinal(d3.schemeCategory10);
   //const color = d3.scaleOrdinal(["#2499EF", "#FF9777", "#FF6B93", "#6BD098"]);
-  const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
+  const color = [
+    "#2499EF",
+    "#FF9777",
+    "#FF6B93",
+    "#6BD098",
+    "#865109",
+    "#957DAD",
+  ];
   useEffect(() => {
     const svg = d3
       .select(areaChart.current)
@@ -53,6 +60,7 @@ const ModalLegend = (props) => {
       })
       .attr("text-anchor", "left")
       .style("alignment-baseline", "middle");
+    // eslint-disable-next-line
   }, [props.data]);
 
   return <svg ref={areaChart}></svg>;

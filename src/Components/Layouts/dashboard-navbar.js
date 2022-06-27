@@ -1,28 +1,22 @@
-import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import {
   AppBar,
-  Avatar,
-  Badge,
   Box,
   IconButton,
   Toolbar,
   Tooltip,
-  Button,
-  TextField,
-  Input,
+  //Input,
 } from "@mui/material";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+
 import GroupIcon from "@mui/icons-material/Group";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
 import { makeStyles } from "@material-ui/core/styles";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useDispatch } from "react-redux";
-import { obtenerDatosUpdateAccion } from "../../redux/metricasDucks";
-const ariaLabel = { "aria-label": "description" };
+
+//import { useDispatch } from "react-redux";
+//import { obtenerDatosUpdateAccion } from "../../redux/metricasDucks";
+//const ariaLabel = { "aria-label": "description" };
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   position: "static",
@@ -40,21 +34,15 @@ const useStyles = makeStyles((theme) => ({
 
 export const DashboardNavbar = (props) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [update, SetUpdate] = useState(1000);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(obtenerDatosUpdateAccion(update));
-  }, [update]);
+  // const [update, SetUpdate] = useState(1000);
+  //const dispatch = useDispatch();
 
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  /* useEffect(() => {
+    //dispatch(obtenerDatosUpdateAccion(update));
+    // eslint-disable-next-line
+  }, [update]); */
+
   return (
     <>
       <DashboardNavbarRoot
@@ -120,7 +108,7 @@ export const DashboardNavbar = (props) => {
               </Box>
             </MenuItem>
           </Menu> */}
-          <Box
+          {/* <Box
             component="form"
             sx={{
               "& > :not(style)": { m: 1, width: "8ch", height: "5ch" },
@@ -128,11 +116,7 @@ export const DashboardNavbar = (props) => {
             noValidate
             autoComplete="off"
           >
-            {/* <TextField
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-            /> */}
+           
             <Input
               placeholder="Tiempo (S)"
               inputProps={ariaLabel}
@@ -141,7 +125,7 @@ export const DashboardNavbar = (props) => {
                 SetUpdate(e.target.value * 1000);
               }}
             />
-          </Box>
+          </Box> */}
           <Tooltip title="Grupos">
             <IconButton sx={{ ml: 1 }}>
               <GroupIcon></GroupIcon>

@@ -7,10 +7,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import posturaicono from "../../Utilities/postura-icono.png";
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
@@ -32,17 +30,13 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 export const PosturaCard = (props) => {
   const [grupoMenor, setGrupoMenor] = useState(0);
   const [grupoMayor, setGrupoMayor] = useState(0);
-  const [PorcMenor, setPorcMenor] = useState(0);
-  const [PorcMayor, setPorcMayor] = useState(0);
 
   useEffect(() => {
-    if (props.dataOpen.length && props.dataClosed.length) {
-      setGrupoMayor(props.dataOpen[props.dataOpen.length - 1][1] + 1);
-      setGrupoMenor(props.dataClosed[props.dataClosed.length - 1][1] + 1);
-      setPorcMayor(props.dataOpen[props.dataOpen.length - 1][0]);
-      setPorcMenor(props.dataClosed[props.dataClosed.length - 1][0]);
+    if (props.dataopen.length && props.dataclosed.length) {
+      setGrupoMayor(props.dataopen[props.dataopen.length - 1][1] + 1);
+      setGrupoMenor(props.dataclosed[props.dataclosed.length - 1][1] + 1);
     }
-  }, [props.dataOpen, props.dataClosed]);
+  }, [props.dataopen, props.dataclosed]);
   return (
     <Card sx={{ height: "100%", borderRadius: "8px" }} {...props}>
       <CardContent>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import flecha1 from "../../Utilities/flecha.png";
 import { useSelector } from "react-redux";
@@ -84,6 +84,7 @@ const NetworkPostGraph = (props) => {
       .transition()
       .duration(1)
       .attrTween("transform", (d, i) => tween(90 * i + 174 + d.faceAngle, i)); // tiene que ser 180 grados .
+    // eslint-disable-next-line
     const nodo = g
       .selectAll("path.pie")
       .data(function (d) {
@@ -96,7 +97,7 @@ const NetworkPostGraph = (props) => {
         return mycolors[i];
       })
       .attr("d", arc(25));
-
+    // eslint-disable-next-line
     const linea = svg
       .select(".chart")
       .selectAll("path.line")
@@ -192,16 +193,17 @@ const NetworkPostGraph = (props) => {
         );
       })
       .attr("stroke", function (d) {
+        // eslint-disable-next-line
         switch (d.type) {
           case "open":
             return "#FFA500";
-            break;
+
           case "close":
             return "#008000";
-            break;
         }
       })
       .attr("stroke-width", 8);
+    // eslint-disable-next-line
     const texto = svg
       .select(".chart")
       .selectAll("text")
@@ -251,6 +253,7 @@ const NetworkPostGraph = (props) => {
     /* console.log(
       dataExp.fase[dataExp.experimento.faseActiva].idGrupos[0].participantes[1]
     ); */
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (

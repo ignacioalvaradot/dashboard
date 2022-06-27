@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import Box from "@mui/material/Box";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import {
   select,
@@ -8,12 +7,18 @@ import {
   axisLeft,
   scaleLinear,
   stack,
-  max,
 } from "d3";
 import * as d3 from "d3";
 
 const keys = ["totalTimeEfectv", "totalTimeSilenc"];
-const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
+const color = [
+  "#2499EF",
+  "#FF9777",
+  "#FF6B93",
+  "#6BD098",
+  "#865109",
+  "#957DAD",
+];
 
 const colors = {
   totalTimeEfectv: "#008000",
@@ -41,7 +46,6 @@ const StackedBarChart = ({ data, grupos }) => {
   );
 
   useEffect(() => {
-    var time = [];
     var promEfectv = 0;
     var promSilenc = 0;
     var stacks = [];
@@ -49,6 +53,7 @@ const StackedBarChart = ({ data, grupos }) => {
 
     data.channel.map(
       (data, i) => (
+        // eslint-disable-next-line
         (promEfectv = promEfectv + data.totalTimeEfectv),
         (promSilenc = promSilenc + data.totalTimeSilenc),
         (order[i] = data.channelId - 1)
@@ -69,10 +74,7 @@ const StackedBarChart = ({ data, grupos }) => {
     const { width, height } = wrapperRef.current.getBoundingClientRect();
     const stackGenerator = stack().keys(keys);
     const layers = stackGenerator(stacks);
-    const extent = [
-      0,
-      max(layers, (layer) => max(layer, (sequence) => sequence[1])),
-    ];
+
     const yScale = scaleLinear().domain([0, 200]).range([height, 0]);
 
     const xScale = scaleBand()
@@ -127,6 +129,7 @@ const StackedBarChart = ({ data, grupos }) => {
 
     //console.log("arreglo: ",time)
     //console.log(stacks[0])
+    // eslint-disable-next-line
   }, [data]);
 
   return (

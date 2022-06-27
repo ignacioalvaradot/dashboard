@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import happy from "../../Utilities/feliz.png";
 import sad from "../../Utilities/sad.png";
@@ -38,7 +38,15 @@ const SpiderGraph = (props) => {
     }
     return coordinates;
   }
-  const color = d3.scaleOrdinal(d3.schemeCategory10);
+  //const color = d3.scaleOrdinal(d3.schemeCategory10);
+  const color = [
+    "#2499EF",
+    "#FF9777",
+    "#FF6B93",
+    "#6BD098",
+    "#865109",
+    "#957DAD",
+  ];
   useEffect(() => {
     const svg = d3
       .select(areaChart.current)
@@ -48,7 +56,7 @@ const SpiderGraph = (props) => {
 
     let radialScale = d3.scaleLinear().domain([0, 10]).range([0, 250]);
     let ticks = [2, 4, 6, 8, 10];
-
+    // eslint-disable-next-line
     const circles = svg
       .select(".chart")
       .selectAll("circle")
@@ -61,7 +69,7 @@ const SpiderGraph = (props) => {
       .attr("r", function (d, i) {
         return radialScale(i + 1);
       });
-
+    // eslint-disable-next-line
     const text = svg
       .select(".chart")
       .selectAll("text")
@@ -75,7 +83,7 @@ const SpiderGraph = (props) => {
         return -radialScale(i + 1);
       })
       .text((d) => d.toString());
-
+    // eslint-disable-next-line
     const lines = svg
       .select(".chart")
       .selectAll("line")
@@ -118,6 +126,7 @@ const SpiderGraph = (props) => {
         );
       })
       .text((d) => d); */
+    // eslint-disable-next-line
     const nodo = svg
       .select(".chart")
       .selectAll("circle3")
@@ -127,28 +136,28 @@ const SpiderGraph = (props) => {
         return "name" + i;
       })
       .style("fill", function (d) {
+        // eslint-disable-next-line
         switch (d) {
           case "Expresion_angry":
             return "#F30606";
-            break;
+
           case "Expresion_disgust":
             return "#4ECE2B";
-            break;
+
           case "Expresion_fear":
             return "#A657A8";
-            break;
+
           case "Expresion_surprise":
             return "#E68714";
-            break;
+
           case "Expresion_sad":
             return "#33AAFF";
-            break;
+
           case "Expresion_happy":
             return "#FFCE36";
-            break;
+
           case "Expresion_neutral":
             return "#737273";
-            break;
         }
       })
       .attr("cx", function (_, i) {
@@ -165,6 +174,7 @@ const SpiderGraph = (props) => {
       })
 
       .attr("r", 10);
+    // eslint-disable-next-line
     const nodosImagenes = svg
       .select(".chart")
       .selectAll("circle2")
@@ -174,28 +184,28 @@ const SpiderGraph = (props) => {
         return "name2" + i;
       })
       .attr("fill", function (d) {
+        // eslint-disable-next-line
         switch (d) {
           case "Expresion_angry":
             return "url(#angry)";
-            break;
+
           case "Expresion_disgust":
             return "url(#disgust)";
-            break;
+
           case "Expresion_fear":
             return "url(#fear)";
-            break;
+
           case "Expresion_surprise":
             return "url(#surprise)";
-            break;
+
           case "Expresion_sad":
             return "url(#sad)";
-            break;
+
           case "Expresion_happy":
             return "url(#happy)";
-            break;
+
           case "Expresion_neutral":
             return "url(#neutral)";
-            break;
         }
       })
       .attr("cx", function (_, i) {
@@ -224,9 +234,9 @@ const SpiderGraph = (props) => {
       .data(props.data.channel)
       .join("g")
       .attr("class", "area")
-      .attr("stroke", (d, i) => color(i))
-      .attr("fill", (d, i) => color(i));
-
+      .attr("stroke", (d, i) => color[i])
+      .attr("fill", (d, i) => color[i]);
+    // eslint-disable-next-line
     const area = group
       .selectAll("path.area")
       .data(function (d) {
@@ -240,6 +250,7 @@ const SpiderGraph = (props) => {
       .attr("opacity", 0.5);
 
     //console.log(props.data.channel[0].acumulate_expresion);
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (

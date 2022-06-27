@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import Box from "@mui/material/Box";
+
 import { useSelector } from "react-redux";
-import Paper from "@mui/material/Paper";
 
 const Pie = (props) => {
   const svgref = useRef(null);
@@ -34,11 +33,16 @@ const Pie = (props) => {
   const createArc2 = d3.arc().innerRadius(0).outerRadius(45);
   //const colors = d3.scaleOrdinal(d3.schemeCategory10);
   //const colors = d3.scaleOrdinal(["#2499EF", "#FF9777", "#FF6B93", "#6BD098"]);
-  const colors = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
-  const format = d3.format(".2f");
+  const colors = [
+    "#2499EF",
+    "#FF9777",
+    "#FF6B93",
+    "#6BD098",
+    "#865109",
+    "#957DAD",
+  ];
 
   useEffect(() => {
-    const svg = d3.select(svgref.current);
     const order = [];
     props.data.channel.map((data, i) => (order[i] = data.channelId - 1));
     const data = createPie(props.data.channel);
@@ -108,8 +112,6 @@ const Pie = (props) => {
       .attr("d", createArc2)
       .attr("fill", (d, i) => colors[order[i]])
       .on("mouseover", (e, d) => {
-        console.log(e);
-        console.log(d);
         tooldiv
           .style("visibility", "visible")
           //.text(`El número de intervenciones <br> es de: ${d.data.numeroInterv}`)
@@ -171,6 +173,7 @@ const Pie = (props) => {
       .append("textPath")
       .attr("xlink:href", "#myPath")
       .text("Foo Bar Baz"); */
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (
@@ -209,8 +212,8 @@ const Pie = (props) => {
             fill="none"
             stroke="none"
           ></path>{" "}
-          <text font-size="11px" x="170" y="10">
-            <textPath href="#myPath" startOffset="0%" text-anchor="middle">
+          <text fontSize="11px" x="170" y="10">
+            <textPath href="#myPath" startOffset="0%" textAnchor="middle">
               NÚMERO TOTAL DE INTERVENCIONES
             </textPath>
           </text>
@@ -230,8 +233,8 @@ const Pie = (props) => {
             fill="none"
             stroke="none"
           ></path>
-          <text font-size="11px" x="90" y="10">
-            <textPath href="#myPath2" startOffset="0%" text-anchor="middle">
+          <text fontSize="11px" x="90" y="10">
+            <textPath href="#myPath2" startOffset="0%" textAnchor="middle">
               TIEMPO TOTAL DE INTERVENCIONES
             </textPath>
           </text>

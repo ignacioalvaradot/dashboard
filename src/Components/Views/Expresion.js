@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NetworkExpGraph from "../Graphs/NetworkExpGraph";
 import SpiderGraph from "../Graphs/SpiderGraph";
 import ExpresionLineGraph from "../Graphs/ExpresionLineGraph";
+import ExpresionPieChart from "../Graphs/ExpresionPieChart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -64,7 +65,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 1000,
+  width: 1100,
   //bgcolor: "background.paper",
   backgroundColor: "#f5f5f5",
   border: "2px solid #000",
@@ -97,8 +98,6 @@ const style3 = {
   textTransform: "none",
 };
 
-var datas = [];
-
 const Habla = () => {
   const metricasExpresiones = useSelector(
     (store) => store.metricaHabla.array_expresiones
@@ -121,14 +120,12 @@ const Habla = () => {
     setSlidedata(metricasExpresiones[value]);
     setEstado(true);
     setColorButton("retrocede");
-    console.log(value);
-    console.log(slidedata);
   };
 
   const tick = () => {
     //datas.push(data)
     //setFinaldata(data);
-    if (estado == false) {
+    if (estado === false) {
       //setValue(datas.length);
       setValue(metricasExpresiones.length);
       setSlidedata(metricasExpresiones[value]);
@@ -145,6 +142,7 @@ const Habla = () => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [metricasExpresiones]);
 
   return (
@@ -186,11 +184,12 @@ const Habla = () => {
             <Box ml={3}>
               <ThemeProvider theme={theme}>
                 <ColorButton
+                  // eslint-disable-next-line
                   onClick={() => (setEstado(false), setColorButton("directo"))}
                   variant="contained"
                   startIcon={<CircleIcon />}
                   color={colorButton}
-                  backgroundColor={"#ffff"}
+                  backgroundcolor={"#ffff"}
                 >
                   {" "}
                   En directo
@@ -211,6 +210,7 @@ const Habla = () => {
                 color: "#ffff",
               }}
               onClick={() => (
+                // eslint-disable-next-line
                 setEstado(true), setSlidedata(metricasExpresiones[value - 1])
               )}
             >
@@ -357,7 +357,8 @@ const Habla = () => {
                                 <React.Fragment>
                                   <Typography color="inherit">
                                     Este es un gráfico de puntos que muestra las
-                                    expresiones del grupo a traves del tiempo
+                                    expresiones del grupo a traves del tiempo,
+                                    se refresca cada 30 segundos.
                                   </Typography>
                                 </React.Fragment>
                               }
@@ -370,6 +371,49 @@ const Habla = () => {
                           <ExpresionLineGraph
                             data={canales}
                           ></ExpresionLineGraph>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={3.7} py={2}>
+                        <Paper
+                          sx={{
+                            p: 2,
+                            pl: 4,
+                            pb: 4,
+                            display: "flex",
+                            flexDirection: "column",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <Grid container justifyContent="end">
+                            <Grid justifyContent="center" sx={{ mr: 0 }}>
+                              {" "}
+                              <Typography color="inherit" align="justify">
+                                Gráfico de expresiones grupal
+                              </Typography>
+                            </Grid>
+                            <HtmlTooltip
+                              title={
+                                <React.Fragment>
+                                  <Typography color="inherit">
+                                    Este es un gráfico de torta que muestra la
+                                    cantidad de expresión en porcentaje de todo
+                                    el grupo.
+                                  </Typography>
+                                </React.Fragment>
+                              }
+                            >
+                              <IconButton color="primary">
+                                <InfoIcon />
+                              </IconButton>
+                            </HtmlTooltip>
+                          </Grid>
+                          <ExpresionPieChart
+                            data={canales}
+                            width={270}
+                            height={270}
+                            innerRadius={0}
+                            outerRadius={100}
+                          ></ExpresionPieChart>
                         </Paper>
                       </Grid>
                     </Grid>

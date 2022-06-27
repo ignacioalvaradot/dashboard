@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import happy from "../../Utilities/feliz.png";
 import sad from "../../Utilities/sad.png";
@@ -7,7 +7,7 @@ import surprise from "../../Utilities/surprise.png";
 import neutral from "../../Utilities/neutral.png";
 import disgust from "../../Utilities/disgust.png";
 import fear from "../../Utilities/fear.png";
-import Box from "@mui/material/Box";
+
 import { useSelector } from "react-redux";
 import flecha1 from "../../Utilities/flecha.png";
 
@@ -16,13 +16,11 @@ const Multi = (props) => {
   const metricasPostura = useSelector(
     (store) => store.metricaHabla.array_posturas
   );
-  const metricasExpresiones = useSelector(
-    (store) => store.metricaHabla.array_expresiones
-  );
+
   const dataExp = useSelector((store) => store.DatosExp.array);
   const areaChart = useRef(null);
   const dimensions = { width: 270, height: 270 };
-  const colors = d3.scaleOrdinal(d3.schemeCategory10);
+
   var mycolors = ["#FFA500", "#008000"];
 
   useEffect(() => {
@@ -63,7 +61,7 @@ const Multi = (props) => {
           Math.cos(2 * Math.PI * (i / props.cantidad.length + 0.75))
         }, ${(dimensions.height / 4) * Math.sin(2 * Math.PI * (i / props.cantidad.length + 0.75))})`;
       });
-
+    // eslint-disable-next-line
     const nodosImagenes = svg
       .select(".chart")
       .selectAll("circle")
@@ -76,28 +74,28 @@ const Multi = (props) => {
       })
       .attr("stroke-opacity", 0)
       .attr("fill", function (d) {
+        // eslint-disable-next-line
         switch (d.valor) {
           case "Expresion_angry":
             return "url(#angry)";
-            break;
+
           case "Expresion_disgust":
             return "url(#disgust)";
-            break;
+
           case "Expresion_fear":
             return "url(#fear)";
-            break;
+
           case "Expresion_surprise":
             return "url(#surprise)";
-            break;
+
           case "Expresion_sad":
             return "url(#sad)";
-            break;
+
           case "Expresion_happy":
             return "url(#happy)";
-            break;
+
           case "Expresion_neutral":
             return "url(#neutral)";
-            break;
         }
       })
       .attr("cx", function (d, i) {
@@ -174,7 +172,7 @@ const Multi = (props) => {
       .transition()
       .duration(1)
       .attrTween("transform", (d, i) => tween(90 * i + 174 + d.faceAngle, i)); // tiene que ser 180 grados .
-
+    // eslint-disable-next-line
     const linea = svg
       .select(".chart")
       .selectAll("path.line")
@@ -240,7 +238,7 @@ const Multi = (props) => {
       })
 
       .attr("marker-end", "url(#arrow)");
-
+    // eslint-disable-next-line
     const nodo = g
       .selectAll("path.pie")
       /* .data(function (d, i) {
@@ -276,6 +274,7 @@ const Multi = (props) => {
         return mycolors[i];
       })
       .attr("d", arc(25));
+    // eslint-disable-next-line
     const texto = svg
       .select(".chart")
       .selectAll("text")
@@ -309,6 +308,7 @@ const Multi = (props) => {
       });
     //console.log(props.habla[props.sliderPostura - 1][props.grupos]);
     //console.log(metricasHabla[props.sliderPostura - 1][props.grupos]);
+    // eslint-disable-next-line
   }, [props.tiempoPostura, props.tiempo]);
 
   return (

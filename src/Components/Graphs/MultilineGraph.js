@@ -16,7 +16,14 @@ const MultilineGraph = (props) => {
 
   //const color = d3.scaleOrdinal(d3.schemeCategory10);
   //const color = d3.scaleOrdinal(["#2499EF", "#FF9777", "#FF6B93", "#6BD098"]);
-  const color = ["#2499EF", "#FF9777", "#FF6B93", "#6BD098"];
+  const color = [
+    "#2499EF",
+    "#FF9777",
+    "#FF6B93",
+    "#6BD098",
+    "#865109",
+    "#957DAD",
+  ];
   var margin = { top: 10, right: 30, bottom: 30, left: 60 };
 
   const ticks = () => {
@@ -29,10 +36,12 @@ const MultilineGraph = (props) => {
     return () => {
       clearInterval(interval);
     };
+    // eslint-disable-next-line
   }, [tick]);
 
   useEffect(() => {
     props.data.channel.map((data, i) => (elements[i] = []));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -51,6 +60,7 @@ const MultilineGraph = (props) => {
     props.data.channel.map(
       (canales, i) => (
         //elements[i] = [canales.numeroInterv]
+        // eslint-disable-next-line
         elements[i].push(canales.numeroInterv),
         (order[i] = canales.channelId - 1)
       )
@@ -93,9 +103,7 @@ const MultilineGraph = (props) => {
     var maxX = d3.max(limits, function (d, i) {
       return d;
     });
-    var minN = d3.min(limits, function (d, i) {
-      return d;
-    });
+
     const svg = d3
       .select(areaChart.current)
       .attr("width", dimensions.width)
@@ -153,7 +161,7 @@ const MultilineGraph = (props) => {
       .join("g")
       .attr("class", "lines")
       .attr("stroke", (d, i) => color[order[i]]);
-
+    // eslint-disable-next-line
     const Lines = group
       .selectAll("path.line")
       /* .data(function(d) {
@@ -182,6 +190,7 @@ const MultilineGraph = (props) => {
     //console.log(elements);
     //console.log(limits);
     //console.log(props.tiempo);
+    // eslint-disable-next-line
   }, [props.data]);
 
   return (
