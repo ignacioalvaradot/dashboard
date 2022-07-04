@@ -150,9 +150,11 @@ const Multimetrica = () => {
   };
 
   useEffect(() => {
+    //if (dataExp === true) {
     if (dataExp.length !== 0) {
       setGrupos(dataExp.fase[dataExp.experimento.faseActiva].idGrupos);
     }
+    //}
     // eslint-disable-next-line
   }, [dataExp]);
 
@@ -160,7 +162,8 @@ const Multimetrica = () => {
     window.addEventListener(
       "message",
       function (e) {
-        if (e.origin === "http://localhost") {
+        //if (e.origin === "http://localhost") {
+        if (e.origin === "http://localhost2") {
           setDataMmexp(JSON.stringify(e.data));
           dispatch(obtenerDatosExperimentoAccion(e.data));
           console.log(dataMmexp);
@@ -173,7 +176,8 @@ const Multimetrica = () => {
 
   useEffect(() => {
     if (window.opener) {
-      window.opener.postMessage("open", "http://localhost");
+      //window.opener.postMessage("open", "http://localhost");
+      window.opener.postMessage("open", "http://localhost2");
     }
   }, []);
 

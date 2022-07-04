@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  react-app:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    container_name: react-application
+    stdin_open: true
+    restart: always
+    networks:
+      - red-proxy
+    environment:
+      VIRTUAL_HOST: localhost
+networks:
+  red-proxy:
+    external:
+      name: nginx-proxy
+  red_privada:
