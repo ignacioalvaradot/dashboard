@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 //ENDPOINTS
 //const ENDPOINT_HABLA = "http://dnsdiegomiranda2.ddns.net/Report";
-const ENDPOINT_HABLA = "http://192.168.1.16:200/tiempohabla";
+const ENDPOINT_HABLA = "http://192.168.1.16:82/tiempohabla";
 //const ENDPOINT_HABLA = "http://192.168.1.5:82/Report";
 const ENDPOINT_EXPRESIONES = "http://192.168.1.16:200/expresiones";
 const ENDPOINT_POSTURA = "http://192.168.1.16:200/postura";
